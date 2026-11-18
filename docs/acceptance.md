@@ -358,3 +358,45 @@ Treatments may use different anomaly detection strategies.
 
 Injected anomalies simulate suspicious records.
 The dataset does not contain verified fraud labels.
+
+## Step 10: Race
+
+Requirements: 19 and 20.
+
+- Compare budgeted car selection against random selection.
+- Evaluate 20 search episodes.
+- Use the same pool of 40 test cars for both strategies
+  in each episode.
+- Hide all test goal values.
+- Allow 10 distinct inspections per strategy per episode.
+- Record the best observed quality after 5 and 10 inspections.
+- Record inspections needed to reach a quality target.
+- Define the target as the lower-quartile training d2h score.
+- Use 11 as a sentinel when the target is not reached.
+- Compare performance distributions using the three
+  statistical tests from Certify.
+- Preserve all previous skills.
+
+Interface:
+
+python3 main.py race --train TRAIN --test CASES_JSON
+
+The input JSON contains header, rows and episodes.
+
+Each episode contains:
+- pool: available test row indices
+- random_order: ten preselected random inspection indices
+
+The inspection protocol uses JSON lines.
+
+Request example:
+{"episode": 0, "strategy": "adaptive", "inspect": 12}
+
+The evaluator responds with the row index and observed goals.
+
+Output:
+- results: individual episode results for both strategies
+- comparisons: statistical comparisons of the metrics
+
+The search episodes reuse one held-out dataset.
+They are not independent code-generation trials.
