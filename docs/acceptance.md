@@ -71,3 +71,43 @@ Output: one JSON object containing:
 - scores: predicted distance to heaven for every test row
 
 Predictions must be returned in the original test row order.
+
+## Step 3: Certify
+
+Requirements: 5 and 6.
+
+- Compare two distributions of car evaluation scores.
+- Calculate Cohen's effect size.
+- Calculate Cliff's delta.
+- Calculate the normalized KS statistic.
+- Decide whether the distributions count as the same.
+- Handle ties, unsorted samples and unequal sample sizes.
+- Preserve all previous skills.
+
+Thresholds:
+- Cohen: 0.35
+- Cliffs: 0.197
+- KS: 1.36
+
+Evaluation:
+- Evaluate 80 comparison cases.
+- Include observed car scores and controlled variations.
+- Compare against independent reference calculations.
+- Record comparison accuracy and numerical errors.
+
+Interface:
+
+python3 main.py certify --train TRAIN --test CASES_JSON
+
+Input: a JSON list of objects containing xs and ys.
+
+Output: one JSON object containing comparisons.
+
+Each comparison contains:
+- cohen
+- cliffs
+- ks
+- same
+
+The distributions are already supplied, so no training
+is necessary for this skill.
