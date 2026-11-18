@@ -111,3 +111,34 @@ Each comparison contains:
 
 The distributions are already supplied, so no training
 is necessary for this skill.
+
+## Step 4: Flow
+
+Requirements: 7 and 8.
+
+- Process arriving cars sequentially.
+- Predict MPG and distance to heaven for each car.
+- Use only training data and currently available inputs.
+- Maintain a rolling window of 20 predicted quality scores.
+- Compare the window against historical training quality.
+- Raise an alert when the distributions are different.
+- Do not raise alerts before the first full window.
+- Preserve all previous skills.
+
+Evaluation:
+- Individual MPG and distance prediction errors.
+- Correctness of statistical alert decisions.
+- Agreement with alerts based on observed quality.
+- Verify that future arrivals cannot change earlier predictions.
+- Record execution time.
+
+Interface:
+
+python3 main.py flow --train TRAIN --test MASKED_TEST
+
+Output: one JSON object containing:
+- mpg: predicted MPG for each arriving car
+- scores: predicted distance to heaven
+- alerts: boolean alert for each arriving car
+
+Window size: 20.
