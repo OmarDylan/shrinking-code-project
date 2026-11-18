@@ -70,3 +70,18 @@ The diagnosis identifies associations rather than
 establishing causation.
 
 This implementation remains AI-assisted.
+
+## Step 6 - Justify
+
+ChatGPT assisted in implementing contrastive explanations.
+
+Reused inventory profiles, diagnosis, distance to heaven
+and feature ranking from previous skills.
+
+Added explanations for recommendation, acceptance,
+rejection and the largest contributing goal advantage.
+
+The evaluator checks factual consistency with the
+underlying numerical measurements.
+
+This implementation remains AI-assisted.

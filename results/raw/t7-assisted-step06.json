@@ -1,0 +1,734 @@
+{
+  "seed": 1,
+  "summary": {
+    "cases": 80,
+    "correct": 80,
+    "accepted": 42,
+    "rejected": 38,
+    "ties": 0,
+    "score_error": 3.0357660829594124e-16,
+    "runtime": 0.051911459071561694
+  },
+  "errors": [
+    {
+      "row": 0,
+      "other": 1,
+      "score_error": 7.216449660063518e-16,
+      "accepted": true,
+      "winner": 0,
+      "correct": true,
+      "text": "Car 0 accepted: quality gap 0.338, cutoff 0.539. Car 1 has gap 0.488. Recommend car 0; largest advantage: Mpg+. Weakest goal: Acc+. Feature associated with poor cars: origin."
+    },
+    {
+      "row": 1,
+      "other": 2,
+      "score_error": 1.6653345369377348e-16,
+      "accepted": true,
+      "winner": 1,
+      "correct": true,
+      "text": "Car 1 accepted: quality gap 0.488, cutoff 0.539. Car 2 has gap 0.658. Recommend car 1; largest advantage: Lbs-. Weakest goal: Mpg+. Feature associated with poor cars: origin."
+    },
+    {
+      "row": 2,
+      "other": 3,
+      "score_error": 2.220446049250313e-16,
+      "accepted": false,
+      "winner": 3,
+      "correct": true,
+      "text": "Car 2 rejected: quality gap 0.658, cutoff 0.539. Car 3 has gap 0.543. Recommend car 3; largest advantage: Lbs-. Weakest goal: Lbs-. Feature associated with poor cars: Clndrs."
+    },
+    {
+      "row": 3,
+      "other": 4,
+      "score_error": 2.220446049250313e-16,
+      "accepted": false,
+      "winner": 4,
+      "correct": true,
+      "text": "Car 3 rejected: quality gap 0.543, cutoff 0.539. Car 4 has gap 0.502. Recommend car 4; largest advantage: Acc+. Weakest goal: Mpg+."
+    },
+    {
+      "row": 4,
+      "other": 5,
+      "score_error": 5.551115123125783e-16,
+      "accepted": true,
+      "winner": 4,
+      "correct": true,
+      "text": "Car 4 accepted: quality gap 0.502, cutoff 0.539. Car 5 has gap 0.656. Recommend car 4; largest advantage: Acc+. Weakest goal: Mpg+. Feature associated with poor cars: origin."
+    },
+    {
+      "row": 5,
+      "other": 6,
+      "score_error": 1.1102230246251565e-16,
+      "accepted": false,
+      "winner": 6,
+      "correct": true,
+      "text": "Car 5 rejected: quality gap 0.656, cutoff 0.539. Car 6 has gap 0.447. Recommend car 6; largest advantage: Mpg+. Weakest goal: Lbs-. Feature associated with poor cars: origin."
+    },
+    {
+      "row": 6,
+      "other": 7,
+      "score_error": 4.996003610813204e-16,
+      "accepted": true,
+      "winner": 6,
+      "correct": true,
+      "text": "Car 6 accepted: quality gap 0.447, cutoff 0.539. Car 7 has gap 0.919. Recommend car 6; largest advantage: Mpg+. Weakest goal: Acc+. Feature associated with poor cars: origin."
+    },
+    {
+      "row": 7,
+      "other": 8,
+      "score_error": 2.220446049250313e-16,
+      "accepted": false,
+      "winner": 8,
+      "correct": true,
+      "text": "Car 7 rejected: quality gap 0.919, cutoff 0.539. Car 8 has gap 0.528. Recommend car 8; largest advantage: Lbs-. Weakest goal: Lbs-. Feature associated with poor cars: Volume."
+    },
+    {
+      "row": 8,
+      "other": 9,
+      "score_error": 3.3306690738754696e-16,
+      "accepted": true,
+      "winner": 9,
+      "correct": true,
+      "text": "Car 8 accepted: quality gap 0.528, cutoff 0.539. Car 9 has gap 0.474. Recommend car 9; largest advantage: Acc+. Weakest goal: Acc+."
+    },
+    {
+      "row": 9,
+      "other": 10,
+      "score_error": 1.1102230246251565e-16,
+      "accepted": true,
+      "winner": 10,
+      "correct": true,
+      "text": "Car 9 accepted: quality gap 0.474, cutoff 0.539. Car 10 has gap 0.197. Recommend car 10; largest advantage: Mpg+. Weakest goal: Mpg+. Feature associated with poor cars: origin."
+    },
+    {
+      "row": 10,
+      "other": 11,
+      "score_error": 1.1102230246251565e-16,
+      "accepted": true,
+      "winner": 10,
+      "correct": true,
+      "text": "Car 10 accepted: quality gap 0.197, cutoff 0.539. Car 11 has gap 0.447. Recommend car 10; largest advantage: Acc+. Weakest goal: Mpg+."
+    },
+    {
+      "row": 11,
+      "other": 12,
+      "score_error": 6.106226635438361e-16,
+      "accepted": true,
+      "winner": 12,
+      "correct": true,
+      "text": "Car 11 accepted: quality gap 0.447, cutoff 0.539. Car 12 has gap 0.326. Recommend car 12; largest advantage: Acc+. Weakest goal: Acc+. Feature associated with poor cars: Model."
+    },
+    {
+      "row": 12,
+      "other": 13,
+      "score_error": 3.885780586188048e-16,
+      "accepted": true,
+      "winner": 12,
+      "correct": true,
+      "text": "Car 12 accepted: quality gap 0.326, cutoff 0.539. Car 13 has gap 0.736. Recommend car 12; largest advantage: Acc+. Weakest goal: Acc+. Feature associated with poor cars: origin."
+    },
+    {
+      "row": 13,
+      "other": 14,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 14,
+      "correct": true,
+      "text": "Car 13 rejected: quality gap 0.736, cutoff 0.539. Car 14 has gap 0.554. Recommend car 14; largest advantage: Acc+. Weakest goal: Acc+. Feature associated with poor cars: Clndrs."
+    },
+    {
+      "row": 14,
+      "other": 15,
+      "score_error": 2.220446049250313e-16,
+      "accepted": false,
+      "winner": 14,
+      "correct": true,
+      "text": "Car 14 rejected: quality gap 0.554, cutoff 0.539. Car 15 has gap 0.682. Recommend car 14; largest advantage: Acc+. Weakest goal: Mpg+. Feature associated with poor cars: origin."
+    },
+    {
+      "row": 15,
+      "other": 16,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 16,
+      "correct": true,
+      "text": "Car 15 rejected: quality gap 0.682, cutoff 0.539. Car 16 has gap 0.437. Recommend car 16; largest advantage: Mpg+. Weakest goal: Acc+. Feature associated with poor cars: Clndrs."
+    },
+    {
+      "row": 16,
+      "other": 17,
+      "score_error": 3.885780586188048e-16,
+      "accepted": true,
+      "winner": 17,
+      "correct": true,
+      "text": "Car 16 accepted: quality gap 0.437, cutoff 0.539. Car 17 has gap 0.320. Recommend car 17; largest advantage: Acc+. Weakest goal: Acc+. Feature associated with poor cars: origin."
+    },
+    {
+      "row": 17,
+      "other": 18,
+      "score_error": 4.996003610813204e-16,
+      "accepted": true,
+      "winner": 17,
+      "correct": true,
+      "text": "Car 17 accepted: quality gap 0.320, cutoff 0.539. Car 18 has gap 0.347. Recommend car 17; largest advantage: Acc+. Weakest goal: Acc+."
+    },
+    {
+      "row": 18,
+      "other": 19,
+      "score_error": 5.551115123125783e-16,
+      "accepted": true,
+      "winner": 18,
+      "correct": true,
+      "text": "Car 18 accepted: quality gap 0.347, cutoff 0.539. Car 19 has gap 0.543. Recommend car 18; largest advantage: Mpg+. Weakest goal: Acc+. Feature associated with poor cars: Model."
+    },
+    {
+      "row": 19,
+      "other": 20,
+      "score_error": 3.3306690738754696e-16,
+      "accepted": false,
+      "winner": 19,
+      "correct": true,
+      "text": "Car 19 rejected: quality gap 0.543, cutoff 0.539. Car 20 has gap 0.809. Recommend car 19; largest advantage: Acc+. Weakest goal: Mpg+. Feature associated with poor cars: origin."
+    },
+    {
+      "row": 20,
+      "other": 21,
+      "score_error": 1.1102230246251565e-16,
+      "accepted": false,
+      "winner": 21,
+      "correct": true,
+      "text": "Car 20 rejected: quality gap 0.809, cutoff 0.539. Car 21 has gap 0.424. Recommend car 21; largest advantage: Lbs-. Weakest goal: Lbs-. Feature associated with poor cars: Volume."
+    },
+    {
+      "row": 21,
+      "other": 22,
+      "score_error": 3.885780586188048e-16,
+      "accepted": true,
+      "winner": 22,
+      "correct": true,
+      "text": "Car 21 accepted: quality gap 0.424, cutoff 0.539. Car 22 has gap 0.195. Recommend car 22; largest advantage: Mpg+. Weakest goal: Mpg+. Feature associated with poor cars: origin."
+    },
+    {
+      "row": 22,
+      "other": 23,
+      "score_error": 2.220446049250313e-16,
+      "accepted": true,
+      "winner": 22,
+      "correct": true,
+      "text": "Car 22 accepted: quality gap 0.195, cutoff 0.539. Car 23 has gap 0.639. Recommend car 22; largest advantage: Lbs-. Weakest goal: Mpg+."
+    },
+    {
+      "row": 23,
+      "other": 24,
+      "score_error": 3.3306690738754696e-16,
+      "accepted": false,
+      "winner": 23,
+      "correct": true,
+      "text": "Car 23 rejected: quality gap 0.639, cutoff 0.539. Car 24 has gap 0.899. Recommend car 23; largest advantage: Acc+. Weakest goal: Lbs-. Feature associated with poor cars: origin."
+    },
+    {
+      "row": 24,
+      "other": 25,
+      "score_error": 2.220446049250313e-16,
+      "accepted": false,
+      "winner": 25,
+      "correct": true,
+      "text": "Car 24 rejected: quality gap 0.899, cutoff 0.539. Car 25 has gap 0.160. Recommend car 25; largest advantage: Lbs-. Weakest goal: Lbs-. Feature associated with poor cars: Volume."
+    },
+    {
+      "row": 25,
+      "other": 26,
+      "score_error": 1.6653345369377348e-16,
+      "accepted": true,
+      "winner": 25,
+      "correct": true,
+      "text": "Car 25 accepted: quality gap 0.160, cutoff 0.539. Car 26 has gap 0.408. Recommend car 25; largest advantage: Acc+. Weakest goal: Mpg+."
+    },
+    {
+      "row": 26,
+      "other": 27,
+      "score_error": 6.106226635438361e-16,
+      "accepted": true,
+      "winner": 26,
+      "correct": true,
+      "text": "Car 26 accepted: quality gap 0.408, cutoff 0.539. Car 27 has gap 0.571. Recommend car 26; largest advantage: Lbs-. Weakest goal: Acc+. Feature associated with poor cars: origin."
+    },
+    {
+      "row": 27,
+      "other": 28,
+      "score_error": 5.551115123125783e-16,
+      "accepted": false,
+      "winner": 28,
+      "correct": true,
+      "text": "Car 27 rejected: quality gap 0.571, cutoff 0.539. Car 28 has gap 0.174. Recommend car 28; largest advantage: Lbs-. Weakest goal: Lbs-. Feature associated with poor cars: Clndrs."
+    },
+    {
+      "row": 28,
+      "other": 29,
+      "score_error": 3.885780586188048e-16,
+      "accepted": true,
+      "winner": 28,
+      "correct": true,
+      "text": "Car 28 accepted: quality gap 0.174, cutoff 0.539. Car 29 has gap 0.555. Recommend car 28; largest advantage: Mpg+. Weakest goal: Acc+. Feature associated with poor cars: origin."
+    },
+    {
+      "row": 29,
+      "other": 30,
+      "score_error": 4.440892098500626e-16,
+      "accepted": false,
+      "winner": 30,
+      "correct": true,
+      "text": "Car 29 rejected: quality gap 0.555, cutoff 0.539. Car 30 has gap 0.266. Recommend car 30; largest advantage: Mpg+. Weakest goal: Mpg+. Feature associated with poor cars: origin."
+    },
+    {
+      "row": 30,
+      "other": 31,
+      "score_error": 3.885780586188048e-16,
+      "accepted": true,
+      "winner": 30,
+      "correct": true,
+      "text": "Car 30 accepted: quality gap 0.266, cutoff 0.539. Car 31 has gap 0.642. Recommend car 30; largest advantage: Mpg+. Weakest goal: Acc+. Feature associated with poor cars: Model."
+    },
+    {
+      "row": 31,
+      "other": 32,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 32,
+      "correct": true,
+      "text": "Car 31 rejected: quality gap 0.642, cutoff 0.539. Car 32 has gap 0.431. Recommend car 32; largest advantage: Mpg+. Weakest goal: Mpg+. Feature associated with poor cars: origin."
+    },
+    {
+      "row": 32,
+      "other": 33,
+      "score_error": 5.551115123125783e-16,
+      "accepted": true,
+      "winner": 32,
+      "correct": true,
+      "text": "Car 32 accepted: quality gap 0.431, cutoff 0.539. Car 33 has gap 0.604. Recommend car 32; largest advantage: Mpg+. Weakest goal: Acc+."
+    },
+    {
+      "row": 33,
+      "other": 34,
+      "score_error": 3.3306690738754696e-16,
+      "accepted": false,
+      "winner": 34,
+      "correct": true,
+      "text": "Car 33 rejected: quality gap 0.604, cutoff 0.539. Car 34 has gap 0.594. Recommend car 34; largest advantage: Acc+. Weakest goal: Acc+. Feature associated with poor cars: Model."
+    },
+    {
+      "row": 34,
+      "other": 35,
+      "score_error": 2.220446049250313e-16,
+      "accepted": false,
+      "winner": 34,
+      "correct": true,
+      "text": "Car 34 rejected: quality gap 0.594, cutoff 0.539. Car 35 has gap 0.637. Recommend car 34; largest advantage: Lbs-. Weakest goal: Acc+. Feature associated with poor cars: origin."
+    },
+    {
+      "row": 35,
+      "other": 36,
+      "score_error": 2.220446049250313e-16,
+      "accepted": false,
+      "winner": 36,
+      "correct": true,
+      "text": "Car 35 rejected: quality gap 0.637, cutoff 0.539. Car 36 has gap 0.371. Recommend car 36; largest advantage: Lbs-. Weakest goal: Lbs-. Feature associated with poor cars: origin."
+    },
+    {
+      "row": 36,
+      "other": 37,
+      "score_error": 6.106226635438361e-16,
+      "accepted": true,
+      "winner": 37,
+      "correct": true,
+      "text": "Car 36 accepted: quality gap 0.371, cutoff 0.539. Car 37 has gap 0.086. Recommend car 37; largest advantage: Acc+. Weakest goal: Acc+. Feature associated with poor cars: origin."
+    },
+    {
+      "row": 37,
+      "other": 38,
+      "score_error": 3.0531133177191805e-16,
+      "accepted": true,
+      "winner": 37,
+      "correct": true,
+      "text": "Car 37 accepted: quality gap 0.086, cutoff 0.539. Car 38 has gap 0.520. Recommend car 37; largest advantage: Mpg+. Weakest goal: Lbs-."
+    },
+    {
+      "row": 38,
+      "other": 39,
+      "score_error": 1.1102230246251565e-16,
+      "accepted": true,
+      "winner": 38,
+      "correct": true,
+      "text": "Car 38 accepted: quality gap 0.520, cutoff 0.539. Car 39 has gap 0.613. Recommend car 38; largest advantage: Acc+. Weakest goal: Mpg+. Feature associated with poor cars: origin."
+    },
+    {
+      "row": 39,
+      "other": 40,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 40,
+      "correct": true,
+      "text": "Car 39 rejected: quality gap 0.613, cutoff 0.539. Car 40 has gap 0.247. Recommend car 40; largest advantage: Mpg+. Weakest goal: Mpg+. Feature associated with poor cars: Model."
+    },
+    {
+      "row": 40,
+      "other": 41,
+      "score_error": 4.440892098500626e-16,
+      "accepted": true,
+      "winner": 40,
+      "correct": true,
+      "text": "Car 40 accepted: quality gap 0.247, cutoff 0.539. Car 41 has gap 0.342. Recommend car 40; largest advantage: Acc+. Weakest goal: Lbs-. Feature associated with poor cars: origin."
+    },
+    {
+      "row": 41,
+      "other": 42,
+      "score_error": 7.771561172376096e-16,
+      "accepted": true,
+      "winner": 41,
+      "correct": true,
+      "text": "Car 41 accepted: quality gap 0.342, cutoff 0.539. Car 42 has gap 0.506. Recommend car 41; largest advantage: Mpg+. Weakest goal: Acc+."
+    },
+    {
+      "row": 42,
+      "other": 43,
+      "score_error": 2.220446049250313e-16,
+      "accepted": true,
+      "winner": 42,
+      "correct": true,
+      "text": "Car 42 accepted: quality gap 0.506, cutoff 0.539. Car 43 has gap 0.620. Recommend car 42; largest advantage: Lbs-. Weakest goal: Mpg+. Feature associated with poor cars: Model."
+    },
+    {
+      "row": 43,
+      "other": 44,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 44,
+      "correct": true,
+      "text": "Car 43 rejected: quality gap 0.620, cutoff 0.539. Car 44 has gap 0.191. Recommend car 44; largest advantage: Mpg+. Weakest goal: Mpg+. Feature associated with poor cars: origin."
+    },
+    {
+      "row": 44,
+      "other": 45,
+      "score_error": 5.551115123125783e-17,
+      "accepted": true,
+      "winner": 44,
+      "correct": true,
+      "text": "Car 44 accepted: quality gap 0.191, cutoff 0.539. Car 45 has gap 0.629. Recommend car 44; largest advantage: Lbs-. Weakest goal: Mpg+."
+    },
+    {
+      "row": 45,
+      "other": 46,
+      "score_error": 1.1102230246251565e-16,
+      "accepted": false,
+      "winner": 45,
+      "correct": true,
+      "text": "Car 45 rejected: quality gap 0.629, cutoff 0.539. Car 46 has gap 0.950. Recommend car 45; largest advantage: Acc+. Weakest goal: Lbs-. Feature associated with poor cars: origin."
+    },
+    {
+      "row": 46,
+      "other": 47,
+      "score_error": 1.1102230246251565e-16,
+      "accepted": false,
+      "winner": 47,
+      "correct": true,
+      "text": "Car 46 rejected: quality gap 0.950, cutoff 0.539. Car 47 has gap 0.413. Recommend car 47; largest advantage: Mpg+. Weakest goal: Lbs-. Feature associated with poor cars: Volume."
+    },
+    {
+      "row": 47,
+      "other": 48,
+      "score_error": 3.885780586188048e-16,
+      "accepted": true,
+      "winner": 48,
+      "correct": true,
+      "text": "Car 47 accepted: quality gap 0.413, cutoff 0.539. Car 48 has gap 0.224. Recommend car 48; largest advantage: Acc+. Weakest goal: Acc+. Feature associated with poor cars: origin."
+    },
+    {
+      "row": 48,
+      "other": 49,
+      "score_error": 3.608224830031759e-16,
+      "accepted": true,
+      "winner": 48,
+      "correct": true,
+      "text": "Car 48 accepted: quality gap 0.224, cutoff 0.539. Car 49 has gap 0.937. Recommend car 48; largest advantage: Lbs-. Weakest goal: Acc+."
+    },
+    {
+      "row": 49,
+      "other": 50,
+      "score_error": 1.1102230246251565e-16,
+      "accepted": false,
+      "winner": 50,
+      "correct": true,
+      "text": "Car 49 rejected: quality gap 0.937, cutoff 0.539. Car 50 has gap 0.930. Recommend car 50; largest advantage: Acc+. Weakest goal: Lbs-. Feature associated with poor cars: Volume."
+    },
+    {
+      "row": 50,
+      "other": 51,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 51,
+      "correct": true,
+      "text": "Car 50 rejected: quality gap 0.930, cutoff 0.539. Car 51 has gap 0.923. Recommend car 51; largest advantage: Lbs-. Weakest goal: Lbs-. Feature associated with poor cars: Volume."
+    },
+    {
+      "row": 51,
+      "other": 52,
+      "score_error": 1.1102230246251565e-16,
+      "accepted": false,
+      "winner": 52,
+      "correct": true,
+      "text": "Car 51 rejected: quality gap 0.923, cutoff 0.539. Car 52 has gap 0.552. Recommend car 52; largest advantage: Acc+. Weakest goal: Mpg+. Feature associated with poor cars: Volume."
+    },
+    {
+      "row": 52,
+      "other": 53,
+      "score_error": 5.551115123125783e-16,
+      "accepted": false,
+      "winner": 52,
+      "correct": true,
+      "text": "Car 52 rejected: quality gap 0.552, cutoff 0.539. Car 53 has gap 0.903. Recommend car 52; largest advantage: Acc+. Weakest goal: Mpg+. Feature associated with poor cars: origin."
+    },
+    {
+      "row": 53,
+      "other": 54,
+      "score_error": 1.1102230246251565e-16,
+      "accepted": false,
+      "winner": 54,
+      "correct": true,
+      "text": "Car 53 rejected: quality gap 0.903, cutoff 0.539. Car 54 has gap 0.254. Recommend car 54; largest advantage: Mpg+. Weakest goal: Mpg+. Feature associated with poor cars: Volume."
+    },
+    {
+      "row": 54,
+      "other": 55,
+      "score_error": 4.996003610813204e-16,
+      "accepted": true,
+      "winner": 54,
+      "correct": true,
+      "text": "Car 54 accepted: quality gap 0.254, cutoff 0.539. Car 55 has gap 0.570. Recommend car 54; largest advantage: Mpg+. Weakest goal: Acc+."
+    },
+    {
+      "row": 55,
+      "other": 56,
+      "score_error": 1.1102230246251565e-16,
+      "accepted": false,
+      "winner": 56,
+      "correct": true,
+      "text": "Car 55 rejected: quality gap 0.570, cutoff 0.539. Car 56 has gap 0.388. Recommend car 56; largest advantage: Mpg+. Weakest goal: Mpg+. Feature associated with poor cars: origin."
+    },
+    {
+      "row": 56,
+      "other": 57,
+      "score_error": 7.216449660063518e-16,
+      "accepted": true,
+      "winner": 56,
+      "correct": true,
+      "text": "Car 56 accepted: quality gap 0.388, cutoff 0.539. Car 57 has gap 0.556. Recommend car 56; largest advantage: Mpg+. Weakest goal: Acc+."
+    },
+    {
+      "row": 57,
+      "other": 58,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 58,
+      "correct": true,
+      "text": "Car 57 rejected: quality gap 0.556, cutoff 0.539. Car 58 has gap 0.518. Recommend car 58; largest advantage: Acc+. Weakest goal: Mpg+. Feature associated with poor cars: Model."
+    },
+    {
+      "row": 58,
+      "other": 59,
+      "score_error": 0.0,
+      "accepted": true,
+      "winner": 59,
+      "correct": true,
+      "text": "Car 58 accepted: quality gap 0.518, cutoff 0.539. Car 59 has gap 0.492. Recommend car 59; largest advantage: Mpg+. Weakest goal: Mpg+. Feature associated with poor cars: origin."
+    },
+    {
+      "row": 59,
+      "other": 60,
+      "score_error": 4.440892098500626e-16,
+      "accepted": true,
+      "winner": 59,
+      "correct": true,
+      "text": "Car 59 accepted: quality gap 0.492, cutoff 0.539. Car 60 has gap 0.882. Recommend car 59; largest advantage: Lbs-. Weakest goal: Acc+. Feature associated with poor cars: origin."
+    },
+    {
+      "row": 60,
+      "other": 61,
+      "score_error": 3.3306690738754696e-16,
+      "accepted": false,
+      "winner": 61,
+      "correct": true,
+      "text": "Car 60 rejected: quality gap 0.882, cutoff 0.539. Car 61 has gap 0.389. Recommend car 61; largest advantage: Mpg+. Weakest goal: Lbs-. Feature associated with poor cars: Volume."
+    },
+    {
+      "row": 61,
+      "other": 62,
+      "score_error": 6.661338147750939e-16,
+      "accepted": true,
+      "winner": 61,
+      "correct": true,
+      "text": "Car 61 accepted: quality gap 0.389, cutoff 0.539. Car 62 has gap 0.634. Recommend car 61; largest advantage: Acc+. Weakest goal: Lbs-."
+    },
+    {
+      "row": 62,
+      "other": 63,
+      "score_error": 2.220446049250313e-16,
+      "accepted": false,
+      "winner": 63,
+      "correct": true,
+      "text": "Car 62 rejected: quality gap 0.634, cutoff 0.539. Car 63 has gap 0.570. Recommend car 63; largest advantage: Acc+. Weakest goal: Acc+. Feature associated with poor cars: Model."
+    },
+    {
+      "row": 63,
+      "other": 64,
+      "score_error": 3.3306690738754696e-16,
+      "accepted": false,
+      "winner": 63,
+      "correct": true,
+      "text": "Car 63 rejected: quality gap 0.570, cutoff 0.539. Car 64 has gap 0.942. Recommend car 63; largest advantage: Lbs-. Weakest goal: Mpg+. Feature associated with poor cars: Model."
+    },
+    {
+      "row": 64,
+      "other": 65,
+      "score_error": 2.220446049250313e-16,
+      "accepted": false,
+      "winner": 65,
+      "correct": true,
+      "text": "Car 64 rejected: quality gap 0.942, cutoff 0.539. Car 65 has gap 0.195. Recommend car 65; largest advantage: Lbs-. Weakest goal: Lbs-. Feature associated with poor cars: Volume."
+    },
+    {
+      "row": 65,
+      "other": 66,
+      "score_error": 2.7755575615628914e-17,
+      "accepted": true,
+      "winner": 65,
+      "correct": true,
+      "text": "Car 65 accepted: quality gap 0.195, cutoff 0.539. Car 66 has gap 0.893. Recommend car 65; largest advantage: Lbs-. Weakest goal: Mpg+. Feature associated with poor cars: Model."
+    },
+    {
+      "row": 66,
+      "other": 67,
+      "score_error": 2.220446049250313e-16,
+      "accepted": false,
+      "winner": 67,
+      "correct": true,
+      "text": "Car 66 rejected: quality gap 0.893, cutoff 0.539. Car 67 has gap 0.780. Recommend car 67; largest advantage: Mpg+. Weakest goal: Lbs-. Feature associated with poor cars: Clndrs."
+    },
+    {
+      "row": 67,
+      "other": 68,
+      "score_error": 1.1102230246251565e-16,
+      "accepted": false,
+      "winner": 68,
+      "correct": true,
+      "text": "Car 67 rejected: quality gap 0.780, cutoff 0.539. Car 68 has gap 0.500. Recommend car 68; largest advantage: Acc+. Weakest goal: Acc+. Feature associated with poor cars: Clndrs."
+    },
+    {
+      "row": 68,
+      "other": 69,
+      "score_error": 3.885780586188048e-16,
+      "accepted": true,
+      "winner": 69,
+      "correct": true,
+      "text": "Car 68 accepted: quality gap 0.500, cutoff 0.539. Car 69 has gap 0.311. Recommend car 69; largest advantage: Mpg+. Weakest goal: Mpg+. Feature associated with poor cars: origin."
+    },
+    {
+      "row": 69,
+      "other": 70,
+      "score_error": 6.661338147750939e-16,
+      "accepted": true,
+      "winner": 69,
+      "correct": true,
+      "text": "Car 69 accepted: quality gap 0.311, cutoff 0.539. Car 70 has gap 0.456. Recommend car 69; largest advantage: Lbs-. Weakest goal: Acc+."
+    },
+    {
+      "row": 70,
+      "other": 71,
+      "score_error": 4.996003610813204e-16,
+      "accepted": true,
+      "winner": 71,
+      "correct": true,
+      "text": "Car 70 accepted: quality gap 0.456, cutoff 0.539. Car 71 has gap 0.230. Recommend car 71; largest advantage: Lbs-. Weakest goal: Lbs-. Feature associated with poor cars: Clndrs."
+    },
+    {
+      "row": 71,
+      "other": 72,
+      "score_error": 2.7755575615628914e-17,
+      "accepted": true,
+      "winner": 72,
+      "correct": true,
+      "text": "Car 71 accepted: quality gap 0.230, cutoff 0.539. Car 72 has gap 0.106. Recommend car 72; largest advantage: Mpg+. Weakest goal: Acc+. Feature associated with poor cars: Model."
+    },
+    {
+      "row": 72,
+      "other": 73,
+      "score_error": 1.3877787807814457e-16,
+      "accepted": true,
+      "winner": 72,
+      "correct": true,
+      "text": "Car 72 accepted: quality gap 0.106, cutoff 0.539. Car 73 has gap 0.326. Recommend car 72; largest advantage: Acc+. Weakest goal: Lbs-."
+    },
+    {
+      "row": 73,
+      "other": 74,
+      "score_error": 7.771561172376096e-16,
+      "accepted": true,
+      "winner": 73,
+      "correct": true,
+      "text": "Car 73 accepted: quality gap 0.326, cutoff 0.539. Car 74 has gap 0.798. Recommend car 73; largest advantage: Lbs-. Weakest goal: Acc+. Feature associated with poor cars: Model."
+    },
+    {
+      "row": 74,
+      "other": 75,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 75,
+      "correct": true,
+      "text": "Car 74 rejected: quality gap 0.798, cutoff 0.539. Car 75 has gap 0.608. Recommend car 75; largest advantage: Acc+. Weakest goal: Acc+. Feature associated with poor cars: Clndrs."
+    },
+    {
+      "row": 75,
+      "other": 76,
+      "score_error": 5.551115123125783e-16,
+      "accepted": false,
+      "winner": 75,
+      "correct": true,
+      "text": "Car 75 rejected: quality gap 0.608, cutoff 0.539. Car 76 has gap 0.834. Recommend car 75; largest advantage: Acc+. Weakest goal: Lbs-. Feature associated with poor cars: origin."
+    },
+    {
+      "row": 76,
+      "other": 77,
+      "score_error": 2.220446049250313e-16,
+      "accepted": false,
+      "winner": 77,
+      "correct": true,
+      "text": "Car 76 rejected: quality gap 0.834, cutoff 0.539. Car 77 has gap 0.372. Recommend car 77; largest advantage: Mpg+. Weakest goal: Mpg+. Feature associated with poor cars: Clndrs."
+    },
+    {
+      "row": 77,
+      "other": 78,
+      "score_error": 7.771561172376096e-16,
+      "accepted": true,
+      "winner": 78,
+      "correct": true,
+      "text": "Car 77 accepted: quality gap 0.372, cutoff 0.539. Car 78 has gap 0.346. Recommend car 78; largest advantage: Acc+. Weakest goal: Acc+."
+    },
+    {
+      "row": 78,
+      "other": 79,
+      "score_error": 2.7755575615628914e-16,
+      "accepted": true,
+      "winner": 78,
+      "correct": true,
+      "text": "Car 78 accepted: quality gap 0.346, cutoff 0.539. Car 79 has gap 0.753. Recommend car 78; largest advantage: Lbs-. Weakest goal: Acc+. Feature associated with poor cars: origin."
+    },
+    {
+      "row": 79,
+      "other": 0,
+      "score_error": 2.220446049250313e-16,
+      "accepted": false,
+      "winner": 0,
+      "correct": true,
+      "text": "Car 79 rejected: quality gap 0.753, cutoff 0.539. Car 0 has gap 0.338. Recommend car 0; largest advantage: Lbs-. Weakest goal: Lbs-. Feature associated with poor cars: Clndrs."
+    }
+  ]
+}

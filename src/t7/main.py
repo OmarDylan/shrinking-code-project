@@ -300,15 +300,69 @@ def blame(train, test):
   ]}
 
 
+def justify(train, test):
+  t = Tbl(csv_rows(train))
+  good, poor = profiles(t)
+  rows = csv_rows(test)
+
+  if next(rows) != t.cols.names:
+    raise ValueError("Train and test headers differ")
+
+  rows = list(rows)
+  history = sorted(t.disty(row) for row in t.rows)
+  cutoff = history[len(history) // 2]
+  scores = [t.disty(row) for row in rows]
+  ds = [diagnosis(t, row, good, poor) for row in rows]
+  out = []
+
+  for j, a in enumerate(scores):
+    k = (j + 1) % len(rows)
+    b = scores[k]
+    accepted = round(a, 12) <= round(cutoff, 12)
+    weakest = ds[j]["goal_order"][0]
+    feature = ds[j]["feature_order"][0]
+    feature = feature if ds[j]["features"][feature] > 1E-10 else None
+
+    winner = advantage = None
+    comparison = "The cars tie."
+
+    if round(a, 12) != round(b, 12):
+      winner, loser = (j, k) if a < b else (k, j)
+      gaps = {
+        name: ds[loser]["goals"][name]**2
+              - ds[winner]["goals"][name]**2
+        for name in ds[winner]["goals"]
+      }
+      advantage = descending(gaps)[0]
+      comparison = f"Recommend car {winner}; largest advantage: {advantage}."
+
+    verdict = "accepted" if accepted else "rejected"
+    text = (f"Car {j} {verdict}: quality gap {a:.3f}, "
+            f"cutoff {cutoff:.3f}. Car {k} has gap {b:.3f}. "
+            f"{comparison} Weakest goal: {weakest}.")
+
+    if feature is not None:
+      text += f" Feature associated with poor cars: {feature}."
+
+    out.append({
+      "row": j, "other": k, "score": a, "other_score": b,
+      "cutoff": cutoff, "accepted": accepted, "winner": winner,
+      "advantage_goal": advantage, "weakest_goal": weakest,
+      "top_feature": feature, "text": text
+    })
+
+  return {"explanations": out}
+
+
 def main():
   p = argparse.ArgumentParser()
-  p.add_argument("skill", choices=["remember", "guess", "certify", "flow", "blame"])
+  p.add_argument("skill", choices=["remember", "guess", "certify", "flow", "blame", "justify"])
   p.add_argument("--train", required=True)
   p.add_argument("--test", required=True)
   args = p.parse_args()
 
   skills = {"remember": remember, "guess": guess,
-            "certify": certify, "flow": flow, "blame": blame}
+            "certify": certify, "flow": flow, "blame": blame, "justify": justify}
   print(json.dumps(skills[args.skill](args.train, args.test)))
 
 
