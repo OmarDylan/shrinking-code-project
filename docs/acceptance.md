@@ -44,3 +44,30 @@ Output: one JSON object containing:
 
 Indices are zero-based.
 Break ranking ties using the original row index.
+
+## Step 2: Guess
+
+Requirements: 3 and 4.
+
+- Predict MPG for every test car.
+- Predict distance to heaven for every test car.
+- Use training data only to learn the model.
+- Hide all test goal values from the learner.
+- Hide Volume for alternating test rows to assess missing inputs.
+- Preserve all functionality from step 1.
+
+Evaluation:
+- Absolute MPG error for each test car.
+- Absolute distance-to-heaven prediction error for each test car.
+- Compare with a training-mean prediction baseline.
+- Preserve individual errors and execution time.
+
+Interface:
+
+python3 main.py guess --train TRAIN --test MASKED_TEST
+
+Output: one JSON object containing:
+- mpg: predicted MPG for every test row
+- scores: predicted distance to heaven for every test row
+
+Predictions must be returned in the original test row order.
