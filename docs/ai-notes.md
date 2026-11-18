@@ -27,3 +27,16 @@ The competency evaluator hides test goals and removes one
 input from alternating test rows.
 
 This implementation remains AI-assisted.
+
+## Step 3 - Certify
+
+ChatGPT assisted in adapting the statistical algorithms
+from EG6 and the course lecture.
+
+Reused Num for numerical summaries and standard deviations.
+
+Added Cohen, Cliff's delta, KS and distribution comparison.
+
+Used independent reference calculations for competency tests.
+
+This implementation remains AI-assisted.

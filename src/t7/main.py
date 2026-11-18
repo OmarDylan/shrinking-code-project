@@ -154,14 +154,78 @@ def guess(train, test, k=5):
   return {"mpg": mpg, "scores": scores}
 
 
+def cohen(xs, ys):
+  a, b = Num("", 0), Num("", 0)
+
+  for x in xs:
+    a.add(x)
+  for y in ys:
+    b.add(y)
+
+  pool = ((a.n-1)*a.div()**2 + (b.n-1)*b.div()**2) / (a.n+b.n-2)
+
+  return abs(a.mu - b.mu) / (sqrt(pool) + TINY)
+
+
+def cliffs(xs, ys):
+  gt = lt = j = k = 0
+
+  for x in xs:
+    while j < len(ys) and ys[j] < x:
+      j += 1
+      k = j
+    while k < len(ys) and ys[k] == x:
+      k += 1
+    gt += j
+    lt += len(ys) - k
+
+  return abs(gt - lt) / (len(xs) * len(ys))
+
+
+def ks(xs, ys):
+  n, m = len(xs), len(ys)
+  i = j = d = 0
+
+  while i < n and j < m:
+    v = min(xs[i], ys[j])
+    while i < n and xs[i] == v:
+      i += 1
+    while j < m and ys[j] == v:
+      j += 1
+    d = max(d, abs(i/n - j/m))
+
+  return d / sqrt((n+m)/(n*m))
+
+
+def compare(xs, ys):
+  xs, ys = sorted(xs), sorted(ys)
+  c, d, k = cohen(xs, ys), cliffs(xs, ys), ks(xs, ys)
+
+  return {
+    "cohen": c,
+    "cliffs": d,
+    "ks": k,
+    "same": c <= 0.35 and d <= 0.197 and k <= 1.36
+  }
+
+
+def certify(train, test):
+  with open(test) as f:
+    cases = json.load(f)
+
+  return {"comparisons": [
+    compare(case["xs"], case["ys"]) for case in cases
+  ]}
+
+
 def main():
   p = argparse.ArgumentParser()
-  p.add_argument("skill", choices=["remember", "guess"])
+  p.add_argument("skill", choices=["remember", "guess", "certify"])
   p.add_argument("--train", required=True)
   p.add_argument("--test", required=True)
   args = p.parse_args()
 
-  skills = {"remember": remember, "guess": guess}
+  skills = {"remember": remember, "guess": guess, "certify": certify}
   print(json.dumps(skills[args.skill](args.train, args.test)))
 
 
