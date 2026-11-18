@@ -133,6 +133,19 @@ def remember(train, test):
   }
 
 
+def predict_row(t, row, known, mpg_at, k=5, stable=False):
+  def key(j):
+    d = t.distx(row, t.rows[j])
+    return round(d, 12) if stable else d
+
+  near = sorted(range(len(t.rows)), key=key)[:k]
+
+  mpg = sum(t.rows[j][mpg_at] for j in near) / len(near)
+  score = sum(known[j] for j in near) / len(near)
+
+  return mpg, score
+
+
 def predictions(t, test, k=5):
   rows = csv_rows(test)
 
@@ -143,13 +156,7 @@ def predictions(t, test, k=5):
   known = [t.disty(row) for row in t.rows]
 
   for row in rows:
-    near = sorted(range(len(t.rows)),
-                  key=lambda j: t.distx(row, t.rows[j]))[:k]
-
-    mpg = sum(t.rows[j][mpg_at] for j in near) / len(near)
-    score = sum(known[j] for j in near) / len(near)
-
-    yield mpg, score
+    yield predict_row(t, row, known, mpg_at, k)
 
 
 def guess(train, test, k=5):
@@ -396,15 +403,77 @@ def choose(train, test, budget=10):
   return {"selected": selected[:3]}
 
 
+def fix(train, test):
+  t = Tbl(csv_rows(train))
+  good, _ = profiles(t)
+  rows = csv_rows(test)
+
+  if next(rows) != t.cols.names:
+    raise ValueError("Train and test headers differ")
+
+  names = ["Clndrs", "Volume"]
+  ats = [t.cols.names.index(name) for name in names]
+  mpg_at = t.cols.names.index("Mpg+")
+  known = [t.disty(row) for row in t.rows]
+  cutoff = sorted(known)[len(known) // 2]
+
+  menu = list(dict.fromkeys(tuple(r[a] for a in ats)
+                            for r in good.rows))[:12]
+
+  def predict(row):
+    return predict_row(t, row, known, mpg_at, stable=True)[1]
+
+  out = []
+
+  for j, row in enumerate(rows):
+    before = predict(row)
+    after = before
+    changes = {}
+    status = "already_good"
+
+    if round(before, 10) > round(cutoff, 10):
+      status = "no_candidate"
+      best = None
+
+      for values in menu:
+        edits = {name: v for name, a, v in zip(names, ats, values)
+                 if row[a] != v}
+
+        if not edits:
+          continue
+
+        new = list(row)
+
+        for a, v in zip(ats, values):
+          new[a] = v
+
+        score = predict(new)
+
+        key = (len(edits), round(t.distx(row, new), 10),
+               round(score, 10), values)
+
+        if round(before - score, 10) >= 0.05:
+          if best is None or key < best:
+            best, after, changes = key, score, edits
+            status = "improved"
+
+    out.append({
+      "row": j, "before": before, "after": after,
+      "changes": changes, "status": status
+    })
+
+  return {"repairs": out}
+
+
 def main():
   p = argparse.ArgumentParser()
-  p.add_argument("skill", choices=["remember", "guess", "certify", "flow", "blame", "justify", "choose"])
+  p.add_argument("skill", choices=["remember", "guess", "certify", "flow", "blame", "justify", "choose", "fix"])
   p.add_argument("--train", required=True)
   p.add_argument("--test", required=True)
   args = p.parse_args()
 
   skills = {"remember": remember, "guess": guess,
-            "certify": certify, "flow": flow, "blame": blame, "justify": justify, "choose": choose}
+            "certify": certify, "flow": flow, "blame": blame, "justify": justify, "choose": choose, "fix": fix}
   print(json.dumps(skills[args.skill](args.train, args.test)))
 
 

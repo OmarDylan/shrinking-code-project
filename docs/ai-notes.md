@@ -103,3 +103,23 @@ Evaluated selection quality against random search
 with the same inspection budget.
 
 This implementation remains AI-assisted.
+
+## Step 8 - Fix
+
+ChatGPT assisted in implementing counterfactual repair.
+
+Refactored the existing nearest-neighbor predictor
+into a reusable single-row prediction function.
+
+Reused good-car profiles, input distance, numerical
+summaries and distance to heaven.
+
+Searched observed engine configurations while
+minimizing changes and improving estimated quality.
+
+Test goals were masked during repair prediction.
+
+Estimated improvements are model predictions,
+not verified causal effects or physical repair outcomes.
+
+This implementation remains AI-assisted.
