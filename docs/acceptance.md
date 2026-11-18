@@ -142,3 +142,45 @@ Output: one JSON object containing:
 - alerts: boolean alert for each arriving car
 
 Window size: 20.
+
+## Step 5: Blame
+
+Requirements: 9 and 10.
+
+- Rank training cars using distance to heaven.
+- Build profiles of the best and worst 25% of training cars.
+- Identify the weakest goals of each observed test car.
+- Rank input characteristics associated with poor cars.
+- Exclude ignored columns.
+- Preserve all previous skills.
+
+Diagnosis method:
+- Goal gaps are absolute distances from normalized heaven.
+- Numerical feature scores measure how much closer a
+  characteristic is to the poor profile than the good profile.
+- Numerical profile centers are normalized group means.
+- Symbolic feature scores are positive differences between
+  poor-group and good-group relative frequencies.
+- Negative feature scores are clipped to zero.
+- Missing inputs receive zero evidence.
+- Rank scores in descending order, breaking ties by name.
+
+Evaluation:
+- Evaluate all 80 observed test cars.
+- Learn profiles using training data only.
+- Compare diagnostic scores with independent calculations.
+- Record diagnostic errors and runtime.
+
+Interface:
+
+python3 main.py blame --train TRAIN --test TEST
+
+Output: one JSON object containing diagnoses.
+
+Each diagnosis contains:
+- goals: goal names mapped to their gaps
+- features: input names mapped to association scores
+- goal_order: goal names ranked by weakness
+- feature_order: input names ranked by association
+
+This is retrospective diagnosis, not causal inference.
