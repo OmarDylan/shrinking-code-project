@@ -361,6 +361,42 @@ def justify(train, test):
   return {"explanations": out}
 
 
+def inspect_row(t, row, j, **context):
+  print(json.dumps({"inspect": j, **context}), flush=True)
+  reply = json.loads(input())
+
+  if reply["row"] != j:
+    raise ValueError("Unexpected oracle response")
+
+  row = list(row)
+
+  for y in t.cols.y:
+    row[y.at] = reply["goals"][y.name]
+
+  return t.disty(row)
+
+
+def adaptive(t, rows, prior, inspect, budget=10):
+  seen = {}
+
+  def estimate(j):
+    if not seen:
+      return prior[j]
+
+    k = min(seen, key=lambda k: t.distx(rows[j], rows[k]))
+    similarity = 1 - t.distx(rows[j], rows[k])
+
+    return prior[j] + similarity * (seen[k] - prior[k])
+
+  for _ in range(min(budget, len(rows))):
+    j = min((j for j in range(len(rows)) if j not in seen),
+            key=lambda j: (estimate(j), j))
+
+    seen[j] = inspect(j)
+
+  return seen
+
+
 def choose(train, test, budget=10):
   t = Tbl(csv_rows(train))
   src = csv_rows(test)
@@ -370,32 +406,10 @@ def choose(train, test, budget=10):
 
   rows = list(src)
   prior = [s for _, s in predictions(t, test)]
-  seen = {}
 
-  def estimate(j):
-    if not seen:
-      return prior[j]
-
-    k = min(seen, key=lambda k: t.distx(rows[j], rows[k]))
-    similarity = 1 - t.distx(rows[j], rows[k])
-    correction = similarity * (seen[k] - prior[k])
-
-    return prior[j] + correction
-
-  for _ in range(min(budget, len(rows))):
-    j = min((j for j in range(len(rows)) if j not in seen),
-            key=lambda j: (estimate(j), j))
-
-    print(json.dumps({"inspect": j}), flush=True)
-    reply = json.loads(input())
-
-    if reply["row"] != j:
-      raise ValueError("Unexpected oracle response")
-
-    for y in t.cols.y:
-      rows[j][y.at] = reply["goals"][y.name]
-
-    seen[j] = t.disty(rows[j])
+  seen = adaptive(t, rows, prior,
+                  lambda j: inspect_row(t, rows[j], j),
+                  budget)
 
   selected = sorted(seen,
                     key=lambda j: (round(seen[j], 12), j))
@@ -495,15 +509,81 @@ def spot(train, test):
   }
 
 
+def search_metrics(seen, target):
+  scores = list(seen.values())
+
+  return {
+    "best5": min(scores[:5]),
+    "best10": min(scores),
+    "labels_to_target": next(
+      (j+1 for j, s in enumerate(scores)
+       if round(s, 12) <= round(target, 12)),
+      len(scores) + 1
+    )
+  }
+
+
+def race(train, test):
+  t = Tbl(csv_rows(train))
+
+  with open(test) as f:
+    data = json.load(f)
+
+  if data["header"] != t.cols.names:
+    raise ValueError("Train and test headers differ")
+
+  rows = [[thing(v) for v in row] for row in data["rows"]]
+  known = [t.disty(row) for row in t.rows]
+  target = sorted(known)[len(known) // 4]
+  mpg_at = t.cols.names.index("Mpg+")
+
+  prior = [predict_row(t, row, known, mpg_at)[1]
+           for row in rows]
+
+  results = []
+
+  for e, episode in enumerate(data["episodes"]):
+    pool = episode["pool"]
+
+    def inspect(j, strategy):
+      return inspect_row(t, rows[j], j,
+                         episode=e, strategy=strategy)
+
+    local = adaptive(
+      t, [rows[j] for j in pool],
+      [prior[j] for j in pool],
+      lambda j: inspect(pool[j], "adaptive")
+    )
+
+    random = {j: inspect(j, "random")
+              for j in episode["random_order"]}
+
+    results.append({
+      "episode": e,
+      "adaptive": search_metrics(local, target),
+      "random": search_metrics(random, target)
+    })
+
+  comparisons = {
+    key: compare(
+      [r["adaptive"][key] for r in results],
+      [r["random"][key] for r in results]
+    )
+    for key in ["best5", "best10", "labels_to_target"]
+  }
+
+  return {"results": results, "comparisons": comparisons}
+
+
 def main():
   p = argparse.ArgumentParser()
-  p.add_argument("skill", choices=["remember", "guess", "certify", "flow", "blame", "justify", "choose", "fix", "spot"])
+  p.add_argument("skill", choices=["remember", "guess", "certify", "flow", "blame", "justify", "choose", "fix", "spot", "race"])
   p.add_argument("--train", required=True)
   p.add_argument("--test", required=True)
   args = p.parse_args()
 
   skills = {"remember": remember, "guess": guess,
-            "certify": certify, "flow": flow, "blame": blame, "justify": justify, "choose": choose, "fix": fix, "spot": spot}
+            "certify": certify, "flow": flow, "blame": blame, "justify": justify, "choose": choose, "fix": fix, "spot": spot, "race": race}
   print(json.dumps(skills[args.skill](args.train, args.test)))
 
 

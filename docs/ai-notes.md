@@ -143,3 +143,23 @@ The injected anomalies are synthetic and do not represent
 verified real-world fraud.
 
 This implementation remains AI-assisted.
+
+## Step 10 - Race
+
+ChatGPT assisted in implementing repeated baseline comparisons.
+
+Refactored Choose into a reusable adaptive search function.
+
+Reused prediction, input distance, distance to heaven,
+the inspection oracle and statistical comparison.
+
+Compared adaptive and random search across 20 shared
+search episodes with equal inspection budgets.
+
+Recorded quality after 5 and 10 inspections and
+the number of inspections needed to reach a target.
+
+The episodes reuse one held-out dataset and are not
+independent experimental code-generation trials.
+
+This implementation remains AI-assisted.
