@@ -230,3 +230,47 @@ Each explanation contains:
 Indices are zero-based.
 
 This is retrospective explanation, not causal inference.
+
+## Step 7: Choose
+
+Requirements: 13 and 14.
+
+- Find high-quality cars without inspecting the entire inventory.
+- Initially receive only test car input characteristics.
+- Request observed goal values through an inspection oracle.
+- Inspect exactly 10 distinct test cars.
+- Recommend the three best inspected cars.
+- Rank recommendations by observed distance to heaven.
+- Break ties using the original row index.
+- Preserve all previous skills.
+
+Evaluation:
+- Use the same 80 test cars for every treatment.
+- Learn normalization statistics using training data only.
+- Enforce the inspection budget externally.
+- Record all inspected and recommended cars.
+- Compare against random selection with the same budget.
+- Measure regret relative to the best available test car.
+- Record execution time.
+
+Interface:
+
+python3 main.py choose --train TRAIN --test MASKED_TEST
+
+The inspection protocol uses JSON lines over stdin and stdout.
+
+The program requests an inspection:
+{"inspect": 12}
+
+The evaluator responds with the row index and observed goals.
+
+The program finishes by returning:
+{"selected": [12, 5, 19]}
+
+Indices are zero-based.
+The selected indices above are illustrative.
+
+Budget: 10 inspections.
+Recommendations: 3 cars.
+
+Treatments may use different search strategies.
