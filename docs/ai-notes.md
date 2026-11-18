@@ -85,3 +85,21 @@ The evaluator checks factual consistency with the
 underlying numerical measurements.
 
 This implementation remains AI-assisted.
+
+## Step 7 - Choose
+
+ChatGPT assisted in implementing budgeted car selection.
+
+Reused predictions, input distance, distance to heaven
+and the existing table representation.
+
+Introduced an interactive inspection oracle that
+reveals goal values only when requested.
+
+Used newly observed quality to adjust the estimated
+quality of similar uninspected cars.
+
+Evaluated selection quality against random search
+with the same inspection budget.
+
+This implementation remains AI-assisted.

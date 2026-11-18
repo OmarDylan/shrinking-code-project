@@ -354,15 +354,57 @@ def justify(train, test):
   return {"explanations": out}
 
 
+def choose(train, test, budget=10):
+  t = Tbl(csv_rows(train))
+  src = csv_rows(test)
+
+  if next(src) != t.cols.names:
+    raise ValueError("Train and test headers differ")
+
+  rows = list(src)
+  prior = [s for _, s in predictions(t, test)]
+  seen = {}
+
+  def estimate(j):
+    if not seen:
+      return prior[j]
+
+    k = min(seen, key=lambda k: t.distx(rows[j], rows[k]))
+    similarity = 1 - t.distx(rows[j], rows[k])
+    correction = similarity * (seen[k] - prior[k])
+
+    return prior[j] + correction
+
+  for _ in range(min(budget, len(rows))):
+    j = min((j for j in range(len(rows)) if j not in seen),
+            key=lambda j: (estimate(j), j))
+
+    print(json.dumps({"inspect": j}), flush=True)
+    reply = json.loads(input())
+
+    if reply["row"] != j:
+      raise ValueError("Unexpected oracle response")
+
+    for y in t.cols.y:
+      rows[j][y.at] = reply["goals"][y.name]
+
+    seen[j] = t.disty(rows[j])
+
+  selected = sorted(seen,
+                    key=lambda j: (round(seen[j], 12), j))
+
+  return {"selected": selected[:3]}
+
+
 def main():
   p = argparse.ArgumentParser()
-  p.add_argument("skill", choices=["remember", "guess", "certify", "flow", "blame", "justify"])
+  p.add_argument("skill", choices=["remember", "guess", "certify", "flow", "blame", "justify", "choose"])
   p.add_argument("--train", required=True)
   p.add_argument("--test", required=True)
   args = p.parse_args()
 
   skills = {"remember": remember, "guess": guess,
-            "certify": certify, "flow": flow, "blame": blame, "justify": justify}
+            "certify": certify, "flow": flow, "blame": blame, "justify": justify, "choose": choose}
   print(json.dumps(skills[args.skill](args.train, args.test)))
 
 
