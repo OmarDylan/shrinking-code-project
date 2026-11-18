@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+.DS_Store
+.venv/
+venv/
+
+experiments/runs/*
+!experiments/runs/.gitkeep
+
+results/raw/*
+!results/raw/.gitkeep
