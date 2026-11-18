@@ -321,3 +321,40 @@ Status values:
 
 Repairs are hypothetical configuration recommendations.
 Estimated improvements are not observed causal effects.
+
+## Step 9: Spot
+
+Requirements: 17 and 18.
+
+- Identify unusual car listings using input characteristics.
+- Learn normal behavior from training data only.
+- Assign an anomaly score between 0 and 1.
+- Higher anomaly scores indicate more unusual cars.
+- Determine an anomaly threshold using training data.
+- Flag cars whose anomaly scores exceed the threshold.
+- Exclude ignored columns and hidden goals.
+- Preserve all previous skills.
+
+Evaluation:
+- Evaluate all 80 test cars.
+- Deliberately corrupt 20 randomly selected listings.
+- Introduce abnormal cylinders, engine volume,
+  model year and origin values.
+- Hide all goal values from the learner.
+- Measure precision, recall, F1 and accuracy.
+- Record false positives and false negatives.
+- Record individual results and execution time.
+
+Interface:
+
+python3 main.py spot --train TRAIN --test MASKED_TEST
+
+Output: one JSON object containing:
+- scores: anomaly score for every test car
+- alerts: boolean anomaly flag for every test car
+- threshold: anomaly detection threshold
+
+Treatments may use different anomaly detection strategies.
+
+Injected anomalies simulate suspicious records.
+The dataset does not contain verified fraud labels.
