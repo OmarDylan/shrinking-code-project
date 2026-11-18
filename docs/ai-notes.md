@@ -123,3 +123,23 @@ Estimated improvements are model predictions,
 not verified causal effects or physical repair outcomes.
 
 This implementation remains AI-assisted.
+
+## Step 9 - Spot
+
+ChatGPT assisted in implementing anomaly detection.
+
+Reused the existing table representation, normalization,
+CSV reader and input distance function.
+
+Used nearest-neighbor distances to measure unusual listings.
+
+Calibrated the anomaly threshold using leave-one-out
+training distances and their 95th percentile.
+
+Evaluated detection using 20 deliberately corrupted
+test listings and recorded precision, recall and F1.
+
+The injected anomalies are synthetic and do not represent
+verified real-world fraud.
+
+This implementation remains AI-assisted.

@@ -465,15 +465,45 @@ def fix(train, test):
   return {"repairs": out}
 
 
+def anomaly(t, row, skip=None, k=5):
+  near = sorted(t.distx(row, r)
+                for j, r in enumerate(t.rows)
+                if j != skip)[:k]
+
+  return sum(near) / len(near)
+
+
+def spot(train, test):
+  t = Tbl(csv_rows(train))
+  rows = csv_rows(test)
+
+  if next(rows) != t.cols.names:
+    raise ValueError("Train and test headers differ")
+
+  history = sorted(anomaly(t, row, skip=j)
+                   for j, row in enumerate(t.rows))
+
+  from math import ceil
+  threshold = history[ceil(0.95 * len(history)) - 1]
+
+  scores = [anomaly(t, row) for row in rows]
+
+  return {
+    "scores": scores,
+    "alerts": [s > threshold for s in scores],
+    "threshold": threshold
+  }
+
+
 def main():
   p = argparse.ArgumentParser()
-  p.add_argument("skill", choices=["remember", "guess", "certify", "flow", "blame", "justify", "choose", "fix"])
+  p.add_argument("skill", choices=["remember", "guess", "certify", "flow", "blame", "justify", "choose", "fix", "spot"])
   p.add_argument("--train", required=True)
   p.add_argument("--test", required=True)
   args = p.parse_args()
 
   skills = {"remember": remember, "guess": guess,
-            "certify": certify, "flow": flow, "blame": blame, "justify": justify, "choose": choose, "fix": fix}
+            "certify": certify, "flow": flow, "blame": blame, "justify": justify, "choose": choose, "fix": fix, "spot": spot}
   print(json.dumps(skills[args.skill](args.train, args.test)))
 
 
