@@ -184,3 +184,49 @@ Each diagnosis contains:
 - feature_order: input names ranked by association
 
 This is retrospective diagnosis, not causal inference.
+
+## Step 6: Justify
+
+Requirements: 11 and 12.
+
+- Explain why one car is recommended over another.
+- Explain why a car is accepted or rejected.
+- Use observed goals and existing diagnostic evidence.
+- Use the median training quality score as acceptance cutoff.
+- Recommend the car with the lower distance to heaven.
+- Report a tie when quality scores match to 12 decimal places.
+- Identify the goal contributing most to the winner's advantage.
+- Identify the current car's weakest goal.
+- Report an associated feature only when evidence is positive.
+- Preserve all previous skills.
+
+Evaluation:
+- Evaluate all 80 test cars.
+- Compare each car with the next car in the test inventory.
+- Compare the last car with the first car.
+- Verify recommendation and acceptance decisions.
+- Verify that explanations agree with the numerical evidence.
+- Record individual results and execution time.
+
+Interface:
+
+python3 main.py justify --train TRAIN --test TEST
+
+Output: one JSON object containing explanations.
+
+Each explanation contains:
+- row
+- other
+- score
+- other_score
+- cutoff
+- accepted
+- winner (null for a tie)
+- advantage_goal (null for a tie)
+- weakest_goal
+- top_feature (null when no positive evidence)
+- text
+
+Indices are zero-based.
+
+This is retrospective explanation, not causal inference.
