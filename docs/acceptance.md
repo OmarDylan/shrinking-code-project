@@ -274,3 +274,50 @@ Budget: 10 inspections.
 Recommendations: 3 cars.
 
 Treatments may use different search strategies.
+
+## Step 8: Fix
+
+Requirements: 15 and 16.
+
+- Identify cars with poor predicted quality.
+- Hide all test goal values.
+- Reuse training data to estimate quality.
+- Change only Clndrs and Volume.
+- Keep Model and origin unchanged.
+- Consider the first 12 distinct engine configurations
+  from the best 25% of training cars.
+- Require an estimated improvement of at least 0.05.
+- Prefer fewer changed specifications, then smaller
+  normalized input distance, then better predicted quality.
+- Leave already good cars unchanged.
+- Preserve all previous skills.
+
+Evaluation:
+- Evaluate all 80 test cars.
+- Use a common five-nearest-neighbor scoring model.
+- Break neighbor-distance ties at 12 decimal places
+  using the original training row order.
+- Compare proposed repairs with reference calculations.
+- Record estimated improvement and number of changes.
+- Record execution time.
+
+Interface:
+
+python3 main.py fix --train TRAIN --test MASKED_TEST
+
+Output: one JSON object containing repairs.
+
+Each repair contains:
+- row
+- before
+- after
+- changes
+- status
+
+Status values:
+- already_good
+- improved
+- no_candidate
+
+Repairs are hypothetical configuration recommendations.
+Estimated improvements are not observed causal effects.
