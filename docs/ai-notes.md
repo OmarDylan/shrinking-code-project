@@ -56,3 +56,17 @@ The evaluator checks prefix consistency, prediction errors
 and statistical alert decisions.
 
 This implementation remains AI-assisted.
+
+## Step 5 - Blame
+
+ChatGPT assisted in implementing contrast-based diagnosis.
+
+Reused Tbl, Num, Sym, normalization and distance to heaven.
+
+Compared profiles of the best and worst training cars
+to identify characteristics associated with poor quality.
+
+The diagnosis identifies associations rather than
+establishing causation.
+
+This implementation remains AI-assisted.

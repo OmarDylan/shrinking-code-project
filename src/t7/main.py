@@ -243,15 +243,72 @@ def flow(train, test, window=20):
   return {"mpg": mpg, "scores": scores, "alerts": alerts}
 
 
+def profiles(t):
+  rows = sorted(t.rows, key=lambda r: round(t.disty(r), 12))
+  n = max(1, len(rows) // 4)
+
+  return (Tbl([t.cols.names, *rows[:n]]),
+          Tbl([t.cols.names, *rows[-n:]]))
+
+
+def descending(scores):
+  return sorted(scores, key=lambda k: (-round(scores[k], 10), k))
+
+
+def diagnosis(t, row, good, poor):
+  goals = {
+    y.name: abs(y.norm(row[y.at]) - y.heaven)
+    for y in t.cols.y
+  }
+
+  features = {}
+
+  for col, g, p in zip(t.cols.x, good.cols.x, poor.cols.x):
+    v = row[col.at]
+
+    if v == "?":
+      score = 0
+
+    elif isinstance(col, Num):
+      x = col.norm(v)
+      score = abs(x - col.norm(g.mu)) - abs(x - col.norm(p.mu))
+
+    else:
+      score = (p.has.get(v, 0) / max(1, p.n)
+               - g.has.get(v, 0) / max(1, g.n))
+
+    features[col.name] = max(0, score)
+
+  return {
+    "goals": goals,
+    "features": features,
+    "goal_order": descending(goals),
+    "feature_order": descending(features)
+  }
+
+
+def blame(train, test):
+  t = Tbl(csv_rows(train))
+  good, poor = profiles(t)
+  rows = csv_rows(test)
+
+  if next(rows) != t.cols.names:
+    raise ValueError("Train and test headers differ")
+
+  return {"diagnoses": [
+    diagnosis(t, row, good, poor) for row in rows
+  ]}
+
+
 def main():
   p = argparse.ArgumentParser()
-  p.add_argument("skill", choices=["remember", "guess", "certify", "flow"])
+  p.add_argument("skill", choices=["remember", "guess", "certify", "flow", "blame"])
   p.add_argument("--train", required=True)
   p.add_argument("--test", required=True)
   args = p.parse_args()
 
   skills = {"remember": remember, "guess": guess,
-            "certify": certify, "flow": flow}
+            "certify": certify, "flow": flow, "blame": blame}
   print(json.dumps(skills[args.skill](args.train, args.test)))
 
 
