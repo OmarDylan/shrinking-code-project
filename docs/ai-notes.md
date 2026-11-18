@@ -40,3 +40,19 @@ Added Cohen, Cliff's delta, KS and distribution comparison.
 Used independent reference calculations for competency tests.
 
 This implementation remains AI-assisted.
+
+## Step 4 - Flow
+
+ChatGPT assisted in refactoring the existing prediction
+function into a reusable generator.
+
+Combined inventory representation, prediction and statistical
+comparison to evaluate sequentially arriving cars.
+
+Added a rolling window of 20 cars to detect changes
+in predicted quality.
+
+The evaluator checks prefix consistency, prediction errors
+and statistical alert decisions.
+
+This implementation remains AI-assisted.

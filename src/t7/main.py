@@ -133,8 +133,7 @@ def remember(train, test):
   }
 
 
-def guess(train, test, k=5):
-  t = Tbl(csv_rows(train))
+def predictions(t, test, k=5):
   rows = csv_rows(test)
 
   if next(rows) != t.cols.names:
@@ -142,14 +141,24 @@ def guess(train, test, k=5):
 
   mpg_at = t.cols.names.index("Mpg+")
   known = [t.disty(row) for row in t.rows]
-  mpg, scores = [], []
 
   for row in rows:
     near = sorted(range(len(t.rows)),
                   key=lambda j: t.distx(row, t.rows[j]))[:k]
 
-    mpg.append(sum(t.rows[j][mpg_at] for j in near) / len(near))
-    scores.append(sum(known[j] for j in near) / len(near))
+    mpg = sum(t.rows[j][mpg_at] for j in near) / len(near)
+    score = sum(known[j] for j in near) / len(near)
+
+    yield mpg, score
+
+
+def guess(train, test, k=5):
+  t = Tbl(csv_rows(train))
+  mpg, scores = [], []
+
+  for m, s in predictions(t, test, k):
+    mpg.append(m)
+    scores.append(s)
 
   return {"mpg": mpg, "scores": scores}
 
@@ -218,14 +227,31 @@ def certify(train, test):
   ]}
 
 
+def flow(train, test, window=20):
+  t = Tbl(csv_rows(train))
+  history = [t.disty(row) for row in t.rows]
+  mpg, scores, alerts = [], [], []
+
+  for m, s in predictions(t, test):
+    mpg.append(m)
+    scores.append(s)
+
+    recent = scores[-window:]
+    alerts.append(len(recent) == window and
+                  not compare(history, recent)["same"])
+
+  return {"mpg": mpg, "scores": scores, "alerts": alerts}
+
+
 def main():
   p = argparse.ArgumentParser()
-  p.add_argument("skill", choices=["remember", "guess", "certify"])
+  p.add_argument("skill", choices=["remember", "guess", "certify", "flow"])
   p.add_argument("--train", required=True)
   p.add_argument("--test", required=True)
   args = p.parse_args()
 
-  skills = {"remember": remember, "guess": guess, "certify": certify}
+  skills = {"remember": remember, "guess": guess,
+            "certify": certify, "flow": flow}
   print(json.dumps(skills[args.skill](args.train, args.test)))
 
 
