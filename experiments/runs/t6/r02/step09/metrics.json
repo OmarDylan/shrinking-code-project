@@ -1,0 +1,16 @@
+{
+  "protocol": "v2",
+  "contract_sha256": "33aed7556be266825118db5411311676169961e72f21ef5984aa292e4a7e97df",
+  "treatment": 6,
+  "repeat": 2,
+  "step": 9,
+  "skill": "spot",
+  "reuse": true,
+  "library": "ezr",
+  "status": "blocked_by_predecessor",
+  "blocked_by_step": 8,
+  "error": "No valid immediately preceding reuse snapshot. No Claude call made.",
+  "estimated_cost_usd": null,
+  "generation_seconds": null,
+  "usage": null
+}

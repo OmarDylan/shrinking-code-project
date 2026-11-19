@@ -1,0 +1,83 @@
+{
+  "protocol": "v2",
+  "contract_sha256": "33aed7556be266825118db5411311676169961e72f21ef5984aa292e4a7e97df",
+  "prompt_sha256": "8b95c8281eef90f1241ef1bc564f2266a82484b37c3ef11223396705ddbaa5e4",
+  "treatment": 3,
+  "repeat": 2,
+  "step": 4,
+  "skill": "flow",
+  "library": "sklearn",
+  "reuse": false,
+  "requested_model": "sonnet",
+  "model_usage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 2,
+      "outputTokens": 2338,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 2830,
+      "webSearchRequests": 0,
+      "costUSD": 0.034704,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 893,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 2830,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 2830,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 2338,
+    "output_tokens_details": {
+      "thinking_tokens": 893
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 2830,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 2338,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 2830,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 2830
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "estimated_cost_usd": 0.034704,
+  "generation_seconds": 15.89577241599909,
+  "returncode": 0,
+  "status": "generated",
+  "imports": [
+    "csv",
+    "json",
+    "math",
+    "numpy",
+    "sklearn",
+    "sys"
+  ],
+  "assigned_library_imported": true,
+  "source_sha256": "6c4dd254961e8c001e1fcec3f2b8f4799b856c6b31d792a448ea1177bd08c06b",
+  "added_physical_lines": 94,
+  "removed_physical_lines": 0,
+  "file_physical_lines": 94,
+  "cumulative_physical_lines": 261,
+  "source": "src/t3/r02/flow.py"
+}

@@ -1,0 +1,81 @@
+{
+  "protocol": "v2",
+  "contract_sha256": "33aed7556be266825118db5411311676169961e72f21ef5984aa292e4a7e97df",
+  "prompt_sha256": "87ff6b6103b0e77b555a22cdf757b42ff1602b3744620760bc19411356ed1479",
+  "treatment": 1,
+  "repeat": 2,
+  "step": 8,
+  "skill": "fix",
+  "library": "python",
+  "reuse": false,
+  "requested_model": "sonnet",
+  "model_usage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 2,
+      "outputTokens": 1990,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 4934,
+      "webSearchRequests": 0,
+      "costUSD": 0.03964,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 568,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 4934,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 4934,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 1990,
+    "output_tokens_details": {
+      "thinking_tokens": 568
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 4934,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 1990,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 4934,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 4934
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "estimated_cost_usd": 0.03964,
+  "generation_seconds": 12.86104004200024,
+  "returncode": 0,
+  "status": "generated",
+  "imports": [
+    "csv",
+    "json",
+    "math",
+    "sys"
+  ],
+  "assigned_library_imported": null,
+  "source_sha256": "a163cb8dab77154770e7c72f5f560a704a802b7e12702ebae4b51b0e9040f423",
+  "added_physical_lines": 106,
+  "removed_physical_lines": 0,
+  "file_physical_lines": 106,
+  "cumulative_physical_lines": 785,
+  "source": "src/t1/r02/fix.py"
+}

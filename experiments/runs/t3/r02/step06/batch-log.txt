@@ -1,0 +1,83 @@
+T3 | r02 | Step 6: justify
+{
+  "protocol": "v2",
+  "contract_sha256": "33aed7556be266825118db5411311676169961e72f21ef5984aa292e4a7e97df",
+  "prompt_sha256": "8cf4619ba6df620fcd52e671d336161ae6b38148f4823a092f7fe1827e461b79",
+  "treatment": 3,
+  "repeat": 2,
+  "step": 6,
+  "skill": "justify",
+  "library": "sklearn",
+  "reuse": false,
+  "requested_model": "sonnet",
+  "model_usage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 2,
+      "outputTokens": 2707,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 3932,
+      "webSearchRequests": 0,
+      "costUSD": 0.04280200000000001,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 833,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 3932,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 3932,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 2707,
+    "output_tokens_details": {
+      "thinking_tokens": 833
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 3932,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 2707,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 3932,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 3932
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "estimated_cost_usd": 0.04280200000000001,
+  "generation_seconds": 16.734502833998704,
+  "returncode": 0,
+  "status": "generated",
+  "imports": [
+    "csv",
+    "json",
+    "math",
+    "sys"
+  ],
+  "assigned_library_imported": false,
+  "source_sha256": "25c57068c3f82314416b18d906d91df19c7d402ae4b5867effd8b4c123bb7970",
+  "added_physical_lines": 129,
+  "removed_physical_lines": 0,
+  "file_physical_lines": 129,
+  "cumulative_physical_lines": 490,
+  "source": "src/t3/r02/justify.py"
+}
+

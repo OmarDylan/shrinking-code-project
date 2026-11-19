@@ -1,0 +1,69 @@
+
+Implement a compact Python program for car inventory analysis.
+
+Dataset header:
+Clndrs,Volume,HpX,Model,origin,Lbs-,Acc+,Mpg+
+
+Uppercase initial: numerical column.
+Lowercase initial: symbolic column.
+X suffix: ignored column.
++ suffix: maximize.
+- suffix: minimize.
+? means missing.
+
+Current skill: remember
+
+Customer requirements:
+From hundreds of cars, show me the unusually great buys.
+Show me what a typical good car, average car, and poor car look like.
+
+Shared rules:
+# Acceptance protocol v2 (clarified after exploratory r01)
+
+Shared specifications are available equally to all six automated treatments.
+Only reuse treatments receive earlier generated implementation source. The current
+and earlier contracts are provided as documentation to both. Earlier interfaces
+need to be implemented only in reuse treatments. No future skill contracts are supplied.
+
+All indices are zero-based. Numeric outputs must be finite JSON numbers (not strings).
+Boolean outputs must be JSON booleans. Write exactly the requested JSON to stdout,
+with no extra diagnostic messages. Use stderr for diagnostic messages. Test data may
+only be read from the supplied paths. Fit all learning statistics on training data.
+`?` represents a missing value. Never read hidden goals from another file.
+Input features: Clndrs, Volume, Model (numeric), origin (categorical).
+HpX is ignored. Goal names and directions: Lbs- (minimize), Acc+ and Mpg+ (maximize).
+Library assignments define allowed background knowledge, not mandatory imports;
+actual use of the assigned library is measured separately. Never import earlier
+implementations in a no-reuse treatment.
+
+
+
+Acceptance contract:
+Remember
+
+Requirements 1–2. Read fully observed train and test CSVs. Compute each goal's
+training mean and sample SD (n-1 denominator), then normalize the value v:
+`z = clamp((v - mean) / (sd + 1e-32), -3, 3)`;
+`norm(v) = 1 / (1 + exp(-1.702 * z))`.
+The heaven value h is 0 for Lbs- and 1 for Acc+, Mpg+.
+`d2h = sqrt(sum((norm(v)-h)^2 for the three goals) / 3)`.
+Lower is better. Use the observed complete goals for this retrospective task.
+Rank by unrounded score then original index. Return all test scores in source order,
+the first ten ranked indices, and the best, upper-middle (rank len(test)//2), worst.
+
+Command: `python3 main.py remember --train TRAIN --test TEST`
+Output: `{ "scores": [number,...], "top": [index,...], "best": index, "median": index, "worst": index }`.
+The numerical evaluator uses absolute error <1e-7.
+
+Follow the specified input and output interface.
+Read datasets only from the supplied command-line paths.
+Do not hardcode dataset rows or expected test answers.
+Do not access the network or unrelated files.
+Do not inspect evaluator source.
+
+Return one complete Python source file.
+Return only Python code.
+Do not include Markdown or explanations.
+
+Background library:
+Use Python standard library only.

@@ -1,0 +1,80 @@
+{
+  "protocol": "v2",
+  "contract_sha256": "33aed7556be266825118db5411311676169961e72f21ef5984aa292e4a7e97df",
+  "prompt_sha256": "605196e9453a26a275906d567b9ae44b96f8560dc7e3b1b04a38eb081d2f7c3a",
+  "treatment": 5,
+  "repeat": 2,
+  "step": 1,
+  "skill": "remember",
+  "library": "ezr",
+  "reuse": false,
+  "requested_model": "sonnet",
+  "model_usage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 2,
+      "outputTokens": 851,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 18288,
+      "webSearchRequests": 0,
+      "costUSD": 0.08166599999999999,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 241,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 18288,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 18288,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 851,
+    "output_tokens_details": {
+      "thinking_tokens": 241
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 18288,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 851,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 18288,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 18288
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "estimated_cost_usd": 0.08166599999999999,
+  "generation_seconds": 6.543967667006655,
+  "returncode": 0,
+  "status": "generated",
+  "imports": [
+    "json",
+    "math",
+    "sys"
+  ],
+  "assigned_library_imported": false,
+  "source_sha256": "9293fb91abbfbe1a1c416f7bfbc612a8a643f2164beff52e8b2b478ef8605528",
+  "added_physical_lines": 37,
+  "removed_physical_lines": 0,
+  "file_physical_lines": 37,
+  "cumulative_physical_lines": 37,
+  "source": "src/t5/r02/remember.py"
+}
