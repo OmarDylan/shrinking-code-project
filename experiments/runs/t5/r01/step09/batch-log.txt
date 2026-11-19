@@ -1,0 +1,72 @@
+T5 | r01 | Step 9: spot
+{
+  "treatment": 5,
+  "repeat": 1,
+  "step": 9,
+  "skill": "spot",
+  "library": "ezr",
+  "reuse": false,
+  "requested_model": "sonnet",
+  "model_usage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 2,
+      "outputTokens": 2308,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 17966,
+      "webSearchRequests": 0,
+      "costUSD": 0.094948,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 829,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 17966,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 17966,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 2308,
+    "output_tokens_details": {
+      "thinking_tokens": 829
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 17966,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 2308,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 17966,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 17966
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "estimated_cost_usd": 0.094948,
+  "generation_seconds": 16.77289762500004,
+  "returncode": 0,
+  "status": "generated",
+  "added_physical_lines": 103,
+  "removed_physical_lines": 0,
+  "file_physical_lines": 103,
+  "cumulative_physical_lines": 859,
+  "source": "src/t5/r01/spot.py"
+}
+

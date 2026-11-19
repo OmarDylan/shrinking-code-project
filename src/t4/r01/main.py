@@ -8,6 +8,8 @@ WINDOW = 20
 BUDGET, PICKS = 10, 3
 K_NN, N_CONFIG, MIN_GAIN = 5, 12, 0.05
 EDIT = ["Clndrs", "Volume"]
+SPOT_COLS = ["Clndrs", "Volume", "Model", "origin"]
+SPOT_Q, SPOT_FLOOR = 0.95, 3.0
 
 
 def load(path):
@@ -384,7 +386,6 @@ def fix(a):
         nb = np.lexsort((ids, d))[:K_NN]
         return float(qual[nb].mean()) if len(nb) else 0.5
 
-    # candidate engine configurations: first 12 distinct from best 25% of training
     order = sorted(range(len(ok)), key=lambda i: (qual[i], i))
     best = order[:max(1, int(len(order) * 0.25))] if order else []
     cc, cv = (column(th, tr, e) for e in EDIT)
@@ -444,15 +445,88 @@ def fix(a):
     print(json.dumps({"repairs": repairs}))
 
 
+def spot(a):
+    th, tr = load(a.train)
+    eh, te = load(a.test)
+    # inputs only: ignore X columns, goal columns (+/-)
+    cols = [h for h in SPOT_COLS if h in th and not h.endswith(("X", "+", "-"))]
+    numc = [h for h in cols if h[0].isupper()]
+    symc = [h for h in cols if not h[0].isupper()]
+
+    ref = {}
+    for h in numc:
+        v = np.array([x for x in column(th, tr, h) if x is not None], float)
+        if len(v) == 0:
+            ref[h] = (0.0, 1.0)
+            continue
+        m = float(np.median(v))
+        sd = float(v.std()) if len(v) > 1 else 1.0
+        ref[h] = (m, max(sd, 1e-6))
+    known = {h: set(sym(th, tr, h)) - {"?", ""} for h in symc}
+
+    # volume conditional on cylinders
+    groups = {}
+    if "Clndrs" in th and "Volume" in th:
+        d = {}
+        for c, v in zip(column(th, tr, "Clndrs"), column(th, tr, "Volume")):
+            if c is not None and v is not None:
+                d.setdefault(c, []).append(v)
+        allv = [v for vs in d.values() for v in vs]
+        gscale = max(float(np.std(allv)) * 0.1, 1e-6) if allv else 1.0
+        for c, vs in d.items():
+            m = float(np.median(vs))
+            mad = 1.4826 * float(np.median(np.abs(np.array(vs) - m)))
+            groups[c] = (m, max(mad, 0.1 * abs(m), gscale)) if len(vs) >= 3 else None
+
+    def raw_scores(head, rows):
+        nc = {h: column(head, rows, h) for h in numc}
+        sc = {h: sym(head, rows, h) for h in symc}
+        out = []
+        for i in range(len(rows)):
+            s = 0.0
+            for h in numc:
+                x = nc[h][i]
+                if x is not None:
+                    m, sd = ref[h]
+                    s = max(s, abs(x - m) / sd)
+            for h in symc:
+                v = sc[h][i]
+                if v not in ("?", "") and known[h] and v not in known[h]:
+                    s = max(s, 10.0)
+            if groups and "Clndrs" in nc and "Volume" in nc:
+                c, v = nc["Clndrs"][i], nc["Volume"][i]
+                if c is not None and v is not None:
+                    key = c if c in groups else None
+                    if key is None and groups:
+                        key = min(groups, key=lambda k: abs(k - c))
+                    g = groups.get(key)
+                    if g:
+                        s = max(s, abs(v - g[0]) / g[1])
+            out.append(s)
+        return np.array(out, float)
+
+    tr_raw = raw_scores(th, tr)
+    thr_raw = SPOT_FLOOR
+    if len(tr_raw):
+        thr_raw = max(SPOT_FLOOR, float(np.quantile(tr_raw, SPOT_Q)))
+    raw = raw_scores(eh, te)
+    sq = lambda r: r / (1.0 + r)
+    scores = [float(sq(r)) for r in raw]
+    thr = float(sq(thr_raw))
+    alerts = [bool(s > thr) for s in scores]
+    print(json.dumps({"scores": scores, "alerts": alerts, "threshold": thr}))
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["remember", "guess", "certify", "flow", "blame", "justify", "choose", "fix"])
+    ap.add_argument("cmd", choices=["remember", "guess", "certify", "flow", "blame",
+                                    "justify", "choose", "fix", "spot"])
     ap.add_argument("--train", required=True)
     ap.add_argument("--test", required=True)
     a = ap.parse_args()
     {"remember": remember, "guess": guess, "certify": certify,
      "flow": flow, "blame": blame, "justify": justify, "choose": choose,
-     "fix": fix}[a.cmd](a)
+     "fix": fix, "spot": spot}[a.cmd](a)
 
 
 main()

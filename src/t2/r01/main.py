@@ -492,6 +492,58 @@ def fix(h, tr, h2, te, goals, stats):
         reps.append(rep)
     return {"repairs": reps}
 
+# ---- spot skill ----
+SPOT_K, SPOT_Q = 5, 0.90
+
+def spot(h, tr, h2, te, goals, stats):
+    idx2 = {n: i for i, n in enumerate(h2)}
+    gi = {i for i, _ in goals}
+    ins = [i for i, n in enumerate(h) if i not in gi and not n.endswith("X")
+           and (n[:1].isupper() or n[:1].islower())]
+    isnum = {i: h[i][:1].isupper() for i in ins}
+
+    def parse(r, i, test):
+        j = idx2.get(h[i]) if test else i
+        s = r[j] if j is not None and j < len(r) else "?"
+        if isnum[i]:
+            return num(s)
+        return None if s in ("?", "") else s
+
+    sd = {}
+    for i in ins:
+        if isnum[i]:
+            v = [x for x in (parse(r, i, False) for r in tr) if x is not None]
+            m = sum(v) / len(v) if v else 0.0
+            s = math.sqrt(sum((x - m) ** 2 for x in v) / (len(v) - 1)) if len(v) > 1 else 1.0
+            sd[i] = s or 1.0
+    trf = [{i: parse(r, i, False) for i in ins} for r in tr]
+
+    def dist(a, b):
+        s, c = 0.0, 0
+        for i in ins:
+            x, y = a.get(i), b.get(i)
+            if x is None or y is None:
+                continue
+            d = (x - y) / sd[i] if isnum[i] else (0.0 if x == y else 1.0)
+            s += d * d
+            c += 1
+        return math.sqrt(s / c) if c else 0.0
+
+    def raw(f, skip=None):
+        ds = sorted(dist(f, t) for k, t in enumerate(trf) if k != skip)[:SPOT_K]
+        return sum(ds) / len(ds) if ds else 0.0
+
+    loo = sorted(raw(f, k) for k, f in enumerate(trf))
+    n = len(loo)
+    scale = (loo[n // 2] if n else 0.0) or 1e-6
+
+    def sc(d):
+        return 1.0 - math.exp(-d / scale)
+
+    thr = sc(loo[min(n - 1, int(SPOT_Q * n))]) if n else 0.5
+    scores = [sc(raw({i: parse(r, i, True) for i in ins})) for r in te]
+    return {"scores": scores, "alerts": [s > thr for s in scores], "threshold": thr}
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("cmd")
@@ -510,7 +562,9 @@ def main():
     goals = [(i, 1.0 if n.endswith("+") else 0.0)
              for i, n in enumerate(h) if n.endswith("+") or n.endswith("-")]
     stats = goal_stats(h, tr, goals)
-    if a.cmd == "fix":
+    if a.cmd == "spot":
+        out = spot(h, tr, h2, te, goals, stats)
+    elif a.cmd == "fix":
         out = fix(h, tr, h2, te, goals, stats)
     elif a.cmd == "choose":
         out = choose(h, tr, h2, te, goals, stats)

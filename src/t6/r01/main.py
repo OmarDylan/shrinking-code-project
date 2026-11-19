@@ -7,6 +7,7 @@ WINDOW = 20
 BUDGET, PICKS = 10, 3
 FIX_K, FIX_CONFIGS, FIX_MIN_GAIN = 5, 12, 0.05
 FIX_COLS = ("Clndrs", "Volume")
+SPOT_K, SPOT_Q = 5, 0.90
 
 
 def load(path):
@@ -565,10 +566,88 @@ def fix(a):
     print(json.dumps({"repairs": out}))
 
 
+# ---- spot: anomaly detection on input characteristics ----
+
+def spot(a):
+    names, train = load(a.train)
+    tnames, test = load(a.test)
+    # inputs only: no ignored (X) columns, no goals
+    xs = [(i, tnames.index(n), n[0].isupper()) for i, n in enumerate(names)
+          if n[-1] not in "X+-" and n in tnames]
+
+    def cell(r, j):
+        return r[j] if j < len(r) and r[j] not in ("?", "") else None
+
+    stat, freq = {}, {}
+    for i, _, isn in xs:
+        vs = [cell(r, i) for r in train]
+        vs = [v for v in vs if v is not None]
+        if isn:
+            f = [v for v in (num(v) for v in vs) if v is not None]
+            k = len(f)
+            mu = sum(f) / k if k else 0.0
+            sd = sqrt(sum((v - mu) ** 2 for v in f) / (k - 1)) if k > 1 else 0.0
+            stat[i] = (mu, sd or 1.0)
+        else:
+            d = {}
+            for v in vs:
+                d[v] = d.get(v, 0) + 1
+            freq[i] = d
+
+    def prep(r, pos):
+        out = []
+        for (i, j, isn) in xs:
+            v = cell(r, i if pos == 0 else j)
+            if v is not None and isn:
+                v = num(v)
+                v = None if v is None else (v - stat[i][0]) / stat[i][1]
+            out.append(v)
+        return out
+
+    def gapd(p, q):
+        s = c = 0
+        for (_, _, isn), x, y in zip(xs, p, q):
+            if x is None or y is None:
+                continue
+            g = (x - y) if isn else float(x != y)
+            s += g * g
+            c += 1
+        return sqrt(s / c) if c else 1.0
+
+    def marginal(q):
+        m = 0.0
+        for (i, _, isn), x in zip(xs, q):
+            if x is None:
+                continue
+            m = max(m, abs(x) if isn else (4.0 if freq[i].get(x, 0) == 0 else 0.0))
+        return m
+
+    trq = [prep(r, 0) for r in train]
+
+    def raw(q, skip=None):
+        ds = sorted(gapd(q, t) for k, t in enumerate(trq) if k != skip)[:SPOT_K]
+        knn = sum(ds) / len(ds) if ds else 0.0
+        return knn + 0.5 * marginal(q)
+
+    tr_raw = [raw(q, k) for k, q in enumerate(trq)]
+    scale = median(tr_raw) or 1.0
+
+    def squash(v):
+        return v / (v + scale)
+
+    tr_s = sorted(squash(v) for v in tr_raw)
+    thr = tr_s[min(len(tr_s) - 1, int(SPOT_Q * len(tr_s)))] if tr_s else 0.5
+    scores = [squash(raw(prep(r, 1))) for r in test]
+    print(json.dumps({"scores": scores,
+                      "alerts": [s > thr for s in scores],
+                      "threshold": thr}))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("cmd", choices=["remember", "guess", "certify", "flow",
-                                    "blame", "justify", "choose", "fix"])
+                                    "blame", "justify", "choose", "fix",
+                                    "spot"])
     ap.add_argument("--train", required=False)
     ap.add_argument("--test", required=True)
     a = ap.parse_args()
@@ -579,7 +658,7 @@ def main():
         ap.error("--train is required")
     {"remember": remember, "guess": guess, "flow": flow,
      "blame": blame, "justify": justify, "choose": choose,
-     "fix": fix}[a.cmd](a)
+     "fix": fix, "spot": spot}[a.cmd](a)
 
 
 if __name__ == "__main__":
