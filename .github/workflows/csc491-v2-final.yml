@@ -1,0 +1,76 @@
+name: CSC491 V2 Final Batch
+run-name: CSC491 V2 final ${{ inputs.batch_id }}
+on:
+  workflow_dispatch:
+    inputs:
+      batch_id:
+        required: true
+        type: string
+permissions:
+  contents: read
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        repeat: [2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Verify batch commit
+        env:
+          EXPECTED: ${{ inputs.batch_id }}
+        run: test "$(git rev-parse HEAD)" = "$EXPECTED"
+      - name: Build evaluation environment
+        run: docker build -t csc491-v2-eval - < scripts/Dockerfile.v2-final
+      - name: Evaluate snapshots (offline, restricted container)
+        env:
+          REP: ${{ matrix.repeat }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p experiments/v2-results
+          opts=(--rm --network none --read-only --cap-drop ALL --security-opt no-new-privileges --pids-limit 256 --memory 4g --cpus 2 --tmpfs /tmp:rw,nosuid,nodev,mode=1777 --user "$(id -u):$(id -g)" -e HOME=/tmp -e PYTHONDONTWRITEBYTECODE=1 -e PYTHONUNBUFFERED=1)
+          for part in scripts docs tests vendor data experiments/runs; do
+            opts+=(--mount "type=bind,src=$PWD/$part,dst=/repo/$part,readonly")
+          done
+          opts+=(--mount "type=bind,src=$PWD/experiments/v2-results,dst=/repo/experiments/v2-results")
+          docker run "${opts[@]}" csc491-v2-eval sh -c 'python --version; python -m pip freeze' > experiments/v2-results/environment.txt
+          git rev-parse HEAD >> experiments/v2-results/environment.txt
+          docker image inspect csc491-v2-eval --format '{{.Id}}' >> experiments/v2-results/environment.txt
+          docker run "${opts[@]}" csc491-v2-eval python scripts/evaluate_v2.py --repeat "$REP"
+      - name: Upload evaluation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: csc491-v2-final-r${{ matrix.repeat }}
+          path: experiments/v2-results/
+          if-no-files-found: error
+          retention-days: 30
+  analyze:
+    needs: evaluate
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: csc491-v2-final-r*
+          path: final-input
+      - name: Compute course-style rankings and reports
+        run: python scripts/analyze_v2_final.py --input final-input --output final-analysis
+      - uses: actions/upload-artifact@v4
+        with:
+          name: csc491-v2-final-analysis
+          path: final-analysis/
+          if-no-files-found: error
+          retention-days: 30
