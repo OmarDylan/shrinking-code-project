@@ -1,0 +1,85 @@
+T3 | r04 | Step 7: choose
+{
+  "protocol": "v2",
+  "contract_sha256": "33aed7556be266825118db5411311676169961e72f21ef5984aa292e4a7e97df",
+  "prompt_sha256": "1eb73293b18837c67cdf39881178da9ed1314ebe10fee258ec3e48dda532b830",
+  "treatment": 3,
+  "repeat": 4,
+  "step": 7,
+  "skill": "choose",
+  "library": "sklearn",
+  "reuse": false,
+  "requested_model": "sonnet",
+  "model_usage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 2,
+      "outputTokens": 1816,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 4264,
+      "webSearchRequests": 0,
+      "costUSD": 0.03522,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 643,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 4264,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 4264,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 1816,
+    "output_tokens_details": {
+      "thinking_tokens": 643
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 4264,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 1816,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 4264,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 4264
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "estimated_cost_usd": 0.03522,
+  "generation_seconds": 13.663475791996461,
+  "returncode": 0,
+  "status": "generated",
+  "imports": [
+    "csv",
+    "json",
+    "math",
+    "numpy",
+    "sklearn",
+    "sys"
+  ],
+  "assigned_library_imported": true,
+  "source_sha256": "34100ae0f21347140454d424e5bd0d3c0c64ea2896afc2863da42664fdb52413",
+  "added_physical_lines": 85,
+  "removed_physical_lines": 0,
+  "file_physical_lines": 85,
+  "cumulative_physical_lines": 528,
+  "source": "src/t3/r04/choose.py"
+}
+

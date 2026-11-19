@@ -1,0 +1,87 @@
+T4 | r04 | Step 3: certify
+{
+  "protocol": "v2",
+  "contract_sha256": "33aed7556be266825118db5411311676169961e72f21ef5984aa292e4a7e97df",
+  "prompt_sha256": "850e01e3f81709f678a0a57f4252c6477187ca05a3ed1a0ce6a59d8f93292ab4",
+  "treatment": 4,
+  "repeat": 4,
+  "step": 3,
+  "skill": "certify",
+  "library": "sklearn",
+  "reuse": true,
+  "requested_model": "sonnet",
+  "model_usage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 2,
+      "outputTokens": 2521,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 4374,
+      "webSearchRequests": 0,
+      "costUSD": 0.04271,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 178,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 4374,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 4374,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 2521,
+    "output_tokens_details": {
+      "thinking_tokens": 178
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 4374,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 2521,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 4374,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 4374
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "estimated_cost_usd": 0.04271,
+  "generation_seconds": 13.309568917000433,
+  "returncode": 0,
+  "status": "generated",
+  "imports": [
+    "argparse",
+    "bisect",
+    "csv",
+    "json",
+    "math",
+    "numpy",
+    "sklearn",
+    "sys"
+  ],
+  "assigned_library_imported": true,
+  "source_sha256": "05c05c4316c3164e4ec46710d68367a5de62357d27bfd69574866ecc8d8df903",
+  "added_physical_lines": 30,
+  "removed_physical_lines": 0,
+  "file_physical_lines": 172,
+  "cumulative_physical_lines": 172,
+  "source": "src/t4/r04/main.py"
+}
+

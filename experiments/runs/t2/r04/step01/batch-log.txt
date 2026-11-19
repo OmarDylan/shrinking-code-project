@@ -1,0 +1,83 @@
+T2 | r04 | Step 1: remember
+{
+  "protocol": "v2",
+  "contract_sha256": "33aed7556be266825118db5411311676169961e72f21ef5984aa292e4a7e97df",
+  "prompt_sha256": "bc13b70780f541e9a4f6975c88ebaa5237c2a446f90f0925707fc0352eec4fde",
+  "treatment": 2,
+  "repeat": 4,
+  "step": 1,
+  "skill": "remember",
+  "library": "python",
+  "reuse": true,
+  "requested_model": "sonnet",
+  "model_usage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 2,
+      "outputTokens": 944,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 1672,
+      "webSearchRequests": 0,
+      "costUSD": 0.016132,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 170,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 1672,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1672,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 944,
+    "output_tokens_details": {
+      "thinking_tokens": 170
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 1672,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 944,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 1672,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1672
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "estimated_cost_usd": 0.016132,
+  "generation_seconds": 7.143967500000144,
+  "returncode": 0,
+  "status": "generated",
+  "imports": [
+    "csv",
+    "json",
+    "math",
+    "sys"
+  ],
+  "assigned_library_imported": null,
+  "source_sha256": "3e796926b184f99b144fe02f07f587b0a573010e06b13c7a1b797efefb810fa6",
+  "added_physical_lines": 65,
+  "removed_physical_lines": 0,
+  "file_physical_lines": 65,
+  "cumulative_physical_lines": 65,
+  "source": "src/t2/r04/main.py"
+}
+

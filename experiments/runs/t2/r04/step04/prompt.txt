@@ -1,0 +1,316 @@
+
+Implement a compact Python program for car inventory analysis.
+
+Dataset header:
+Clndrs,Volume,HpX,Model,origin,Lbs-,Acc+,Mpg+
+
+Uppercase initial: numerical column.
+Lowercase initial: symbolic column.
+X suffix: ignored column.
++ suffix: maximize.
+- suffix: minimize.
+? means missing.
+
+Current skill: flow
+
+Customer requirements:
+Judge each new car as it arrives.
+Warn me when the quality of newly arriving cars starts looking different.
+
+Shared rules:
+# Acceptance protocol v2 (clarified after exploratory r01)
+
+Shared specifications are available equally to all six automated treatments.
+Only reuse treatments receive earlier generated implementation source. The current
+and earlier contracts are provided as documentation to both. Earlier interfaces
+need to be implemented only in reuse treatments. No future skill contracts are supplied.
+
+All indices are zero-based. Numeric outputs must be finite JSON numbers (not strings).
+Boolean outputs must be JSON booleans. Write exactly the requested JSON to stdout,
+with no extra diagnostic messages. Use stderr for diagnostic messages. Test data may
+only be read from the supplied paths. Fit all learning statistics on training data.
+`?` represents a missing value. Never read hidden goals from another file.
+Input features: Clndrs, Volume, Model (numeric), origin (categorical).
+HpX is ignored. Goal names and directions: Lbs- (minimize), Acc+ and Mpg+ (maximize).
+Library assignments define allowed background knowledge, not mandatory imports;
+actual use of the assigned library is measured separately. Never import earlier
+implementations in a no-reuse treatment.
+
+
+
+Acceptance contract:
+Flow
+
+Requirements 7–8. Use the Guess interface and eligibility rules for predictions.
+Process arriving cars in order; results for any prefix must not change when later
+rows are appended. A fixed model fitted only on training data is acceptable.
+History is the d2h of all training rows using the Remember training statistics.
+For the first 19 arrivals the alert is false. Thereafter compare history against the
+last 20 predicted d2h scores (including the current arrival) with Certify; alert = not same.
+Prediction MAE and agreement with observed-score alerts are measured separately.
+
+Command: `python3 main.py flow --train TRAIN --test MASKED_TEST`
+Output: `{"mpg":[number,...],"scores":[number,...],"alerts":[boolean,...]}`.
+
+Follow the specified input and output interface.
+Read datasets only from the supplied command-line paths.
+Do not hardcode dataset rows or expected test answers.
+Do not access the network or unrelated files.
+Do not inspect evaluator source.
+
+Return one complete Python source file.
+Return only Python code.
+Do not include Markdown or explanations.
+
+Background library:
+Use Python standard library only.
+
+Earlier skill remember specification (documentation):
+Remember
+
+Requirements 1–2. Read fully observed train and test CSVs. Compute each goal's
+training mean and sample SD (n-1 denominator), then normalize the value v:
+`z = clamp((v - mean) / (sd + 1e-32), -3, 3)`;
+`norm(v) = 1 / (1 + exp(-1.702 * z))`.
+The heaven value h is 0 for Lbs- and 1 for Acc+, Mpg+.
+`d2h = sqrt(sum((norm(v)-h)^2 for the three goals) / 3)`.
+Lower is better. Use the observed complete goals for this retrospective task.
+Rank by unrounded score then original index. Return all test scores in source order,
+the first ten ranked indices, and the best, upper-middle (rank len(test)//2), worst.
+
+Command: `python3 main.py remember --train TRAIN --test TEST`
+Output: `{ "scores": [number,...], "top": [index,...], "best": index, "median": index, "worst": index }`.
+The numerical evaluator uses absolute error <1e-7.
+
+Earlier skill guess specification (documentation):
+Guess
+
+Requirements 3–4. Predict MPG and the d2h defined in Remember using only training
+labels and the available input features of each test row. All test goals are hidden;
+Volume is missing in alternating test rows (starting with the first). Predictions must
+be independent of actual test goals, in original row order. Any suitable predictive
+model is permitted. MPG must be finite and strictly positive; predicted d2h must be
+finite and in [0,1]. Mean absolute errors are measured against training-mean baselines;
+valid output alone does not establish superior predictive quality.
+
+Command: `python3 main.py guess --train TRAIN --test MASKED_TEST`
+Output: `{ "mpg": [number,...], "scores": [number,...] }`.
+
+Earlier skill certify specification (documentation):
+Certify
+
+Requirements 5–6. Compare supplied numeric distributions, each containing >=2 values.
+Let n=len(xs), m=len(ys). Use sample variances vx, vy (n-1, m-1 denominators).
+Pooled variance = ((n-1)*vx + (m-1)*vy)/(n+m-2).
+Cohen = abs(mean(xs)-mean(ys))/(sqrt(pooled variance)+1e-32).
+For constant samples the denominator convention is still 1e-32, even when the
+means differ. Do not replace this with another finite sentinel or infinity.
+Cliffs = abs(sum(sign(x-y) over every x in xs and y in ys))/(n*m); ties count 0.
+KS = max_v |count(xs<=v)/n - count(ys<=v)/m| / sqrt(1/n+1/m), evaluated
+at every distinct observed value in the union; include all ties at that value.
+Same is true exactly when Cohen <=0.35 AND Cliffs <=0.197 AND KS <=1.36.
+These thresholds preserve the r01 evaluator; rather than change them post hoc, any
+separate cross-treatment statistical method will be explicitly labeled.
+
+Command: `python3 main.py certify --train TRAIN --test CASES_JSON`
+Input: `[{"xs":[number,...],"ys":[number,...]},...]`.
+Output: `{"comparisons":[{"cohen":number,"cliffs":number,"ks":number,"same":boolean},...]}`.
+One comparison per case, in supplied order. Numeric comparison tolerances are 1e-9
+relative and absolute. No model training is necessary.
+
+Extend the existing program.
+Reuse its structures and functions whenever possible.
+Preserve all previous skill interfaces.
+Return the complete updated main.py.
+
+Existing program:
+import csv, sys, math, json
+from bisect import bisect_right
+
+GOALS = [('Lbs-', 0), ('Acc+', 1), ('Mpg+', 1)]
+
+
+def read(path):
+    with open(path, newline='') as f:
+        r = csv.reader(f)
+        header = [h.strip() for h in next(r)]
+        rows = [[c.strip() for c in row] for row in r if row]
+    return header, rows
+
+
+def num(row, header, name):
+    try:
+        i = header.index(name)
+        v = float(row[i])
+        return v if math.isfinite(v) else None
+    except (ValueError, IndexError):
+        return None
+
+
+def goal_vals(header, rows):
+    return [[num(r, header, g) for g, _ in GOALS] if all(num(r, header, g) is not None for g, _ in GOALS) else None
+            for r in rows]
+
+
+def goal_stats(tr):
+    n = len(tr)
+    stats = []
+    for j in range(3):
+        xs = [v[j] for v in tr]
+        m = sum(xs) / n
+        sd = math.sqrt(sum((x - m) ** 2 for x in xs) / (n - 1)) if n > 1 else 0.0
+        stats.append((m, sd))
+    return stats
+
+
+def d2h(v, stats):
+    s = 0.0
+    for j, (_, h) in enumerate(GOALS):
+        m, sd = stats[j]
+        z = max(-3.0, min(3.0, (v[j] - m) / (sd + 1e-32)))
+        nv = 1 / (1 + math.exp(-1.702 * z))
+        s += (nv - h) ** 2
+    return math.sqrt(s / 3)
+
+
+def args():
+    a = sys.argv[1:]
+    train = test = None
+    for i, x in enumerate(a):
+        if x == '--train':
+            train = a[i + 1]
+        elif x == '--test':
+            test = a[i + 1]
+    return a[0], train, test
+
+
+def remember(train, test):
+    h1, r1 = read(train)
+    tr = [v for v in goal_vals(h1, r1) if v is not None]
+    stats = goal_stats(tr)
+    h2, r2 = read(test)
+    scores = [d2h(v, stats) for v in goal_vals(h2, r2)]
+    order = sorted(range(len(scores)), key=lambda i: (scores[i], i))
+    print(json.dumps({"scores": scores, "top": order[:10], "best": order[0],
+                      "median": order[len(scores) // 2], "worst": order[-1]}))
+
+
+def solve(A, b):
+    n = len(b)
+    M = [A[i][:] + [b[i]] for i in range(n)]
+    for c in range(n):
+        p = max(range(c, n), key=lambda r: abs(M[r][c]))
+        M[c], M[p] = M[p], M[c]
+        if abs(M[c][c]) < 1e-12:
+            continue
+        for r in range(n):
+            if r != c:
+                f = M[r][c] / M[c][c]
+                for k in range(c, n + 1):
+                    M[r][k] -= f * M[c][k]
+    return [M[i][n] / M[i][i] if abs(M[i][i]) > 1e-12 else 0.0 for i in range(n)]
+
+
+class Ridge:
+    def __init__(self, X, y, lam=1.0):
+        n, d = len(X), len(X[0])
+        self.mu = [sum(r[j] for r in X) / n for j in range(d)]
+        self.sd = [math.sqrt(sum((r[j] - self.mu[j]) ** 2 for r in X) / n) or 1.0 for j in range(d)]
+        self.ym = sum(y) / n
+        Z = [[(r[j] - self.mu[j]) / self.sd[j] for j in range(d)] for r in X]
+        A = [[sum(z[i] * z[j] for z in Z) + (lam if i == j else 0.0) for j in range(d)] for i in range(d)]
+        b = [sum(z[i] * (yy - self.ym) for z, yy in zip(Z, y)) for i in range(d)]
+        self.w = solve(A, b)
+
+    def predict(self, x):
+        return self.ym + sum(w * (xi - m) / s for w, xi, m, s in zip(self.w, x, self.mu, self.sd))
+
+
+def guess(train, test):
+    h1, r1 = read(train)
+    h2, r2 = read(test)
+    origins = sorted({r[h1.index('origin')] for r in r1 if h1.index('origin') < len(r)} - {'?', ''})
+
+    def raw(r, h):
+        o = r[h.index('origin')] if h.index('origin') < len(r) else '?'
+        return [num(r, h, 'Clndrs'), num(r, h, 'Volume'), num(r, h, 'Model'), o]
+
+    traw = [raw(r, h1) for r in r1]
+    means = []
+    for j in range(3):
+        xs = [t[j] for t in traw if t[j] is not None]
+        means.append(sum(xs) / len(xs) if xs else 0.0)
+
+    def feats(t, vol):
+        c = t[0] if t[0] is not None else means[0]
+        m = t[2] if t[2] is not None else means[2]
+        f = [c, m]
+        if vol:
+            v = t[1] if t[1] is not None else means[1]
+            f += [v, math.log(max(v, 1.0))]
+        return f + [1.0 if t[3] == o else 0.0 for o in origins]
+
+    gv = goal_vals(h1, r1)
+    idx = [i for i, v in enumerate(gv) if v is not None]
+    stats = goal_stats([gv[i] for i in idx])
+    ymp = [math.log(max(gv[i][2], 1e-6)) for i in idx]
+    yd = [d2h(gv[i], stats) for i in idx]
+    models = {}
+    for vol in (True, False):
+        X = [feats(traw[i], vol) for i in idx]
+        models[vol] = (Ridge(X, ymp, 2.0), Ridge(X, yd, 2.0))
+
+    mpg, scores = [], []
+    for r in r2:
+        t = raw(r, h2)
+        vol = t[1] is not None
+        mm, md = models[vol]
+        x = feats(t, vol)
+        p = math.exp(max(-5.0, min(6.0, mm.predict(x))))
+        s = max(0.0, min(1.0, md.predict(x)))
+        mpg.append(p)
+        scores.append(s)
+    print(json.dumps({"mpg": mpg, "scores": scores}))
+
+
+def compare(xs, ys):
+    n, m = len(xs), len(ys)
+    mx, my = sum(xs) / n, sum(ys) / m
+    vx = sum((x - mx) ** 2 for x in xs) / (n - 1)
+    vy = sum((y - my) ** 2 for y in ys) / (m - 1)
+    pv = ((n - 1) * vx + (m - 1) * vy) / (n + m - 2)
+    cohen = abs(mx - my) / (math.sqrt(pv) + 1e-32)
+    s = 0
+    for x in xs:
+        for y in ys:
+            s += (x > y) - (x < y)
+    cliffs = abs(s) / (n * m)
+    sx, sy = sorted(xs), sorted(ys)
+    d = max(abs(bisect_right(sx, v) / n - bisect_right(sy, v) / m) for v in set(sx) | set(sy))
+    ks = d / math.sqrt(1 / n + 1 / m)
+    return {"cohen": cohen, "cliffs": cliffs, "ks": ks,
+            "same": bool(cohen <= 0.35 and cliffs <= 0.197 and ks <= 1.36)}
+
+
+def certify(test):
+    with open(test) as f:
+        cases = json.load(f)
+    out = [compare([float(x) for x in c["xs"]], [float(y) for y in c["ys"]]) for c in cases]
+    print(json.dumps({"comparisons": out}))
+
+
+def main():
+    if len(sys.argv) < 2:
+        sys.exit(1)
+    cmd, train, test = args()
+    if cmd == 'remember':
+        remember(train, test)
+    elif cmd == 'guess':
+        guess(train, test)
+    elif cmd == 'certify':
+        certify(test)
+    else:
+        sys.exit(1)
+
+
+main()

@@ -1,0 +1,81 @@
+{
+  "protocol": "v2",
+  "contract_sha256": "33aed7556be266825118db5411311676169961e72f21ef5984aa292e4a7e97df",
+  "prompt_sha256": "c7eb5cec8ec91f72fa5aba98628e6a78cb384004c5c14d1a4b303f1fad740a6c",
+  "treatment": 5,
+  "repeat": 4,
+  "step": 5,
+  "skill": "blame",
+  "library": "ezr",
+  "reuse": false,
+  "requested_model": "sonnet",
+  "model_usage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 2,
+      "outputTokens": 2179,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 19931,
+      "webSearchRequests": 0,
+      "costUSD": 0.101518,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 796,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 19931,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 19931,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 2179,
+    "output_tokens_details": {
+      "thinking_tokens": 796
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 19931,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 2179,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 19931,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 19931
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "estimated_cost_usd": 0.101518,
+  "generation_seconds": 13.335895707990858,
+  "returncode": 0,
+  "status": "generated",
+  "imports": [
+    "csv",
+    "json",
+    "math",
+    "sys"
+  ],
+  "assigned_library_imported": false,
+  "source_sha256": "6a4fa7fce1d80ea31257395bfc01d0b1c29b2a57b0825c6f43254e40de0fdddb",
+  "added_physical_lines": 95,
+  "removed_physical_lines": 0,
+  "file_physical_lines": 95,
+  "cumulative_physical_lines": 336,
+  "source": "src/t5/r04/blame.py"
+}

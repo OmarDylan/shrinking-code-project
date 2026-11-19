@@ -1,0 +1,86 @@
+T3 | r04 | Step 10: race
+{
+  "protocol": "v2",
+  "contract_sha256": "33aed7556be266825118db5411311676169961e72f21ef5984aa292e4a7e97df",
+  "prompt_sha256": "8e17e00832602aaa62a38a9376670effe5a61604d811e4a80c9193237636f9b7",
+  "treatment": 3,
+  "repeat": 4,
+  "step": 10,
+  "skill": "race",
+  "library": "sklearn",
+  "reuse": false,
+  "requested_model": "sonnet",
+  "model_usage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 2,
+      "outputTokens": 2977,
+      "cacheReadInputTokens": 5643,
+      "cacheCreationInputTokens": 362,
+      "webSearchRequests": 0,
+      "costUSD": 0.0317863,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 798,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 362,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 362,
+    "cache_read_input_tokens": 5643,
+    "output_tokens": 2977,
+    "output_tokens_details": {
+      "thinking_tokens": 798
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 362,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 2977,
+        "cache_read_input_tokens": 5643,
+        "cache_creation_input_tokens": 362,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 362
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "estimated_cost_usd": 0.0317863,
+  "generation_seconds": 19.488839749988983,
+  "returncode": 0,
+  "status": "generated",
+  "imports": [
+    "argparse",
+    "csv",
+    "json",
+    "math",
+    "numpy",
+    "sklearn",
+    "sys"
+  ],
+  "assigned_library_imported": true,
+  "source_sha256": "fb6638b78831238eb27aebab70155ec54fff07b6e67c1a6cac6c77d2a66f817e",
+  "added_physical_lines": 142,
+  "removed_physical_lines": 0,
+  "file_physical_lines": 142,
+  "cumulative_physical_lines": 854,
+  "source": "src/t3/r04/race.py"
+}
+

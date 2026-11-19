@@ -1,0 +1,81 @@
+{
+  "protocol": "v2",
+  "contract_sha256": "33aed7556be266825118db5411311676169961e72f21ef5984aa292e4a7e97df",
+  "prompt_sha256": "d10ea009bbca0c3acd6b9d53fcd37f057e1aeb9bed28e8aea5530913ec31bfb4",
+  "treatment": 5,
+  "repeat": 4,
+  "step": 4,
+  "skill": "flow",
+  "library": "ezr",
+  "reuse": false,
+  "requested_model": "sonnet",
+  "model_usage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 2,
+      "outputTokens": 2345,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 19426,
+      "webSearchRequests": 0,
+      "costUSD": 0.101158,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 893,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 19426,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 19426,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 2345,
+    "output_tokens_details": {
+      "thinking_tokens": 893
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 19426,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 2345,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 19426,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 19426
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "estimated_cost_usd": 0.101158,
+  "generation_seconds": 16.365911166998558,
+  "returncode": 0,
+  "status": "generated",
+  "imports": [
+    "bisect",
+    "json",
+    "math",
+    "sys"
+  ],
+  "assigned_library_imported": false,
+  "source_sha256": "6b407c949ceecc50823d691bb33147db2f94383bb76ae794210a98c65e220e30",
+  "added_physical_lines": 86,
+  "removed_physical_lines": 0,
+  "file_physical_lines": 86,
+  "cumulative_physical_lines": 241,
+  "source": "src/t5/r04/flow.py"
+}

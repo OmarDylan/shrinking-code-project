@@ -1,0 +1,83 @@
+T1 | r04 | Step 2: guess
+{
+  "protocol": "v2",
+  "contract_sha256": "33aed7556be266825118db5411311676169961e72f21ef5984aa292e4a7e97df",
+  "prompt_sha256": "e97efdb6742af1697a68e6c1e1624c16549375c6d6f92a73cb255d78c7764c13",
+  "treatment": 1,
+  "repeat": 4,
+  "step": 2,
+  "skill": "guess",
+  "library": "python",
+  "reuse": false,
+  "requested_model": "sonnet",
+  "model_usage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 2,
+      "outputTokens": 2251,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 1964,
+      "webSearchRequests": 0,
+      "costUSD": 0.03037,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 502,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 1964,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1964,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 2251,
+    "output_tokens_details": {
+      "thinking_tokens": 502
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 1964,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 2251,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 1964,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1964
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "estimated_cost_usd": 0.03037,
+  "generation_seconds": 14.827192625001771,
+  "returncode": 0,
+  "status": "generated",
+  "imports": [
+    "csv",
+    "json",
+    "math",
+    "sys"
+  ],
+  "assigned_library_imported": null,
+  "source_sha256": "61cc581726f69dce335b4dfbe486e1b2dc94ec288d3374aa050aea7a027c7ab9",
+  "added_physical_lines": 105,
+  "removed_physical_lines": 0,
+  "file_physical_lines": 105,
+  "cumulative_physical_lines": 155,
+  "source": "src/t1/r04/guess.py"
+}
+
