@@ -1,0 +1,72 @@
+T1 | r01 | Step 4: flow
+{
+  "treatment": 1,
+  "repeat": 1,
+  "step": 4,
+  "skill": "flow",
+  "library": "python",
+  "reuse": false,
+  "requested_model": "sonnet",
+  "model_usage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 2,
+      "outputTokens": 2946,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 1249,
+      "webSearchRequests": 0,
+      "costUSD": 0.03446,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 1206,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 1249,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 1249,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 2946,
+    "output_tokens_details": {
+      "thinking_tokens": 1206
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 1249,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 2946,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 1249,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 1249
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "estimated_cost_usd": 0.03446,
+  "generation_seconds": 22.170363541999905,
+  "returncode": 0,
+  "status": "generated",
+  "added_physical_lines": 142,
+  "removed_physical_lines": 0,
+  "file_physical_lines": 142,
+  "cumulative_physical_lines": 393,
+  "source": "src/t1/r01/flow.py"
+}
+

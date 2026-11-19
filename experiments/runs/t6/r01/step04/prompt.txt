@@ -1,0 +1,1329 @@
+
+Implement a compact Python program for car inventory analysis.
+
+Dataset header:
+Clndrs,Volume,HpX,Model,origin,Lbs-,Acc+,Mpg+
+
+Uppercase initial: numerical column.
+Lowercase initial: symbolic column.
+X suffix: ignored column.
++ suffix: maximize.
+- suffix: minimize.
+? means missing.
+
+Current skill: flow
+
+Customer requirements:
+Judge each new car as it arrives.
+Warn me when the quality of newly arriving cars starts looking different.
+
+Acceptance contract:
+Flow
+
+Requirements: 7 and 8.
+
+- Process arriving cars sequentially.
+- Predict MPG and distance to heaven for each car.
+- Use only training data and currently available inputs.
+- Maintain a rolling window of 20 predicted quality scores.
+- Compare the window against historical training quality.
+- Raise an alert when the distributions are different.
+- Do not raise alerts before the first full window.
+- Preserve all previous skills.
+
+Evaluation:
+- Individual MPG and distance prediction errors.
+- Correctness of statistical alert decisions.
+- Agreement with alerts based on observed quality.
+- Verify that future arrivals cannot change earlier predictions.
+- Record execution time.
+
+Interface:
+
+python3 main.py flow --train TRAIN --test MASKED_TEST
+
+Output: one JSON object containing:
+- mpg: predicted MPG for each arriving car
+- scores: predicted distance to heaven
+- alerts: boolean alert for each arriving car
+
+Window size: 20.
+
+Follow the specified input and output interface.
+Read datasets only from the supplied command-line paths.
+Do not hardcode dataset rows or expected test answers.
+Do not access the network or unrelated files.
+Do not inspect evaluator source.
+
+Return one complete Python source file.
+Return only Python code.
+Do not include Markdown or explanations.
+
+Background library:
+Use the supplied EZR library where appropriate. Python standard library is also permitted.
+
+--- ezr.py ---
+#!/usr/bin/env python3 -B
+"""
+ezr.py: multi-objective XAI using minimal labels.   
+Faster, simpler AI. Better maps, not bigger boots.    
+(c) 2026 Tim Menzies <timm@ieee.org> MIT license.    
+
+Options:    
+      -Start=4         acquire: initial random labels   
+      -Stop=50         acquire: total labelling budget   
+      -Few=128         holdout: max training rows   
+      -Cuts=8          tree: splits to try, per num   
+      -Leaf=4          tree: min rows in any leaf  
+      -Check=5         holdout: top picks to label  
+      -Repeats=20      holdout: how many train/test splits  
+      -Seed=1234567891 random number seed  
+      -File=~/gits/moot/optimize/misc/auto93.csv   
+
+One file, five layers.  Each calls the layers above it and
+knows nothing of the ones below.  Cut on the banners to get
+five files back:    
+
+      core     columns, tables, distance.  Calls nothing.    
+      acquire  spend a label budget.    
+      tree     recursive splits, and a way to read them.    
+      rig      wins, holdout.  Takes its ranker as an argument,    
+               so the tree is its default, not its requirement.    
+      stats    cliffs, ks, cohen.  A leaf: nothing calls it.    
+
+"""
+# pylint: disable=bad-indentation,multiple-statements  
+# pylint: disable=invalid-name,ungrouped-imports   
+# pylint: disable=attribute-defined-outside-init   
+# pylint: disable=protected-access,broad-exception-caught  
+from typing import Any
+import os, re, sys, random, traceback # pylint: disable=C0410
+from math import exp, log2, sqrt
+from collections.abc import Callable, Iterable, Iterator
+
+#-- types --------------------------------------------------
+type QTY    = int | float             # any number
+type ATOM   = QTY | str               # one cell; "?" = unknown
+type ROW    = list[ATOM]
+type MIDS   = dict[int, ATOM]         # a centroid
+type ROWS   = list[ROW]
+type NUMS   = list[QTY]
+type NUM    = Num                     # classes, defined below
+type SYM    = Sym
+type COL    = NUM | SYM               # sumamry of a column
+type TBL    = o                       # rows and columns
+type NODE   = o                       # one node of a tree
+type GO     = Callable[[ROW], bool]   # which way does a row go?
+type ORACLE = Callable[[ROW], ROW]    # labels one row
+type PICKER = Callable[[TBL, int, ORACLE], ROWS]
+type RANKER = Callable[[TBL], Callable[[ROW], float]]
+                                      # ranks unlabelled rows
+
+#-- misc ---------------------------------------------------
+def say(x: Any, p: int = 2) -> str:
+  "Floats get P decimals; dicts list their keys."
+  if isinstance(x,float): x= f"{x:.{p}f}".rstrip("0").rstrip(".")
+  if isinstance(x, dict):
+    x= "{"+", ".join(f"{k}: {say(v,p)}" for k,v in x.items())+"}"
+  return str(x)
+
+class o(dict):
+  "A dict you can poke with a dot."
+  __getattr__, __setattr__ = dict.__getitem__, dict.__setitem__
+  __repr__ = say
+
+def atom(s: str) -> ATOM:
+  "'22' -> 22. '3.1' -> 3.1. 'True' -> True. 'x' -> 'x'."
+  for fn in (int, float):
+    try: return fn(s)
+    except ValueError: pass
+  s = s.strip()
+  return {"True": True, "False": False}.get(s, s)
+
+def csv(file: str) -> Iterator[ROW]:
+  "ROWS of FILE, each cell coerced."
+  with open(os.path.expanduser(file),  # -sig drops any BOM
+           encoding="utf-8-sig") as f:
+    for line in f:
+      if line.strip(): yield [atom(s) for s in line.split(",")]
+
+#-- columns ------------------------------------------------
+def Col(txt: str = " ", at: int = 0) -> COL:
+  "Factory that returns NUM or SYM."
+  return Num(txt,at) if txt[0].isupper() else Sym(txt,at)
+
+class Num:
+  "Place to summarize stream of numbers."
+  __slots__ = ("at", "txt", "n", "mu", "m2", "sd", "goal")
+  def __init__(self, txt: str = " ", at: int = 0) -> None:
+    self.at, self.txt, self.n = at, txt, 0
+    self.mu = self.m2 = self.sd = 0
+    self.goal = 0 if txt[-1] == "-" else 1
+  __repr__ = lambda self: say({k: getattr(self,k)
+                               for k in self.__slots__})
+
+class Sym:
+  "Place to summarize stream of Symbols.  The class is the tag."
+  __slots__ = ("at", "txt", "n", "has")
+  def __init__(self, txt: str = " ", at: int = 0) -> None:
+    self.at, self.txt, self.n, self.has = at, txt, 0, {}
+  __repr__ = lambda self: say({k: getattr(self,k)
+                               for k in self.__slots__})
+
+def add(col: COL, v: ATOM, inc: int = 1) -> None:
+  "Show V to COL.  INC=-1 takes it away.  `?` changes nothing."
+  if v != "?":
+    col.n += inc
+    if type(col) is Sym:
+      col.has[v] = col.has.get(v, 0) + inc
+    else:
+      d = v - col.mu                      # Welford, for `div`
+      col.mu += inc * d / max(1, col.n)
+      col.m2  = max(0, col.m2 + inc * d * (v - col.mu))
+      col.sd  = 0 if col.n < 2 else (col.m2/(col.n-1))**.5
+
+def mid(col: COL) -> ATOM:
+  "Middle: the mean, or the most common symbol; ? if none."
+  return (max(col.has, key=col.has.get) if col.has else "?"
+          ) if type(col) is Sym else col.mu
+
+def mids(tbl: TBL) -> MIDS:
+  "Every column's middle, cached until the next addCols."
+  tbl.mids = tbl.mids or {at: mid(c) for at,c in tbl.cols.items()}
+  return tbl.mids
+
+def div(col: COL) -> float:
+  "Spread: entropy, or standard deviation."
+  return (-sum(v/col.n*log2(v/col.n) for v in col.has.values())
+          if type(col) is Sym else col.sd)  # sd kept by `add`
+
+def norm(col: COL, v: ATOM) -> ATOM:
+  "To 0..1, by the logistic curve.  Symbols do not scale."
+  if type(col) is Sym: return v
+  z = max(-3, min(3, (v - col.mu) / (1e-32 + div(col))))
+  return 1 / (1 + exp(-1.7 * z))
+
+#-- tables -------------------------------------------------
+def Tbl(src: Iterable[ROW]) -> TBL:
+  "Header names the columns: X skip, +- goal, ! klass."
+  src = iter(src)
+  tbl = Cols(o(rows=[], cols={}, x=[], y=[], mids=None,
+               names=next(src)))
+  for row in src: addRow(tbl, row)
+  return tbl
+
+def Cols(tbl: TBL) -> TBL:
+  "Create column roles."
+  for at, s in enumerate(tbl.names):
+    if s[-1] == "X": continue            # skip me entirely
+    tbl.cols[at] = Col(s,at)
+    (tbl.y if s[-1] in "+-!" else tbl.x).append(tbl.cols[at])
+  return tbl
+
+def addRow(tbl: TBL, row: ROW) -> ROW:
+  "Keep ROW, and show it to my columns."
+  tbl.rows += [row]
+  return addCols(tbl, row)
+
+def addCols(tbl: TBL, row: ROW, inc: int = 1) -> ROW:
+  "Show ROW to my columns, without keeping it."
+  tbl.mids = None                 # a new row moves the middles
+  for at, col in tbl.cols.items(): add(col, row[at], inc)
+  return row
+
+def clone(tbl: TBL, rows: ROWS = None) -> TBL:
+  "An empty copy of TBL, plus ROWS."
+  return Tbl([tbl.names] + (rows or []))
+
+#-- distance -----------------------------------------------
+def dist(vs: Iterable[QTY], n: int) -> float:
+  "Root mean square of N gaps."
+  return sqrt(sum(v*v for v in vs) / n)
+
+def ydist(tbl: TBL, row: ROW) -> float:
+  "How far ROW's goals are from the best they could be."
+  return dist((abs(norm(c, row[c.at]) - c.goal)
+                    for c in tbl.y), len(tbl.y))
+
+def gap(col: COL, a: ATOM, b: ATOM) -> QTY:
+  "Distance between two values of one column."
+  if a == "?" or b == "?": return 1    # unknown = far
+  return a!=b if type(col) is Sym else abs(norm(col,a)-norm(col,b))
+
+def xdist(tbl: TBL, r1: ROW, r2: ROW | MIDS) -> float:
+  "How far apart two rows are, over the x columns."
+  return dist((gap(c, r1[c.at], r2[c.at])
+                    for c in tbl.x), len(tbl.x))
+
+#-- acquire ------------------------------------------------
+
+def oracle(row: ROW) -> ROW:
+  """Labeller. Rows here arrive with ys, so nothing to do.
+  Real oracles fill in any missing y cells (and can close
+  over a TBL to know which cells those are)."""
+  return row
+
+def acquire(tbl: TBL, cap: int | None = None,
+            label: ORACLE = oracle) -> ROWS:
+  "Label near the best rows, far from the rest."
+  cap  = cap or the.Stop
+  todo = random.sample(tbl.rows, len(tbl.rows))[:the.Few]
+  both = clone(tbl, [label(todo.pop())
+                     for _ in range(the.Start)])
+  both.rows.sort(key=lambda r: ydist(both, r))
+  n    = int(sqrt(the.Start))
+  best,rest = clone(tbl,both.rows[:n]), clone(tbl,both.rows[n:])
+  while todo and len(both.rows) < cap:
+    cb, cr = mids(best), mids(rest)    # two centroids
+    todo.sort(key=lambda z: xdist(tbl,z,cr) - xdist(tbl,z,cb))
+    addRow(best, addRow(both, label(todo.pop())))
+    best.rows.sort(key=lambda z: ydist(both, z))  # no y leak
+    if len(best.rows) > sqrt(len(both.rows)): # best stays small
+      addRow(rest, addCols(best, best.rows.pop(), -1))
+  return both.rows
+
+def grabs(tbl: TBL, cap: int | None = None,
+          label: ORACLE = oracle) -> ROWS:
+  "The straw man: same budget, taken at random."
+  cap = cap or the.Stop
+  return [label(r) for r in
+          random.sample(tbl.rows, min(cap, len(tbl.rows)))]
+
+#-- tree ---------------------------------------------------
+# Calls core.  Nothing above this line calls down here.
+# NODE = o(rows, at, v, go, kids, mu).
+def cut(tbl: TBL, rows: ROWS) -> tuple[int,ATOM,GO]|None:
+  "The (at, v, go) whose two sides have the tightest ys."
+  ys = [ydist(tbl, r) for r in rows]
+  out, least = None, 1e30
+  for col in tbl.x:
+    for v, go in candidates(col, rows):
+      a, b = Num(), Num()   # one pass, so one `go` per row
+      for r,y in zip(rows,ys): add(a if go(r) else b, y)
+      if a.n >= the.Leaf and b.n >= the.Leaf:
+        score = (div(a)*a.n + div(b)*b.n) / (a.n + b.n)
+        if score < least: out, least = (col.at, v, go), score
+  return out
+
+def candidates(col: COL, rows: ROWS) -> Iterator[tuple[ATOM,GO]]:
+  "What splits to try: one per symbol, or CUTS per num."
+  at = col.at
+  if type(col) is Sym:
+    for v in sorted({r[at] for r in rows if r[at] != "?"}):
+      yield v, lambda r,v=v,at=at: r[at] == v
+  else:                # by rank, not value: THESE rows are dense
+    xs = sorted(r[at] for r in rows if r[at] != "?")
+    k  = max(1, len(xs)//the.Cuts)     # cuts, spaced by rank
+    for v in xs[k-1:-1:k]:
+      yield v, (lambda r,v=v,at=at: r[at] != "?" and r[at] <= v)
+
+def tree(tbl: TBL, rows: ROWS) -> NODE:
+  "Split while a split keeps both sides big enough."
+  node = o(rows=rows, at=None, v=None, go=None, kids=[],
+           mu=sum(ydist(tbl,r) for r in rows)/len(rows))
+  if len(rows) > the.Leaf and (found := cut(tbl, rows)):
+    at, v, go = found
+    yes, no = [], []
+    for r in rows: (yes if go(r) else no).append(r)
+    node.at, node.v, node.go = at, v, go # cut kepts sides big
+    node.kids = [tree(tbl, yes), tree(tbl, no)]
+  return node
+
+def leaf(node: NODE, row: ROW) -> NODE:
+  "Walk ROW down to its leaf."
+  while node.kids: node = node.kids[0 if node.go(row) else 1]
+  return node
+
+def leafs(node: NODE) -> list[NODE]:
+  "Return leaves of this tree."
+  return [x for k in node.kids for x in leafs(k)] or [node]
+
+def show(tbl: TBL, node: NODE, pre: str | None = None,
+         edge: str = "") -> None:
+  "Tree on the left; ydist and n on the right."
+  ls = sorted(leafs(node), key=lambda z: z.mu)
+  def walk(z: NODE, pre: str | None, edge: str) -> None:
+    m = "+" if z is ls[0] else "-" if z is ls[-1] else " "
+    print(f"{m} {round(100*z.mu):>4} {len(z.rows):>5}   "
+          f"{(pre or '')+edge}".rstrip())
+    op = "=" if type(tbl.cols[z.at or 0]) is Sym else "<="
+    no = "!=" if op == "=" else ">"
+    for kid, oper in zip(z.kids, [op, no]):
+      walk(kid, "" if pre is None else pre + "|  ",
+           f"{tbl.names[z.at]} {oper} {say(z.v)}")
+  print(" ydist     n")
+  walk(node, pre, edge)
+
+
+
+#-- rig ----------------------------------------------------
+# Calls core, acquire, and one RANKER -- tree's, by default.
+def ranker(lab: TBL) -> Callable[[ROW], float]:
+  "Grow a tree on LAB; score any row by its leaf's mean ydist."
+  node = tree(lab, lab.rows)
+  return lambda r: leaf(node, r).mu
+
+def wins(tbl: TBL) -> Callable[[ROW], float]:
+  "100 at the best row, 0 at an average one."
+  ys = sorted(ydist(tbl, r) for r in tbl.rows)
+  lo, avg = ys[0], sum(ys)/len(ys)
+  return lambda r: max(-100, min(100, 100*(1 - (ydist(tbl,r)-lo)
+                                            / (avg-lo+1e-32))))
+
+def holdout(tbl: TBL, pick: PICKER = acquire,
+            rank: RANKER = ranker,
+            label: ORACLE = oracle) -> ROW:
+  "Train on half; of CHECK guesses on the rest, pick best."
+  rows  = random.sample(tbl.rows, len(tbl.rows))
+  n     = len(rows)//2
+  tr    = clone(tbl, rows[:n][:the.Few])
+  lab   = clone(tbl, pick(tr, the.Stop - the.Check, label))
+  top   = sorted(rows[n:], key=rank(lab))
+  return min(top[:the.Check], key=lambda r: ydist(lab, label(r)))
+
+
+#-- stats --------------------------------------------------
+# A leaf: it calls core, and nothing here calls it.
+def adds(vs: Iterable[ATOM], col: COL | None = None) -> COL:
+  "Every item of VS into COL."
+  col = Num() if col is None else col
+  for v in vs: add(col, v)
+  return col
+
+def cohen(xs: NUMS, ys: NUMS, d: float = 0.35,
+          eps: float = 0) -> bool:
+  "Are the means within D pooled standard deviations?"
+  a, b = adds(xs), adds(ys)
+  pool = ((a.n-1)*div(a)**2 + (b.n-1)*div(b)**2)/(a.n+b.n-2)
+  return abs(a.mu - b.mu) <= max(eps, d * sqrt(pool))
+
+def cliffs(xs: NUMS, ys: NUMS, d: float = 0.197) -> bool:
+  "Sorted in.  Is the rank imbalance small enough?"
+  gt = lt = j = k = 0
+  for x in xs:
+    while j < len(ys) and ys[j] <  x: j += 1; k = j
+    while k < len(ys) and ys[k] <= x: k += 1
+    gt += j; lt += len(ys) - k
+  return abs(gt - lt) / (len(xs) * len(ys)) <= d
+
+def ks(xs: NUMS, ys: NUMS, a: float = 1.36) -> bool:
+  "Sorted in.  95% Kolmogorov-Smirnov."
+  n, m, i, j, d = len(xs), len(ys), 0, 0, 0
+  while i < n and j < m:
+    v = min(xs[i], ys[j])
+    while i < n and xs[i] <= v: i += 1
+    while j < m and ys[j] <= v: j += 1
+    d = max(d, abs(i/n - j/m))
+  return d <= a * sqrt((n + m) / (n * m))
+
+def same(xs: NUMS, ys: NUMS, eps: float = 0) -> bool:
+  """Indistinguishable.  Always cliffs and ks; EPS adds cohen, and
+  doubles as its effect size (eps=0 skips that third test)."""
+  xs, ys = sorted(xs), sorted(ys)
+  return (cliffs(xs,ys) and ks(xs,ys)
+          and (not eps or cohen(xs,ys,d=eps)))
+
+#-- start --------------------------------------------------
+the = o(_defaults=o())
+for _k, _v in re.findall(r"(\w+)=(\S+)", __doc__ or ""):
+  the[_k] = the._defaults[_k] = atom(_v)
+
+def run(f: Callable) -> int:
+  "Run F. Demos may poke `the`, so always put it back."
+  random.seed(the.Seed)
+  try:                   f()
+  except Exception as e: traceback.print_exception(e); return 1
+  finally:               the.update(the._defaults)
+  return 0
+
+def main(args: list[str], funcs: dict) -> None:
+  "Dispatch --x to FUNCS' eg_x; -key val updates `the`."
+  while args:
+    s = args.pop(0)
+    if   s[:2] == "--":
+      run(funcs.get("eg_" + s[2:], funcs["eg_h"]))
+    elif s[1:] in the : the[s[1:]] = atom(args.pop(0))
+    else: print(f"unknown arg: {s}")
+
+
+--- ezr_eg.py ---
+#!/usr/bin/env python3 -B
+"""
+ezr_eg.py: demos for ezr.py.  Try  ./ezr_eg.py --h
+(c) 2026 Tim Menzies <timm@ieee.org> MIT license
+"""
+
+# pylint: disable=bad-indentation,multiple-statements
+# pylint: disable=invalid-name,broad-exception-caught
+# pylint: disable=wildcard-import,unused-wildcard-import
+# pylint: disable=too-many-locals,missing-function-docstring
+# pylint: disable=protected-access,redefined-outer-name
+
+import os, sys, random # pylint: disable=C0410
+import ezr
+import ezr0
+from ezr import *
+
+type CLUSTERS = list[TBL]   # what `halve` returns
+
+the.Eras, the.Draws, the.Restart = 4, 20, 30
+the.Eps = 0.35                 # cohen's floor, in score points
+the.Klass = "~/gits/moot/classify/diabetes.csv"
+the._defaults.update(Eras=4, Draws=20, Restart=30, Eps=the.Eps,
+                     Klass=the.Klass)
+
+def eg_h() -> None:
+  "Show the options and the demos."
+  print(ezr.__doc__, "Demos:", *[f"  --{k[3:]:<9} {f.__doc__}"
+        for k,f in globals().items() if k[:3]=="eg_"], sep="\n")
+
+def eg_num() -> None:
+  "Welford matches the textbook mean and sd."
+  c = adds([2,4,4,4,5,5,7,9])
+  assert c.n==8 and mid(c)==5 and abs(div(c)-2.138) < .01
+  print(say(c))                      # also checks __repr__
+
+def eg_sym() -> None:
+  "Syms count; mid is the mode, div is entropy."
+  c = adds("aabbbc", Sym())
+  assert c.has["b"]==3 and mid(c)=="b" and abs(div(c)-1.459)<.01
+  print(f"mode {mid(c)} ent {say(div(c))}")
+
+def eg_tbl() -> None:
+  "The header routes each column."
+  t = Tbl([["Age","job!","SkipX","Weight-"],[2,"a",3,80]])
+  assert [c.at for c in t.x]==[0] and [c.at for c in t.y]==[1,3]
+  print(f"x {[c.at for c in t.x]} y {[c.at for c in t.y]}")
+
+def eg_dist() -> None:
+  "A row is nearest itself, and ydist orders the data."
+  t  = Tbl(csv(the.File))
+  r  = t.rows[0]
+  assert xdist(t,r,r) == 0
+  ys = sorted(ydist(t,r) for r in t.rows)
+  print(f"ydist best {say(ys[0])} mid {say(ys[len(ys)//2])}"
+        f" worst {say(ys[-1])}")
+
+def eg_tree() -> None:
+  "Acquire, then grow and show a tree."
+  t   = Tbl(csv(the.File))
+  lab = clone(t, acquire(t))
+  show(lab, tree(lab, lab.rows))
+
+def eg_same() -> None:
+  "The stats tell noise from signal."
+  x = [random.gauss(10,1) for _ in range(40)]
+  y = [random.gauss(10,1) for _ in range(40)]
+  z = [random.gauss(11,1) for _ in range(40)]
+  assert same(x,y) and not same(x,z) and same(x,x)
+  print(f"same {same(x,y)} differ {not same(x,z)}")
+
+def eg_holdout() -> None:
+  "Mean win over REPEATS holdouts."
+  t = Tbl(csv(the.File)); w = wins(t)
+  ws = sorted(round(w(holdout(t))) for _ in range(the.Repeats))
+  print(
+    f"{round(sum(ws)/len(ws)):>4} {os.path.basename(the.File)}")
+
+def eg_vs(tbl: TBL | None = None) -> None:
+  "Acquire versus random, same budget.  0 if the same."
+  t = tbl or Tbl(csv(the.File)); w = wins(t)
+  a = [w(holdout(t, acquire)) for _ in range(the.Repeats)]
+  b = [w(holdout(t, grabs))   for _ in range(the.Repeats)]
+  d = 0 if same(a,b) else round(sum(a)/len(a) - sum(b)/len(b))
+  print(f"{round(sum(a)/len(a)):>4} {round(sum(b)/len(b)):>4}"
+        f" {d:>4} {os.path.basename(the.File)}")
+
+# Two whole programs, not two settings: ezr0 keeps its own table
+# and its own stats.  One wins() ruler, built here, grades both,
+# so the only thing compared is which row each one found.
+def eg_ezr0() -> None:
+  "ezr versus ezr0, same budget.  0 if the same."
+  t = Tbl(csv(the.File)); w = wins(t)
+  ezr0.the.Stop, ezr0.the.Check = the.Stop, the.Check
+  d0   = ezr0.Tbl(ezr0.csv(the.File))      # ezr0's own table
+  a, b = [], []
+  for i in range(the.Repeats):
+    random.seed(the.Seed + i)              # same seed, both arms
+    a += [w(holdout(t, acquire))]          # ezr, end to end
+    ezr0.the.Seed = the.Seed + i           # ezr0 seeds itself
+    b += [w(ezr0.holdout(d0))]          # ezr0, end to end
+  d = 0 if same(a,b,eps=the.Eps) else round(sum(a)/len(a)-sum(b)/len(b))
+  print(f"{round(sum(a)/len(a)):>4} {round(sum(b)/len(b)):>4}"
+        f" {d:>4} {os.path.basename(the.File)}")
+
+#-- optimize ------------------------------------------------
+# de is differential evolution (storn+price 1997): build a
+# candidate by interpolating between three population members
+# (per x column, a + f*(b-c), applied with probability cr);
+# keep the candidate if it beats the member it challenges.
+
+def interpolate(col: COL, a: ATOM, b: ATOM, c: ATOM,
+                f: float = 0.5) -> ATOM:
+  "DE crossover term.  Syms, or unknowns, just pick one."
+  if type(col) is Sym or "?" in (a, b, c):
+    return random.choice([a, b, c])
+  return a + f*(b - c)
+
+def de(tbl: TBL, score: Callable[[ROW], float],
+       np: int = 20, cr: float = 0.9) -> ROW:
+  "Differential evolution.  Lower SCOREs are better."
+  pop = [r[:] for r in random.sample(tbl.rows, np)]
+  es  = [score(r) for r in pop]
+  h   = np
+  while h < the.Stop:
+    for i, s in enumerate(pop):
+      if h >= the.Stop: break
+      a, b, c = random.sample(pop, 3)
+      sn   = s[:]
+      keep = random.choice(tbl.x).at   # sn keeps >= 1 of s
+      for col in tbl.x:
+        if col.at != keep and random.random() < cr:
+          sn[col.at] = interpolate(col, a[col.at],
+                                   b[col.at], c[col.at])
+      en = score(sn); h += 1
+      if en < es[i]: pop[i], es[i] = sn, en
+  return pop[es.index(min(es))]
+
+def pick(col: COL, v: ATOM = None) -> ATOM:
+  "Sample a plausible value, near V if V is known."
+  if type(col) is Sym:
+    return random.choices(list(col.has),
+                          weights=col.has.values())[0]
+  mu = col.mu if v is None or v == "?" else v
+  lo, hi = col.mu - 3*col.sd, col.mu + 3*col.sd
+  new = mu + col.sd*2*(random.random() + random.random()
+                       + random.random() - 1.5)
+  return lo + (new - lo) % (hi - lo + 1e-32)
+
+def oneplus1(tbl: TBL, mutate, accept, score,
+             restart: int = 0) -> ROW:
+  "1+1 evolution: mutate, maybe accept, remember the best."
+  s, e, best, be = random.choice(tbl.rows), 1e32, None, 1e32
+  h = imp = 0
+  while h < the.Stop:
+    for sn in mutate(s):
+      h += 1
+      en = score(sn)
+      if accept(en, e, h, the.Stop): s, e = sn, en
+      if en < be: best, be, imp = sn, en, h
+      if restart and h - imp > restart:
+        s, e = random.choice(tbl.rows), 1e32
+      if h >= the.Stop: break
+  return best
+
+def ls(tbl: TBL, score, tries: int = 20) -> ROW:
+  "Local search: nudge one column; keep only improvements."
+  def mutate(s):
+    col = random.choice(tbl.x)
+    for _ in range(tries):
+      s2 = s[:]; s2[col.at] = pick(col, s[col.at])
+      yield s2
+  return oneplus1(tbl, mutate,
+                  lambda en, e, *_: en < e, score,
+                  the.Restart)
+
+def sa(tbl: TBL, score, m: float = 0.5) -> ROW:
+  "Simulated annealing: accept worse, less as time runs out."
+  def accept(en, e, h, b):
+    return en < e or random.random() < exp(
+      (e - en) / (1 - h/b + 1e-32))
+  def mutate(s):
+    s2 = s[:]
+    for col in tbl.x:
+      if random.random() < m:
+        s2[col.at] = pick(col, s2[col.at])
+    yield s2
+  return oneplus1(tbl, mutate, accept, score)
+
+def seek(t: TBL, searcher, picker: PICKER = grabs,
+         label: ORACLE = oracle) -> ROW:
+  """Train : validate : test, in thirds. SEARCHER breeds
+  candidates from TRAIN; it scores them on the nearest row
+  of VALIDATE's few labelled rows (PICKER spends Stop there,
+  and nothing else is ever labelled); the winner is read off
+  the untouched TEST.  (Standard ezr -- acquire, holdout --
+  mashes train+validate into one pool: the rows it labels
+  are the rows it searches.)"""
+  rows  = random.sample(t.rows, len(t.rows))
+  n     = len(rows) // 3
+  train = rows[:n][:the.Few]
+  valid = rows[n:2*n]
+  test  = rows[2*n:]
+  lab   = picker(clone(t, valid), the.Stop, label)
+  def near(r: ROW, pool: ROWS) -> ROW:
+    return min(pool, key=lambda z: xdist(t, r, z))
+  best = searcher(clone(t, train),
+                  lambda r: ydist(t, near(r, lab)))
+  return near(best, test)
+
+def eg_seek() -> None:
+  "DE, SA, LS; scorer labelled by grabs or acquire."
+  t = Tbl(csv(the.File)); w = wins(t)
+  for searcher in [de, sa, ls]:
+    for picker in [grabs, acquire]:
+      ws = [w(seek(t, searcher, picker))
+            for _ in range(the.Repeats)]
+      print(f"{searcher.__name__:<3} {picker.__name__:<7}"
+            f" win {round(sum(ws)/len(ws)):>4}")
+
+#-- how: missing primitives ---------------------------------
+# Section 6 of how.md: the cost. Here it is, paid.
+
+def middles(tbl: TBL, ats=None) -> MIDS:
+  "Mids of all columns (or just ATS), keyed by position."
+  return {at: mid(c) for at, c in tbl.cols.items()
+          if ats is None or at in ats}
+
+def sample(col: COL) -> ATOM:
+  "Generate: one plausible value from COL."
+  if type(col) is Sym:
+    return random.choices(list(col.has),
+                          weights=col.has.values())[0]
+  return random.gauss(col.mu, col.sd)
+
+def delta(a: COL, b: COL):
+  "Extrapolate: A earlier, B later; guess the next era."
+  if type(a) is Sym:
+    u  = {**a.has, **b.has}
+    pa = {v: a.has.get(v,0)/max(1,a.n) for v in u}
+    pb = {v: b.has.get(v,0)/max(1,b.n) for v in u}
+    p  = {v: max(0, 2*pb[v] - pa[v]) for v in u}
+    n  = sum(p.values()) or 1
+    return {v: c/n for v, c in p.items() if c > 0}
+  n = max(2, round(2*b.n - a.n))
+  s = max(0, 2*b.sd - a.sd)
+  return o(at=b.at, txt=b.txt, n=n, mu=2*b.mu - a.mu,
+           m2=s*s*(n-1), sd=s)
+
+def project(tbl: TBL, a: ROW, b: ROW):
+  "Place rows on the line from pole A to pole B."
+  c = xdist(tbl, a, b) + 1e-32
+  return lambda r: (xdist(tbl,a,r)**2 + c*c
+                    - xdist(tbl,b,r)**2) / (2*c)
+
+def halve(tbl: TBL, rows=None, stop=None) -> CLUSTERS:
+  "Cluster: recursive halving between poles; no y values."
+  stop = stop or the.Leaf
+  def go(rows):
+    if len(rows) <= stop: return [clone(tbl, rows)]
+    a = max(rows, key=lambda r: xdist(tbl, r, rows[0]))
+    b = max(rows, key=lambda r: xdist(tbl, r, a))
+    rows = sorted(rows, key=project(tbl, a, b))
+    n = len(rows) // 2
+    return go(rows[:n]) + go(rows[n:])
+  return go(list(tbl.rows if rows is None else rows))
+
+def xats(tbl: TBL) -> list:
+  "Positions of the x columns."
+  return [c.at for c in tbl.x]
+
+def klass(tbl: TBL):
+  "Position of the `!` column, or None."
+  return next((c.at for c in tbl.y if c.txt[-1]=="!"), None)
+
+def targets(tbl: TBL) -> list:
+  "The columns predictions should talk about."
+  k = klass(tbl)
+  return [k] if k is not None else [c.at for c in tbl.y]
+
+def ymu(tbl: TBL, rows: ROWS) -> float:
+  "Mean ydist of ROWS."
+  return sum(ydist(tbl, r) for r in rows) / len(rows)
+
+def blank(tbl: TBL) -> ROW:
+  return ["?" for _ in tbl.names]
+
+def eras(tbl: TBL, at: int, n=None) -> CLUSTERS:
+  "Split rows, ordered by column AT, into N equal slices."
+  n    = n or the.Eras
+  rows = sorted((r for r in tbl.rows if r[at] != "?"),
+                key=lambda r: r[at])
+  k    = max(1, len(rows) // n)
+  return [clone(tbl, rows[i*k:(i+1)*k]) for i in range(n)]
+
+#-- how: three ways to aim a primitive at a cluster ---------
+
+def relevant(tbl: TBL, row: ROW, cs: CLUSTERS) -> TBL:
+  "The cluster whose x-centroid is nearest ROW."
+  return min(cs, key=lambda c: xdist(tbl, row, middles(c)))
+
+def DISTINGUISH(tbl: TBL, a: TBL, b: TBL, ats=None):
+  "The x column that best tells cluster A from B."
+  ats = ats or xats(tbl)
+  at  = max(ats, key=lambda at: gap(tbl.cols[at],
+                                    mid(a.cols[at]),
+                                    mid(b.cols[at])))
+  return at, mid(b.cols[at])
+
+def impute(row: ROW, c: TBL, ats) -> ROW:
+  "Write cluster C's expectations into ROW at ATS."
+  return [sample(c.cols[at]) if at in ats else v
+          for at, v in enumerate(row)]
+
+#-- how: the applications -----------------------------------
+
+def SUMMARIZATION(tbl: TBL, c: TBL | None = None) -> MIDS:
+  return middles(c or tbl)
+
+def CLASSIFICATION(tbl: TBL, row: ROW,
+                   cs: CLUSTERS) -> ATOM:
+  return mid(relevant(tbl, row, cs).cols[klass(tbl)])
+
+def REGRESSION(tbl: TBL, row: ROW, cs: CLUSTERS) -> MIDS:
+  return middles(relevant(tbl, row, cs),
+                 [c.at for c in tbl.y])
+
+def ANOMALY(tbl: TBL, row: ROW, cs: CLUSTERS) -> float:
+  return xdist(tbl, row, middles(relevant(tbl, row, cs)))
+
+def RETRIEVAL(tbl: TBL, row: ROW, cs: CLUSTERS) -> ROWS:
+  return relevant(tbl, row, cs).rows
+
+def SPREAD(tbl: TBL, row: ROW, cs: CLUSTERS,
+           n: int | None = None) -> dict[int, list[ATOM]]:
+  c = relevant(tbl, row, cs)        # table's unnamed row
+  return {at: sorted(sample(c.cols[at])
+                     for _ in range(n or the.Draws))
+          for at in targets(tbl)}
+
+def SYNTHESIS(tbl: TBL, c: TBL) -> ROW:
+  return impute(blank(tbl), c, set(c.cols))
+
+def REPAIR(tbl: TBL, row: ROW, cs: CLUSTERS) -> ROW:
+  c = relevant(tbl, row, cs)
+  return impute(row, c,
+                {at for at in c.cols if row[at] == "?"})
+
+type ADVICE = tuple[str, ATOM, ATOM]  # column, old, new
+
+def PLANNING(tbl: TBL, row: ROW, cs: CLUSTERS,
+             can: list | None = None) -> ADVICE | None:
+  here   = relevant(tbl, row, cs)   # minimal: one column
+  better = min(cs, key=lambda c: ymu(tbl, c.rows))
+  if better is here: return None
+  at, v = DISTINGUISH(tbl, here, better, can)
+  return (tbl.names[at], row[at], v)
+
+def PLANNING_TOTAL(tbl: TBL, row: ROW, cs: CLUSTERS,
+                   can: list | None = None) -> ROW:
+  better = min(cs, key=lambda c: ymu(tbl, c.rows))
+  return impute(row, better, set(can or xats(tbl)))
+
+def MONITORING(tbl: TBL, row: ROW, cs: CLUSTERS,
+               can: list | None = None) -> ADVICE:
+  here  = relevant(tbl, row, cs)
+  worse = max(cs, key=lambda c: ymu(tbl, c.rows))
+  at, v = DISTINGUISH(tbl, here, worse, can)
+  return (tbl.names[at], row[at], v)
+
+def EXPLANATION(tbl: TBL, a: TBL, b: TBL) -> str:
+  at, v = DISTINGUISH(tbl, a, b)
+  return f"{tbl.names[at]} = {say(v)}"
+
+def TRENDS(tbl: TBL, eras: CLUSTERS, row: ROW,
+           stop: int | None = None) -> CLUSTERS:
+  return [relevant(tbl, row, halve(e, stop=stop))
+          for e in eras]
+
+def FORECAST(tbl: TBL, eras: CLUSTERS, row: ROW,
+             stop: int | None = None) -> dict:
+  cs = TRENDS(tbl, eras, row, stop)
+  return {at: delta(cs[-2].cols[at], cs[-1].cols[at])
+          for at in cs[-1].cols}
+
+def ALERTS(tbl: TBL, eras: CLUSTERS, row: ROW,
+           stop: int | None = None) -> tuple[NUMS, bool]:
+  cs    = TRENDS(tbl, eras, row, stop)
+  steps = [xdist(tbl, middles(a), middles(b))
+           for a, b in zip(cs, cs[1:])]
+  if len(steps) < 3: return steps, False
+  h = adds(steps[:-1])
+  return steps, steps[-1] > h.mu + 2*h.sd
+
+def SIMULATION(tbl: TBL, cs: CLUSTERS,
+               n: int | None = None
+               ) -> list[tuple[ROW, MIDS]]:
+  out = []                          # unseen rows, scored
+  for _ in range(n or the.Draws):
+    r = impute(blank(tbl), random.choice(cs),
+               set(xats(tbl)))
+    out += [(r, REGRESSION(tbl, r, cs))]
+  return out
+
+def OPTIMIZATION(tbl: TBL,
+                 budget: int | None = None) -> ROWS:
+  return sorted(acquire(tbl, budget or the.Stop),
+                key=lambda r: ydist(tbl, r))  # see eg_vs
+
+def DISTINGUISHABILITY(xs: NUMS, ys: NUMS) -> bool:
+  return same(xs, ys)               # see eg_same
+
+#-- how: demos ----------------------------------------------
+
+def _cars():
+  t = Tbl(csv(the.File)); return t, halve(t, stop=16)
+
+def eg_summarize() -> None:
+  "SUMMARIZATION: the usual values in a cluster."
+  t, cs = _cars()
+  c = min(cs, key=lambda c: ymu(t, c.rows))
+  print(f"best cluster n={len(c.rows)}",
+        {t.names[at]: say(v)
+         for at, v in SUMMARIZATION(t, c).items()})
+
+def eg_predict() -> None:
+  "CLASSIFICATION and REGRESSION: one act, two col types."
+  t, cs = _cars()
+  r = t.rows[0]
+  print("regress ", {t.names[at]: say(v) for at, v in
+                     REGRESSION(t, r, cs).items()})
+  print("actual  ", {t.names[c.at]: r[c.at] for c in t.y})
+  d   = Tbl(csv(the.Klass))
+  dcs = halve(d, stop=16)
+  print("classify", CLASSIFICATION(d, d.rows[0], dcs),
+        "actual", d.rows[0][klass(d)])
+
+def eg_anomaly() -> None:
+  "ANOMALY DETECTION: prediction's discarded byproduct."
+  t, cs = _cars()
+  ds = sorted((ANOMALY(t, r, cs), i)
+              for i, r in enumerate(t.rows))
+  print(f"typical {say(ds[0][0])}  odd {say(ds[-1][0])}"
+        f"  oddest {t.rows[ds[-1][1]]}")
+
+def eg_retrieve() -> None:
+  "RETRIEVAL: the rows, not the summary."
+  t, cs = _cars()
+  print("like", t.rows[0], "->")
+  for r in RETRIEVAL(t, t.rows[0], cs)[:3]:
+    print("   ", r)
+
+def eg_spread() -> None:
+  "SPREAD: a distribution, not a point."
+  t, cs = _cars()
+  r = t.rows[0]
+  c = relevant(t, r, cs)
+  for at, ys in SPREAD(t, r, cs, 40).items():
+    print(f"{t.names[at]:>7} point {say(mid(c.cols[at]))}"
+          f"  10th-90th {say(ys[4])} .. {say(ys[-5])}")
+
+def eg_synth() -> None:
+  "SYNTHESIS and REPAIR: impute, aimed two ways."
+  t, cs = _cars()
+  c = min(cs, key=lambda c: ymu(t, c.rows))
+  print("synth ", [say(v) for v in SYNTHESIS(t, c)])
+  holed = ["?" if at in (0, 1) else v
+           for at, v in enumerate(t.rows[0])]
+  print("holed ", holed)
+  print("repair", [say(v) for v in REPAIR(t, holed, cs)])
+
+def eg_advise() -> None:
+  "EXPLANATION, PLANNING, MONITORING: one DISTINGUISH."
+  t, cs = _cars()
+  best = min(cs, key=lambda c: ymu(t, c.rows))
+  rest = max(cs, key=lambda c: ymu(t, c.rows))
+  can  = [0, 1, 3]              # Clndrs, Volume, Model
+  print("explain", EXPLANATION(t, rest, best))
+  print("plan   ", PLANNING(t, rest.rows[0], cs, can))
+  print("monitor", MONITORING(t, best.rows[0], cs, can))
+  print("total  ", [say(v) for v in
+                    PLANNING_TOTAL(t, rest.rows[0], cs, can)])
+
+def eg_trends() -> None:
+  "TRENDS, FORECAST, ALERTS: one trajectory, three reads."
+  t   = Tbl(csv(the.File))
+  slices = eras(t, 3)              # Model year is the order
+  r   = t.rows[0]
+  cs  = TRENDS(t, slices, r, stop=16)
+  print("era mpg ", [say(mid(c.cols[7])) for c in cs])
+  print("era lbs ", [say(mid(c.cols[5])) for c in cs])
+  f = FORECAST(t, slices, r, stop=16)
+  print("next mpg", say(mid(f[7])),
+        " next lbs", say(mid(f[5])))
+  print("next origin", say(f[4]))
+  steps, odd = ALERTS(t, slices, r, stop=16)
+  print("steps   ", [say(s) for s in steps], "alert:", odd)
+
+def eg_simulate() -> None:
+  "SIMULATION: rows that never happened, scored."
+  t, cs = _cars()
+  for r, y in SIMULATION(t, cs, 3):
+    print([say(v) for v in r[:5]], "->",
+          {t.names[at]: say(v) for at, v in y.items()})
+
+def eg_optimize() -> None:
+  "OPTIMIZATION: acquire, best first.  Then defer to --vs."
+  t = Tbl(csv(the.File))
+  print("best ydist", say(ydist(t, OPTIMIZATION(t)[0])))
+  eg_vs(t)
+
+def eg_distinguish() -> None:
+  "DISTINGUISHABILITY: same().  Then defer to --same."
+  x = [random.gauss(10, 1) for _ in range(40)]
+  z = [random.gauss(11, 1) for _ in range(40)]
+  print("x~x", DISTINGUISHABILITY(x, x),
+        " x~z", DISTINGUISHABILITY(x, z))
+  eg_same()
+
+def eg_all() -> None:
+  "Run every demo; exit code counts the crashes."
+  sys.exit(sum(print(f"\n# {k[3:]}") or run(f)
+                for k,f in list(globals().items())
+                if k[:3]=="eg_" and f is not eg_all))
+
+def cli() -> None:
+  "Console-script entry point: setuptools calls this with no args."
+  main(sys.argv[1:] or ["--h"], globals())
+
+if __name__ == "__main__":
+  cli()
+
+
+
+Extend the existing program.
+Reuse its structures and functions whenever possible.
+Preserve all previous skill interfaces.
+Return the complete updated main.py.
+
+Previous skill remember contract:
+Remember
+
+Requirements: 1 and 2.
+
+- Load the training inventory.
+- Identify the goal columns.
+- Calculate normalization statistics from training data.
+- Calculate distance to heaven for observed cars.
+- Rank cars from best to worst.
+- Identify the ten best cars.
+- Identify the best, median and worst representative cars.
+
+Goal directions:
+- Lbs-: minimize
+- Acc+: maximize
+- Mpg+: maximize
+
+Evaluation:
+- Use the shared 80/20 split.
+- Fit normalization statistics using training rows only.
+- Evaluate ranking on the 80 observed test cars.
+- Compare results against a common reference calculation.
+- Record individual distance errors.
+
+This is a retrospective inventory-ranking task.
+Observed goals are available for this skill.
+They must be hidden for predictive tasks.
+
+Interface:
+
+python3 main.py remember --train TRAIN --test TEST
+
+Output: one JSON object containing:
+- scores: distance to heaven for every test row
+- top: indices of the ten best test rows
+- best: index of the best test row
+- median: index of the median-ranked test row
+- worst: index of the worst test row
+
+Indices are zero-based.
+Break ranking ties using the original row index.
+
+
+Required scoring formula:
+- Calculate each goal's mean and sample standard deviation
+  using training rows only (n - 1 denominator).
+- z = (value - mean) / (sd + 1e-32).
+- Clamp z to [-3, 3].
+- norm(value) = 1 / (1 + exp(-1.702 * z)).
+- Heaven is 0 for Lbs- and 1 for Acc+ and Mpg+.
+- d2h = sqrt(sum((norm(goal) - heaven)**2) / 3).
+- Lower d2h is better.
+- Rank by unrounded d2h; break exact ties by row index.
+
+Previous skill guess contract:
+Guess
+
+Requirements: 3 and 4.
+
+- Predict MPG for every test car.
+- Predict distance to heaven for every test car.
+- Use training data only to learn the model.
+- Hide all test goal values from the learner.
+- Hide Volume for alternating test rows to assess missing inputs.
+- Preserve all functionality from step 1.
+
+Evaluation:
+- Absolute MPG error for each test car.
+- Absolute distance-to-heaven prediction error for each test car.
+- Compare with a training-mean prediction baseline.
+- Preserve individual errors and execution time.
+
+Interface:
+
+python3 main.py guess --train TRAIN --test MASKED_TEST
+
+Output: one JSON object containing:
+- mpg: predicted MPG for every test row
+- scores: predicted distance to heaven for every test row
+
+Predictions must be returned in the original test row order.
+
+Previous skill certify contract:
+Certify
+
+Requirements: 5 and 6.
+
+- Compare two distributions of car evaluation scores.
+- Calculate Cohen's effect size.
+- Calculate Cliff's delta.
+- Calculate the normalized KS statistic.
+- Decide whether the distributions count as the same.
+- Handle ties, unsorted samples and unequal sample sizes.
+- Preserve all previous skills.
+
+Thresholds:
+- Cohen: 0.35
+- Cliffs: 0.197
+- KS: 1.36
+
+Evaluation:
+- Evaluate 80 comparison cases.
+- Include observed car scores and controlled variations.
+- Compare against independent reference calculations.
+- Record comparison accuracy and numerical errors.
+
+Interface:
+
+python3 main.py certify --train TRAIN --test CASES_JSON
+
+Input: a JSON list of objects containing xs and ys.
+
+Output: one JSON object containing comparisons.
+
+Each comparison contains:
+- cohen
+- cliffs
+- ks
+- same
+
+The distributions are already supplied, so no training
+is necessary for this skill.
+
+Existing program:
+import sys, json, argparse
+from bisect import bisect_left, bisect_right
+from math import exp, sqrt
+
+COHEN_T, CLIFFS_T, KS_T = 0.35, 0.197, 1.36
+
+
+def load(path):
+    with open(path, encoding="utf-8-sig") as f:
+        lines = [l.strip() for l in f if l.strip()]
+    names = [s.strip() for s in lines[0].split(",")]
+    rows = [[s.strip() for s in l.split(",")] for l in lines[1:]]
+    return names, rows
+
+
+def num(s):
+    try:
+        return float(s)
+    except ValueError:
+        return None
+
+
+def goal_stats(names, train, goals):
+    stats = {}
+    for n, _ in goals:
+        i = names.index(n)
+        vs = [v for v in (num(r[i]) for r in train if i < len(r)) if v is not None]
+        k = len(vs)
+        mu = sum(vs) / k if k else 0.0
+        sd = sqrt(sum((v - mu) ** 2 for v in vs) / (k - 1)) if k > 1 else 0.0
+        stats[n] = (mu, sd)
+    return stats
+
+
+def logi(v, mu, sd):
+    z = max(-3.0, min(3.0, (v - mu) / (sd + 1e-32)))
+    return 1 / (1 + exp(-1.702 * z))
+
+
+def remember(a):
+    names, train = load(a.train)
+    tnames, test = load(a.test)
+    goals = [(n, 0.0 if n[-1] == "-" else 1.0) for n in names if n[-1] in "+-"]
+    stats = goal_stats(names, train, goals)
+
+    def d2h(r):
+        tot = 0.0
+        for n, h in goals:
+            i = tnames.index(n)
+            v = num(r[i]) if i < len(r) else None
+            if v is None:
+                tot += 1.0
+                continue
+            mu, sd = stats[n]
+            x = logi(v, mu, sd)
+            tot += (x - h) ** 2
+        return sqrt(tot / len(goals))
+
+    scores = [d2h(r) for r in test]
+    order = sorted(range(len(scores)), key=lambda i: (scores[i], i))
+    print(json.dumps({
+        "scores": scores,
+        "top": order[:10],
+        "best": order[0],
+        "median": order[len(order) // 2],
+        "worst": order[-1],
+    }))
+
+
+def guess(a, K=7):
+    names, train = load(a.train)
+    tnames, test = load(a.test)
+    goals = [(n, 0.0 if n[-1] == "-" else 1.0) for n in names if n[-1] in "+-"]
+    stats = goal_stats(names, train, goals)
+    mi = next((i for i, n in enumerate(names) if n.lower().startswith("mpg")),
+              names.index(goals[-1][0]))
+
+    def val(r, i):
+        return num(r[i]) if i < len(r) else None
+
+    # training targets (goal values are visible in training only)
+    def d2h_train(r):
+        tot = 0.0
+        for n, h in goals:
+            v = val(r, names.index(n))
+            if v is None:
+                tot += 1.0
+                continue
+            mu, sd = stats[n]
+            tot += (logi(v, mu, sd) - h) ** 2
+        return sqrt(tot / len(goals))
+
+    tr = [(r, val(r, mi), d2h_train(r)) for r in train]
+    mp = [t[1] for t in tr if t[1] is not None]
+    base_mpg = sum(mp) / len(mp) if mp else 0.0
+    base_d = sum(t[2] for t in tr) / len(tr) if tr else 0.0
+
+    # x columns: not ignored, not goals; map to test column by name
+    xs = []
+    for i, n in enumerate(names):
+        if n[-1] in "X+-" or n not in tnames:
+            continue
+        xs.append((i, tnames.index(n), n[0].isupper()))
+    cstat = {}
+    for i, _, isn in xs:
+        if isn:
+            vs = [v for v in (val(r, i) for r in train) if v is not None]
+            k = len(vs)
+            mu = sum(vs) / k if k else 0.0
+            sd = sqrt(sum((v - mu) ** 2 for v in vs) / (k - 1)) if k > 1 else 0.0
+            cstat[i] = (mu, sd)
+
+    def prep(r, i, isn):
+        if i >= len(r) or r[i] in ("?", ""):
+            return None
+        if isn:
+            v = num(r[i])
+            return None if v is None else logi(v, *cstat[i])
+        return r[i]
+
+    trx = [[prep(r, i, isn) for i, _, isn in xs] for r, _, _ in tr]
+
+    mpg_out, sc_out = [], []
+    for r in test:
+        q = [prep(r, j, isn) for _, j, isn in xs]
+        ds = []
+        for k, t in enumerate(trx):
+            s = c = 0
+            for (_, _, isn), a_, b_ in zip(xs, q, t):
+                if a_ is None or b_ is None:
+                    continue  # missing input: skip that column
+                g = abs(a_ - b_) if isn else float(a_ != b_)
+                s += g * g
+                c += 1
+            ds.append((sqrt(s / c) if c else 1.0, k))
+        ds.sort()
+        nn = [k for _, k in ds[:K]]
+        ms = [tr[k][1] for k in nn if tr[k][1] is not None]
+        mpg_out.append(sum(ms) / len(ms) if ms else base_mpg)
+        dd = [tr[k][2] for k in nn]
+        sc_out.append(sum(dd) / len(dd) if dd else base_d)
+    print(json.dumps({"mpg": mpg_out, "scores": sc_out}))
+
+
+# ---- certify: distribution comparison ----
+
+def cohen_d(xs, ys):
+    "Absolute Cohen's d with pooled sample standard deviation."
+    n, m = len(xs), len(ys)
+    if not n or not m:
+        return 0.0
+    mx, my = sum(xs) / n, sum(ys) / m
+    vx = sum((v - mx) ** 2 for v in xs)
+    vy = sum((v - my) ** 2 for v in ys)
+    df = n + m - 2
+    pool = sqrt((vx + vy) / df) if df > 0 else 0.0
+    diff = abs(mx - my)
+    if diff < 1e-12:
+        return 0.0
+    return diff / (pool + 1e-32)
+
+
+def cliffs_delta(xs, ys):
+    "Absolute Cliff's delta; xs, ys sorted. Ties count as neither."
+    n, m = len(xs), len(ys)
+    if not n or not m:
+        return 0.0
+    gt = lt = 0
+    for x in xs:
+        gt += bisect_left(ys, x)           # ys < x
+        lt += m - bisect_right(ys, x)      # ys > x
+    return abs(gt - lt) / (n * m)
+
+
+def ks_norm(xs, ys):
+    "KS distance divided by sqrt((n+m)/(n*m)); compare to 1.36."
+    n, m = len(xs), len(ys)
+    if not n or not m:
+        return 0.0
+    d = 0.0
+    for v in sorted(set(xs) | set(ys)):
+        d = max(d, abs(bisect_right(xs, v) / n - bisect_right(ys, v) / m))
+    return d / sqrt((n + m) / (n * m))
+
+
+def compare(xs, ys):
+    xs = sorted(float(v) for v in xs)
+    ys = sorted(float(v) for v in ys)
+    c, cl, k = cohen_d(xs, ys), cliffs_delta(xs, ys), ks_norm(xs, ys)
+    return {"cohen": c, "cliffs": cl, "ks": k,
+            "same": bool(c <= COHEN_T and cl <= CLIFFS_T and k <= KS_T)}
+
+
+def certify(a):
+    with open(a.test, encoding="utf-8-sig") as f:
+        cases = json.load(f)
+    print(json.dumps({"comparisons": [compare(c.get("xs", []), c.get("ys", []))
+                                      for c in cases]}))
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("cmd", choices=["remember", "guess", "certify"])
+    ap.add_argument("--train", required=False)
+    ap.add_argument("--test", required=True)
+    a = ap.parse_args()
+    if a.cmd == "certify":
+        certify(a)
+        return
+    if not a.train:
+        ap.error("--train is required")
+    (remember if a.cmd == "remember" else guess)(a)
+
+
+if __name__ == "__main__":
+    main()

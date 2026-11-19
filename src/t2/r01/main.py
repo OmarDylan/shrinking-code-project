@@ -177,8 +177,8 @@ def cliffs_delta(xs, ys):
     s = sorted(ys)
     gt = lt = 0
     for x in xs:
-        gt += bisect_left(s, x)          # ys < x
-        lt += m - bisect_right(s, x)     # ys > x
+        gt += bisect_left(s, x)
+        lt += m - bisect_right(s, x)
     return abs(gt - lt) / (n * m)
 
 def ks_norm(xs, ys):
@@ -191,6 +191,10 @@ def ks_norm(xs, ys):
         d = max(d, abs(bisect_right(a, v) / n - bisect_right(b, v) / m))
     return d * math.sqrt(n * m / (n + m))
 
+def is_same(xs, ys):
+    return (cohen_d(xs, ys) < COHEN_T and cliffs_delta(xs, ys) < CLIFFS_T
+            and ks_norm(xs, ys) < KS_T)
+
 def certify(cases):
     res = []
     for c in cases:
@@ -199,6 +203,25 @@ def certify(cases):
         same = co < COHEN_T and cl < CLIFFS_T and ks < KS_T
         res.append({"cohen": co, "cliffs": cl, "ks": ks, "same": bool(same)})
     return {"comparisons": res}
+
+# ---- flow skill ----
+WINDOW = 20
+
+def flow(h, tr, h2, te, goals, stats):
+    out = guess(h, tr, h2, te, goals, stats)
+    hist = []
+    for r in tr:
+        vals = {i: (num(r[i]) if i < len(r) else None) for i, _ in goals}
+        hist.append(d2h(vals, goals, stats))
+    sc = out["scores"]
+    alerts = []
+    for k in range(len(sc)):
+        if k + 1 < WINDOW:
+            alerts.append(False)
+        else:
+            alerts.append(not is_same(sc[k + 1 - WINDOW:k + 1], hist))
+    out["alerts"] = alerts
+    return out
 
 def main():
     ap = argparse.ArgumentParser()
@@ -218,7 +241,9 @@ def main():
     goals = [(i, 1.0 if n.endswith("+") else 0.0)
              for i, n in enumerate(h) if n.endswith("+") or n.endswith("-")]
     stats = goal_stats(h, tr, goals)
-    if a.cmd == "guess":
+    if a.cmd == "flow":
+        out = flow(h, tr, h2, te, goals, stats)
+    elif a.cmd == "guess":
         out = guess(h, tr, h2, te, goals, stats)
     else:
         out = remember(h, tr, h2, te, goals, stats)

@@ -4,6 +4,7 @@ from sklearn.ensemble import RandomForestRegressor
 
 GOALS = {"Lbs-": 0, "Acc+": 1, "Mpg+": 1}
 COHEN_T, CLIFFS_T, KS_T = 0.35, 0.197, 1.36
+WINDOW = 20
 
 
 def load(path):
@@ -76,7 +77,7 @@ def remember(a):
     }))
 
 
-def guess(a):
+def predict_all(a):
     th, tr = load(a.train)
     eh, te = load(a.test)
     stats = goal_stats(th, tr)
@@ -130,6 +131,11 @@ def guess(a):
         pred[g] = m.predict(Xt)
     mpg = [float(v) for v in pred["Mpg+"]]
     scores = [d2h({g: float(pred[g][i]) for g in GOALS}, stats) for i in range(len(te))]
+    return mpg, scores, stats, th, tr
+
+
+def guess(a):
+    mpg, scores, _, _, _ = predict_all(a)
     print(json.dumps({"mpg": mpg, "scores": scores}))
 
 
@@ -139,7 +145,6 @@ def compare(xs, ys):
     n, m = len(x), len(y)
     if n == 0 or m == 0:
         return {"cohen": 0.0, "cliffs": 0.0, "ks": 0.0, "same": True}
-    # Cohen's d (pooled sd, sample variances)
     v1 = float(np.var(x, ddof=1)) if n > 1 else 0.0
     v2 = float(np.var(y, ddof=1)) if m > 1 else 0.0
     dof = n + m - 2
@@ -149,11 +154,9 @@ def compare(xs, ys):
         cohen = diff / pooled
     else:
         cohen = 0.0 if diff < 1e-12 else 1e9
-    # Cliff's delta, ties count as zero
     gt = np.searchsorted(y, x, side="left").sum()
     lt = (m - np.searchsorted(y, x, side="right")).sum()
     cliffs = abs(float(gt - lt)) / (n * m)
-    # KS statistic over the pooled support, normalized
     allv = np.concatenate([x, y])
     cx = np.searchsorted(x, allv, side="right") / n
     cy = np.searchsorted(y, allv, side="right") / m
@@ -169,13 +172,30 @@ def certify(a):
     print(json.dumps({"comparisons": [compare(c["xs"], c["ys"]) for c in cases]}))
 
 
+def flow(a):
+    # Models are fit on training data only; each arrival's prediction depends
+    # only on that car's own inputs, so later arrivals cannot alter earlier ones.
+    mpg, scores, stats, th, tr = predict_all(a)
+    cols = {g: column(th, tr, g) for g in GOALS}
+    hist = [d2h({g: cols[g][i] for g in GOALS}, stats)
+            for i in range(len(tr)) if all(cols[g][i] is not None for g in GOALS)]
+    alerts = []
+    for i in range(len(scores)):
+        if i + 1 < WINDOW or not hist:
+            alerts.append(False)
+            continue
+        win = scores[i + 1 - WINDOW:i + 1]
+        alerts.append(not compare(win, hist)["same"])
+    print(json.dumps({"mpg": mpg, "scores": scores, "alerts": alerts}))
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["remember", "guess", "certify"])
+    ap.add_argument("cmd", choices=["remember", "guess", "certify", "flow"])
     ap.add_argument("--train", required=True)
     ap.add_argument("--test", required=True)
     a = ap.parse_args()
-    {"remember": remember, "guess": guess, "certify": certify}[a.cmd](a)
+    {"remember": remember, "guess": guess, "certify": certify, "flow": flow}[a.cmd](a)
 
 
 main()

@@ -3,6 +3,7 @@ from bisect import bisect_left, bisect_right
 from math import exp, sqrt
 
 COHEN_T, CLIFFS_T, KS_T = 0.35, 0.197, 1.36
+WINDOW = 20
 
 
 def load(path):
@@ -67,7 +68,8 @@ def remember(a):
     }))
 
 
-def guess(a, K=7):
+def model(a, K=7):
+    "Fit on training only; return test rows, per-row predictor, training d2h list."
     names, train = load(a.train)
     tnames, test = load(a.test)
     goals = [(n, 0.0 if n[-1] == "-" else 1.0) for n in names if n[-1] in "+-"]
@@ -78,7 +80,6 @@ def guess(a, K=7):
     def val(r, i):
         return num(r[i]) if i < len(r) else None
 
-    # training targets (goal values are visible in training only)
     def d2h_train(r):
         tot = 0.0
         for n, h in goals:
@@ -95,7 +96,6 @@ def guess(a, K=7):
     base_mpg = sum(mp) / len(mp) if mp else 0.0
     base_d = sum(t[2] for t in tr) / len(tr) if tr else 0.0
 
-    # x columns: not ignored, not goals; map to test column by name
     xs = []
     for i, n in enumerate(names):
         if n[-1] in "X+-" or n not in tnames:
@@ -120,15 +120,14 @@ def guess(a, K=7):
 
     trx = [[prep(r, i, isn) for i, _, isn in xs] for r, _, _ in tr]
 
-    mpg_out, sc_out = [], []
-    for r in test:
+    def predict(r):
         q = [prep(r, j, isn) for _, j, isn in xs]
         ds = []
         for k, t in enumerate(trx):
             s = c = 0
             for (_, _, isn), a_, b_ in zip(xs, q, t):
                 if a_ is None or b_ is None:
-                    continue  # missing input: skip that column
+                    continue
                 g = abs(a_ - b_) if isn else float(a_ != b_)
                 s += g * g
                 c += 1
@@ -136,10 +135,17 @@ def guess(a, K=7):
         ds.sort()
         nn = [k for _, k in ds[:K]]
         ms = [tr[k][1] for k in nn if tr[k][1] is not None]
-        mpg_out.append(sum(ms) / len(ms) if ms else base_mpg)
         dd = [tr[k][2] for k in nn]
-        sc_out.append(sum(dd) / len(dd) if dd else base_d)
-    print(json.dumps({"mpg": mpg_out, "scores": sc_out}))
+        return (sum(ms) / len(ms) if ms else base_mpg,
+                sum(dd) / len(dd) if dd else base_d)
+
+    return test, predict, [t[2] for t in tr]
+
+
+def guess(a):
+    test, predict, _ = model(a)
+    out = [predict(r) for r in test]
+    print(json.dumps({"mpg": [p[0] for p in out], "scores": [p[1] for p in out]}))
 
 
 # ---- certify: distribution comparison ----
@@ -167,8 +173,8 @@ def cliffs_delta(xs, ys):
         return 0.0
     gt = lt = 0
     for x in xs:
-        gt += bisect_left(ys, x)           # ys < x
-        lt += m - bisect_right(ys, x)      # ys > x
+        gt += bisect_left(ys, x)
+        lt += m - bisect_right(ys, x)
     return abs(gt - lt) / (n * m)
 
 
@@ -198,9 +204,26 @@ def certify(a):
                                       for c in cases]}))
 
 
+# ---- flow: sequential judging with drift alerts ----
+
+def flow(a):
+    test, predict, hist = model(a)
+    hist = sorted(hist)
+    mpg, scores, alerts, win = [], [], [], []
+    for r in test:  # each prediction depends only on training data and this row
+        m, s = predict(r)
+        mpg.append(m)
+        scores.append(s)
+        win.append(s)
+        if len(win) > WINDOW:
+            win.pop(0)
+        alerts.append(len(win) == WINDOW and not compare(win, hist)["same"])
+    print(json.dumps({"mpg": mpg, "scores": scores, "alerts": alerts}))
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["remember", "guess", "certify"])
+    ap.add_argument("cmd", choices=["remember", "guess", "certify", "flow"])
     ap.add_argument("--train", required=False)
     ap.add_argument("--test", required=True)
     a = ap.parse_args()
@@ -209,7 +232,7 @@ def main():
         return
     if not a.train:
         ap.error("--train is required")
-    (remember if a.cmd == "remember" else guess)(a)
+    {"remember": remember, "guess": guess, "flow": flow}[a.cmd](a)
 
 
 if __name__ == "__main__":
