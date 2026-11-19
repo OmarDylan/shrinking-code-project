@@ -1,0 +1,86 @@
+T4 | r03 | Step 3: certify
+{
+  "protocol": "v2",
+  "contract_sha256": "33aed7556be266825118db5411311676169961e72f21ef5984aa292e4a7e97df",
+  "prompt_sha256": "653f7b3fef7b061b984f50f9ff58dcaf64e53fb2a1395e197914858717d754b4",
+  "treatment": 4,
+  "repeat": 3,
+  "step": 3,
+  "skill": "certify",
+  "library": "sklearn",
+  "reuse": true,
+  "requested_model": "sonnet",
+  "model_usage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 2,
+      "outputTokens": 2589,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 4377,
+      "webSearchRequests": 0,
+      "costUSD": 0.043402,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 202,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 4377,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 4377,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 2589,
+    "output_tokens_details": {
+      "thinking_tokens": 202
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 4377,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 2589,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 4377,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 4377
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "estimated_cost_usd": 0.043402,
+  "generation_seconds": 13.79672033299721,
+  "returncode": 0,
+  "status": "generated",
+  "imports": [
+    "bisect",
+    "csv",
+    "json",
+    "math",
+    "numpy",
+    "sklearn",
+    "sys"
+  ],
+  "assigned_library_imported": true,
+  "source_sha256": "2ed0deda4f491b0b0440c845fef9a6ed15a4b17fe9dc3d71b48f19f913e3b9d2",
+  "added_physical_lines": 32,
+  "removed_physical_lines": 2,
+  "file_physical_lines": 140,
+  "cumulative_physical_lines": 140,
+  "source": "src/t4/r03/main.py"
+}
+

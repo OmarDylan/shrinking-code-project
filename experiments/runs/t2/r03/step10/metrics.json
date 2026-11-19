@@ -1,0 +1,83 @@
+{
+  "protocol": "v2",
+  "contract_sha256": "33aed7556be266825118db5411311676169961e72f21ef5984aa292e4a7e97df",
+  "prompt_sha256": "f76ca90bd9f78f6c7ba28ec102c8e9574510a0810891f72194e159eb410fc02c",
+  "treatment": 2,
+  "repeat": 3,
+  "step": 10,
+  "skill": "race",
+  "library": "python",
+  "reuse": true,
+  "requested_model": "sonnet",
+  "model_usage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 2,
+      "outputTokens": 8400,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 13002,
+      "webSearchRequests": 0,
+      "costUSD": 0.136012,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 629,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 13002,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 13002,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 8400,
+    "output_tokens_details": {
+      "thinking_tokens": 629
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 13002,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 8400,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 13002,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 13002
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "estimated_cost_usd": 0.136012,
+  "generation_seconds": 42.99814729200443,
+  "returncode": 0,
+  "status": "generated",
+  "imports": [
+    "argparse",
+    "bisect",
+    "csv",
+    "json",
+    "math",
+    "sys"
+  ],
+  "assigned_library_imported": null,
+  "source_sha256": "36e1213cf191bd62c93d1d353fa0dd75714eab95af1617de20516998c49889e8",
+  "added_physical_lines": 52,
+  "removed_physical_lines": 2,
+  "file_physical_lines": 495,
+  "cumulative_physical_lines": 495,
+  "source": "src/t2/r03/main.py"
+}

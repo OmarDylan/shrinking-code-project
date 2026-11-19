@@ -1,0 +1,86 @@
+T3 | r03 | Step 10: race
+{
+  "protocol": "v2",
+  "contract_sha256": "33aed7556be266825118db5411311676169961e72f21ef5984aa292e4a7e97df",
+  "prompt_sha256": "8e17e00832602aaa62a38a9376670effe5a61604d811e4a80c9193237636f9b7",
+  "treatment": 3,
+  "repeat": 3,
+  "step": 10,
+  "skill": "race",
+  "library": "sklearn",
+  "reuse": false,
+  "requested_model": "sonnet",
+  "model_usage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 2,
+      "outputTokens": 2992,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 6005,
+      "webSearchRequests": 0,
+      "costUSD": 0.053944,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 904,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 6005,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 6005,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 2992,
+    "output_tokens_details": {
+      "thinking_tokens": 904
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 6005,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 2992,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 6005,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 6005
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "estimated_cost_usd": 0.053944,
+  "generation_seconds": 21.160059166999417,
+  "returncode": 0,
+  "status": "generated",
+  "imports": [
+    "argparse",
+    "csv",
+    "json",
+    "math",
+    "numpy",
+    "sklearn",
+    "sys"
+  ],
+  "assigned_library_imported": true,
+  "source_sha256": "c38d84457c27642bfb45989909ad5ec9d97af0bf14eb684210b6e068717d6a6c",
+  "added_physical_lines": 138,
+  "removed_physical_lines": 0,
+  "file_physical_lines": 138,
+  "cumulative_physical_lines": 918,
+  "source": "src/t3/r03/race.py"
+}
+

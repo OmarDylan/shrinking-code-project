@@ -1,0 +1,81 @@
+{
+  "protocol": "v2",
+  "contract_sha256": "33aed7556be266825118db5411311676169961e72f21ef5984aa292e4a7e97df",
+  "prompt_sha256": "84727320f86bf8fd1ed336c21bd4aec9b8fffd9a1d9014d49086a956670cde45",
+  "treatment": 1,
+  "repeat": 3,
+  "step": 10,
+  "skill": "race",
+  "library": "python",
+  "reuse": false,
+  "requested_model": "sonnet",
+  "model_usage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 2,
+      "outputTokens": 3001,
+      "cacheReadInputTokens": 0,
+      "cacheCreationInputTokens": 5984,
+      "webSearchRequests": 0,
+      "costUSD": 0.05395,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 776,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 5984,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 5984,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 3001,
+    "output_tokens_details": {
+      "thinking_tokens": 776
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 5984,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 3001,
+        "cache_read_input_tokens": 0,
+        "cache_creation_input_tokens": 5984,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 5984
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "estimated_cost_usd": 0.05395,
+  "generation_seconds": 20.747263875004137,
+  "returncode": 0,
+  "status": "generated",
+  "imports": [
+    "csv",
+    "json",
+    "math",
+    "sys"
+  ],
+  "assigned_library_imported": null,
+  "source_sha256": "3b4d191f889714a4baed6c2b13a09941e9df12254015887f52bbbc46977ed130",
+  "added_physical_lines": 149,
+  "removed_physical_lines": 0,
+  "file_physical_lines": 149,
+  "cumulative_physical_lines": 893,
+  "source": "src/t1/r03/race.py"
+}

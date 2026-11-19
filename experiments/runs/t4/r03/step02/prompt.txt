@@ -1,0 +1,143 @@
+
+Implement a compact Python program for car inventory analysis.
+
+Dataset header:
+Clndrs,Volume,HpX,Model,origin,Lbs-,Acc+,Mpg+
+
+Uppercase initial: numerical column.
+Lowercase initial: symbolic column.
+X suffix: ignored column.
++ suffix: maximize.
+- suffix: minimize.
+? means missing.
+
+Current skill: guess
+
+Customer requirements:
+Guess a car's fuel use before I see the final sticker information.
+Estimate how promising a newly listed car is with partial specifications.
+
+Shared rules:
+# Acceptance protocol v2 (clarified after exploratory r01)
+
+Shared specifications are available equally to all six automated treatments.
+Only reuse treatments receive earlier generated implementation source. The current
+and earlier contracts are provided as documentation to both. Earlier interfaces
+need to be implemented only in reuse treatments. No future skill contracts are supplied.
+
+All indices are zero-based. Numeric outputs must be finite JSON numbers (not strings).
+Boolean outputs must be JSON booleans. Write exactly the requested JSON to stdout,
+with no extra diagnostic messages. Use stderr for diagnostic messages. Test data may
+only be read from the supplied paths. Fit all learning statistics on training data.
+`?` represents a missing value. Never read hidden goals from another file.
+Input features: Clndrs, Volume, Model (numeric), origin (categorical).
+HpX is ignored. Goal names and directions: Lbs- (minimize), Acc+ and Mpg+ (maximize).
+Library assignments define allowed background knowledge, not mandatory imports;
+actual use of the assigned library is measured separately. Never import earlier
+implementations in a no-reuse treatment.
+
+
+
+Acceptance contract:
+Guess
+
+Requirements 3–4. Predict MPG and the d2h defined in Remember using only training
+labels and the available input features of each test row. All test goals are hidden;
+Volume is missing in alternating test rows (starting with the first). Predictions must
+be independent of actual test goals, in original row order. Any suitable predictive
+model is permitted. MPG must be finite and strictly positive; predicted d2h must be
+finite and in [0,1]. Mean absolute errors are measured against training-mean baselines;
+valid output alone does not establish superior predictive quality.
+
+Command: `python3 main.py guess --train TRAIN --test MASKED_TEST`
+Output: `{ "mpg": [number,...], "scores": [number,...] }`.
+
+Follow the specified input and output interface.
+Read datasets only from the supplied command-line paths.
+Do not hardcode dataset rows or expected test answers.
+Do not access the network or unrelated files.
+Do not inspect evaluator source.
+
+Return one complete Python source file.
+Return only Python code.
+Do not include Markdown or explanations.
+
+Background library:
+Use scikit-learn and its dependencies where appropriate. Python standard library is also permitted.
+
+Earlier skill remember specification (documentation):
+Remember
+
+Requirements 1–2. Read fully observed train and test CSVs. Compute each goal's
+training mean and sample SD (n-1 denominator), then normalize the value v:
+`z = clamp((v - mean) / (sd + 1e-32), -3, 3)`;
+`norm(v) = 1 / (1 + exp(-1.702 * z))`.
+The heaven value h is 0 for Lbs- and 1 for Acc+, Mpg+.
+`d2h = sqrt(sum((norm(v)-h)^2 for the three goals) / 3)`.
+Lower is better. Use the observed complete goals for this retrospective task.
+Rank by unrounded score then original index. Return all test scores in source order,
+the first ten ranked indices, and the best, upper-middle (rank len(test)//2), worst.
+
+Command: `python3 main.py remember --train TRAIN --test TEST`
+Output: `{ "scores": [number,...], "top": [index,...], "best": index, "median": index, "worst": index }`.
+The numerical evaluator uses absolute error <1e-7.
+
+Extend the existing program.
+Reuse its structures and functions whenever possible.
+Preserve all previous skill interfaces.
+Return the complete updated main.py.
+
+Existing program:
+import sys, csv, json, math
+
+def read(path):
+    with open(path, newline='') as f:
+        r = csv.reader(f)
+        hdr = [h.strip() for h in next(r)]
+        rows = [[c.strip() for c in row] for row in r if row]
+    return hdr, rows
+
+def main():
+    a = sys.argv
+    if len(a) < 2 or a[1] != 'remember':
+        sys.exit(1)
+    train = a[a.index('--train') + 1]
+    test = a[a.index('--test') + 1]
+    goals = [('Lbs-', 0), ('Acc+', 1), ('Mpg+', 1)]
+
+    def cols(hdr):
+        return [hdr.index(g) for g, _ in goals]
+
+    h, tr = read(train)
+    ci = cols(h)
+    tr = [[float(r[i]) for i in ci] for r in tr if all(r[i] != '?' for i in ci)]
+    n = len(tr)
+    stats = []
+    for k in range(3):
+        v = [r[k] for r in tr]
+        m = sum(v) / n
+        sd = math.sqrt(sum((x - m) ** 2 for x in v) / (n - 1)) if n > 1 else 0.0
+        stats.append((m, sd))
+
+    h2, te = read(test)
+    ci2 = cols(h2)
+    scores = []
+    for r in te:
+        s = 0.0
+        for k, i in enumerate(ci2):
+            m, sd = stats[k]
+            z = max(-3.0, min(3.0, (float(r[i]) - m) / (sd + 1e-32)))
+            nv = 1 / (1 + math.exp(-1.702 * z))
+            s += (nv - goals[k][1]) ** 2
+        scores.append(math.sqrt(s / 3))
+    order = sorted(range(len(scores)), key=lambda i: (scores[i], i))
+    out = {
+        "scores": scores,
+        "top": order[:10],
+        "best": order[0],
+        "median": order[len(scores) // 2],
+        "worst": order[-1],
+    }
+    sys.stdout.write(json.dumps(out))
+
+main()
