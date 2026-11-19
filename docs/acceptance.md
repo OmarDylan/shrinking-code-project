@@ -45,6 +45,18 @@ Output: one JSON object containing:
 Indices are zero-based.
 Break ranking ties using the original row index.
 
+
+Required scoring formula:
+- Calculate each goal's mean and sample standard deviation
+  using training rows only (n - 1 denominator).
+- z = (value - mean) / (sd + 1e-32).
+- Clamp z to [-3, 3].
+- norm(value) = 1 / (1 + exp(-1.702 * z)).
+- Heaven is 0 for Lbs- and 1 for Acc+ and Mpg+.
+- d2h = sqrt(sum((norm(goal) - heaven)**2) / 3).
+- Lower d2h is better.
+- Rank by unrounded d2h; break exact ties by row index.
+
 ## Step 2: Guess
 
 Requirements: 3 and 4.
