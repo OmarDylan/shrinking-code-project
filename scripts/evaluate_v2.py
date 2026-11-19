@@ -10,6 +10,7 @@ import statistics
 import subprocess
 import sys
 import time
+from run_v2 import classify_record
 
 ROOT=Path(__file__).resolve().parents[1]
 SKILLS='remember guess certify flow blame justify choose fix spot race'.split()
@@ -72,7 +73,11 @@ def main():
             u=m.get('usage') or {}
             record.update(generation_status=m.get('status'),new_loc=m.get('added_physical_lines'),removed_loc=m.get('removed_physical_lines'),total_loc=m.get('cumulative_physical_lines'),input_tokens=sum(u.get(k,0) or 0 for k in ('input_tokens','cache_creation_input_tokens','cache_read_input_tokens')),cache_creation_tokens=u.get('cache_creation_input_tokens'),cache_read_tokens=u.get('cache_read_input_tokens'),output_tokens=u.get('output_tokens'),estimated_cost_usd=m.get('estimated_cost_usd'),generation_seconds=m.get('generation_seconds'),assigned_library_imported=m.get('assigned_library_imported'),imports=';'.join(m.get('imports',[])))
             source=run/'generated.py'
-            if m.get('status')!='generated': record['individual_status']='GENERATION_FAILED'; continue
+            record['generation_error']=m.get('error')
+            state=classify_record(t, step, args.repeat)
+            if state!='generated':
+                record['individual_status']={'syntax_failed':'GENERATION_FAILED','blocked':'BLOCKED'}.get(state,'UNRESOLVED_GENERATION_ERROR')
+                continue
             if not source.exists() or m.get('protocol')!='v2' or m.get('contract_sha256')!=digest or m.get('source_sha256')!=hashlib.sha256(source.read_bytes()).hexdigest():
                 record['individual_status']='SNAPSHOT_MISMATCH'; continue
             folder=out/f't{t}'/f'step{step:02d}'; folder.mkdir(parents=True,exist_ok=True)
@@ -99,10 +104,10 @@ def main():
         evaluated=[r for r in rows if r['individual_status'] in ('PASS','FAIL')]
         def total(k):
             vals=[r[k] for r in rows if r.get(k) is not None]; return sum(vals) if vals else None
-        totals.append({'treatment':f'T{t}','generated':sum(r.get('generation_status')=='generated' for r in rows),'evaluated':len(evaluated),'individual_passes':sum(r['individual_status']=='PASS' for r in evaluated),'regression_steps_passed':sum(r['regression_status']=='PASS' for r in rows) if t%2==0 else None,'final_loc':rows[-1].get('total_loc'),'total_input_tokens':total('input_tokens'),'total_output_tokens':total('output_tokens'),'estimated_total_cost_usd':total('estimated_cost_usd'),'total_generation_seconds':total('generation_seconds')})
+        totals.append({'treatment':f'T{t}','generated':sum(r.get('generation_status')=='generated' for r in rows),'evaluated':len(evaluated),'syntax_failures':sum(r['individual_status']=='GENERATION_FAILED' for r in rows),'blocked_steps':sum(r['individual_status']=='BLOCKED' for r in rows),'unresolved_steps':sum(r['individual_status'] not in ('PASS','FAIL','GENERATION_FAILED','BLOCKED') for r in rows),'individual_passes':sum(r['individual_status']=='PASS' for r in evaluated),'regression_steps_passed':sum(r['regression_status']=='PASS' for r in rows) if t%2==0 else None,'final_loc':rows[-1].get('total_loc'),'total_input_tokens':total('input_tokens'),'total_output_tokens':total('output_tokens'),'estimated_total_cost_usd':total('estimated_cost_usd'),'total_generation_seconds':total('generation_seconds')})
     dumpcsv(out/'treatment_totals.csv',totals)
     print((out/'treatment_totals.csv').read_text())
-    if any(r['individual_status'] not in ('PASS','FAIL') for r in records):
-        raise SystemExit('At least one missing, failed-generation or invalid snapshot record; artifacts retained.')
+    if any(r['individual_status'] not in ('PASS','FAIL','GENERATION_FAILED','BLOCKED') for r in records):
+        raise SystemExit('At least one missing or unresolved record; artifacts retained.')
 
 if __name__=='__main__': main()
