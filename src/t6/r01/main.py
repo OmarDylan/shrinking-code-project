@@ -223,7 +223,8 @@ def flow(a):
 
 # ---- blame: retrospective diagnosis of poor cars ----
 
-def blame(a):
+def diagnose(a):
+    "Return (diagnoses, training d2h list) for every test row."
     names, train = load(a.train)
     tnames, test = load(a.test)
     goals = [(n, 0.0 if n[-1] == "-" else 1.0) for n in names if n[-1] in "+-"]
@@ -296,12 +297,74 @@ def blame(a):
             "goal_order": sorted(goalgaps, key=lambda n: (-goalgaps[n], n)),
             "feature_order": sorted(feats, key=lambda n: (-feats[n], n)),
         })
+    return out, ds
+
+
+def blame(a):
+    out, _ = diagnose(a)
     print(json.dumps({"diagnoses": out}))
+
+
+# ---- justify: explain recommendations and acceptance ----
+
+def median(v):
+    s = sorted(v)
+    n = len(s)
+    if not n:
+        return 0.0
+    return s[n // 2] if n % 2 else (s[n // 2 - 1] + s[n // 2]) / 2
+
+
+def justify(a):
+    diag, hist = diagnose(a)
+    cutoff = median(hist)
+    n = len(diag)
+    scores = []
+    for d in diag:
+        g = d["goals"]
+        scores.append(sqrt(sum(x * x for x in g.values()) / len(g)) if g else 0.0)
+    out = []
+    for i in range(n):
+        j = (i + 1) % n
+        s, o = scores[i], scores[j]
+        acc = bool(s <= cutoff)
+        gi, gj = diag[i]["goals"], diag[j]["goals"]
+        weakest = diag[i]["goal_order"][0] if diag[i]["goal_order"] else None
+        fo = diag[i]["feature_order"]
+        top = fo[0] if fo and diag[i]["features"][fo[0]] > 0 else None
+        tie = round(s, 12) == round(o, 12)
+        if tie:
+            win, adv = None, None
+        else:
+            win = i if s < o else j
+            lose = j if win == i else i
+            gw, gl = diag[win]["goals"], diag[lose]["goals"]
+            adv = sorted(gw, key=lambda k: (-(gl[k] - gw[k]), k))[0]
+        verdict = "accepted" if acc else "rejected"
+        t = (f"Car {i} has quality score {s:.6f} versus cutoff {cutoff:.6f} "
+             f"(median training score), so it is {verdict}. ")
+        if tie:
+            t += f"Car {i} and car {j} tie ({s:.6f} vs {o:.6f}); no recommendation. "
+        else:
+            t += (f"Car {win} is recommended over car {j if win == i else i} "
+                  f"(lower distance to heaven: {min(s, o):.6f} vs {max(s, o):.6f}); "
+                  f"its biggest advantage is {adv}. ")
+        t += f"Car {i}'s weakest goal is {weakest}"
+        if top:
+            t += f"; most associated feature with poor cars: {top}."
+        else:
+            t += "; no feature shows positive association with poor cars."
+        out.append({"row": i, "other": j, "score": s, "other_score": o,
+                    "cutoff": cutoff, "accepted": acc, "winner": win,
+                    "advantage_goal": adv, "weakest_goal": weakest,
+                    "top_feature": top, "text": t})
+    print(json.dumps({"explanations": out}))
 
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["remember", "guess", "certify", "flow", "blame"])
+    ap.add_argument("cmd", choices=["remember", "guess", "certify", "flow",
+                                    "blame", "justify"])
     ap.add_argument("--train", required=False)
     ap.add_argument("--test", required=True)
     a = ap.parse_args()
@@ -311,7 +374,7 @@ def main():
     if not a.train:
         ap.error("--train is required")
     {"remember": remember, "guess": guess, "flow": flow,
-     "blame": blame}[a.cmd](a)
+     "blame": blame, "justify": justify}[a.cmd](a)
 
 
 if __name__ == "__main__":

@@ -189,7 +189,7 @@ def flow(a):
     print(json.dumps({"mpg": mpg, "scores": scores, "alerts": alerts}))
 
 
-def blame(a):
+def diagnose(a):
     th, tr = load(a.train)
     eh, te = load(a.test)
     stats = goal_stats(th, tr)
@@ -211,14 +211,14 @@ def blame(a):
             st = {h: (m, sd)}
             col = column(th, tr, h)
 
-            def center(grp):
+            def center(grp, col=col, h=h, st=st):
                 z = [norm(col[i], h, st) for i in grp if col[i] is not None]
                 return sum(z) / len(z) if z else 0.5
             prof[h] = ("n", st, center(good), center(poor))
         else:
             col = sym(th, tr, h)
 
-            def freq(grp):
+            def freq(grp, col=col):
                 z = [col[i] for i in grp if col[i] not in ("?", "")]
                 d = {}
                 for s in z:
@@ -255,17 +255,66 @@ def blame(a):
             "goal_order": sorted(goals, key=lambda n: (-goals[n], n)),
             "feature_order": sorted(feats, key=lambda n: (-feats[n], n)),
         })
+    return out, stats, list(sc.values()), tg, te
+
+
+def blame(a):
+    out = diagnose(a)[0]
     print(json.dumps({"diagnoses": out}))
+
+
+def justify(a):
+    diag, stats, hist, tg, te = diagnose(a)
+    n = len(te)
+    cutoff = float(np.median(hist)) if hist else 0.5
+    scores = [d2h({g: tg[g][i] for g in GOALS}, stats) for i in range(n)]
+    res = []
+    for i in range(n):
+        j = (i + 1) % n
+        s, o = scores[i], scores[j]
+        acc = bool(s <= cutoff)
+        d = diag[i]
+        weakest = d["goal_order"][0]
+        top = None
+        if d["feature_order"] and d["features"][d["feature_order"][0]] > 0:
+            top = d["feature_order"][0]
+        tie = round(s, 12) == round(o, 12)
+        winner = adv = None
+        if not tie:
+            w, l = (i, j) if s < o else (j, i)
+            winner = w
+            gw, gl = diag[w]["goals"], diag[l]["goals"]
+            contrib = {g: gl[g] ** 2 - gw[g] ** 2 for g in GOALS}
+            adv = max(GOALS, key=lambda g: contrib[g])
+        if tie:
+            t = f"Car {i} and car {j} tie on quality (distance to heaven {s:.6f} vs {o:.6f})."
+        else:
+            t = (f"Car {winner} is recommended over car {j if winner == i else i} "
+                 f"because its distance to heaven is lower ({min(s, o):.6f} vs {max(s, o):.6f}); "
+                 f"the largest advantage comes from {adv}.")
+        t += (f" Car {i} is {'accepted' if acc else 'rejected'}: score {s:.6f} is "
+              f"{'at or below' if acc else 'above'} the median training cutoff {cutoff:.6f}."
+              f" Its weakest goal is {weakest} (gap {d['goals'][weakest]:.4f}).")
+        if top:
+            t += f" Feature {top} is most associated with poor cars (evidence {d['features'][top]:.4f})."
+        else:
+            t += " No input feature shows positive association with poor cars."
+        t += " This is retrospective, not causal."
+        res.append({"row": i, "other": j, "score": s, "other_score": o,
+                    "cutoff": cutoff, "accepted": acc, "winner": winner,
+                    "advantage_goal": adv, "weakest_goal": weakest,
+                    "top_feature": top, "text": t})
+    print(json.dumps({"explanations": res}))
 
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["remember", "guess", "certify", "flow", "blame"])
+    ap.add_argument("cmd", choices=["remember", "guess", "certify", "flow", "blame", "justify"])
     ap.add_argument("--train", required=True)
     ap.add_argument("--test", required=True)
     a = ap.parse_args()
     {"remember": remember, "guess": guess, "certify": certify,
-     "flow": flow, "blame": blame}[a.cmd](a)
+     "flow": flow, "blame": blame, "justify": justify}[a.cmd](a)
 
 
 main()

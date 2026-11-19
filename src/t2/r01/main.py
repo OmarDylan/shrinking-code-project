@@ -296,6 +296,50 @@ def blame(h, tr, h2, te, goals, stats):
         })
     return {"diagnoses": out}
 
+# ---- justify skill ----
+def justify(h, tr, h2, te, goals, stats):
+    scores = remember(h, tr, h2, te, goals, stats)["scores"]
+    diag = blame(h, tr, h2, te, goals, stats)["diagnoses"]
+    ds = sorted(d2h({i: num(r[i]) if i < len(r) else None for i, _ in goals}, goals, stats)
+                for r in tr)
+    n = len(ds)
+    cutoff = 0.0 if n == 0 else (ds[n // 2] if n % 2 else (ds[n // 2 - 1] + ds[n // 2]) / 2)
+    N = len(te)
+    res = []
+    for k in range(N):
+        o = (k + 1) % N
+        s, os_ = scores[k], scores[o]
+        accepted = s <= cutoff
+        gk, go = diag[k]["goals"], diag[o]["goals"]
+        weakest = diag[k]["goal_order"][0] if gk else None
+        tie = round(s, 12) == round(os_, 12)
+        winner = adv = None
+        if not tie:
+            winner = k if s < os_ else o
+            lose = o if winner == k else k
+            gw, gl = diag[winner]["goals"], diag[lose]["goals"]
+            adv = min(gw, key=lambda g: (-(gl[g] ** 2 - gw[g] ** 2), g))
+        fo = diag[k]["feature_order"]
+        top = fo[0] if fo and diag[k]["features"][fo[0]] > 0 else None
+        if tie:
+            t = f"Cars {k} and {o} tie on quality (d2h {s:.6f} vs {os_:.6f})."
+        else:
+            t = (f"Car {winner} is recommended over car {o if winner == k else k}: "
+                 f"d2h {s:.6f} vs {os_:.6f} (lower is better); "
+                 f"the biggest advantage comes from {adv}.")
+        t += (f" Car {k} is {'accepted' if accepted else 'rejected'}: d2h {s:.6f} "
+              f"{'<=' if accepted else '>'} cutoff {cutoff:.6f}."
+              f" Its weakest goal is {weakest}")
+        if top:
+            t += f"; most associated feature is {top} (retrospective, not causal)."
+        else:
+            t += "; no feature shows positive evidence."
+        res.append({"row": k, "other": o, "score": s, "other_score": os_,
+                    "cutoff": cutoff, "accepted": accepted, "winner": winner,
+                    "advantage_goal": adv, "weakest_goal": weakest,
+                    "top_feature": top, "text": t})
+    return {"explanations": res}
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("cmd")
@@ -320,6 +364,8 @@ def main():
         out = guess(h, tr, h2, te, goals, stats)
     elif a.cmd == "blame":
         out = blame(h, tr, h2, te, goals, stats)
+    elif a.cmd == "justify":
+        out = justify(h, tr, h2, te, goals, stats)
     else:
         out = remember(h, tr, h2, te, goals, stats)
     print(json.dumps(out))
