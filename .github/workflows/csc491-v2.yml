@@ -1,0 +1,40 @@
+name: CSC491 v2 Snapshot Evaluation
+on:
+  workflow_dispatch:
+    inputs:
+      repeat:
+        description: 'Generation repetition (2 or greater)'
+        required: true
+        default: '2'
+        type: string
+permissions:
+  contents: read
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Install dependencies
+        run: python -m pip install numpy scipy scikit-learn pandas
+      - name: Evaluate frozen snapshots
+        env:
+          REP: ${{ inputs.repeat }}
+        run: |
+          mkdir -p experiments/v2-results
+          python --version > experiments/v2-results/environment.txt
+          python -m pip freeze >> experiments/v2-results/environment.txt
+          git rev-parse HEAD >> experiments/v2-results/environment.txt
+          python scripts/evaluate_v2.py --repeat "$REP"
+      - name: Upload evaluation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: csc491-v2-results-${{ github.run_number }}
+          path: experiments/v2-results/
+          retention-days: 30
