@@ -8,6 +8,7 @@ BUDGET, PICKS = 10, 3
 FIX_K, FIX_CONFIGS, FIX_MIN_GAIN = 5, 12, 0.05
 FIX_COLS = ("Clndrs", "Volume")
 SPOT_K, SPOT_Q = 5, 0.90
+RACE_SENTINEL, RACE_CHECKS = 11, (5, 10)
 
 
 def load(path):
@@ -40,6 +41,12 @@ def goal_stats(names, train, goals):
 def logi(v, mu, sd):
     z = max(-3.0, min(3.0, (v - mu) / (sd + 1e-32)))
     return 1 / (1 + exp(-1.702 * z))
+
+
+def get_test(a):
+    "Test table: preloaded (race) or read from the --test path."
+    pre = getattr(a, "_test", None)
+    return pre if pre is not None else load(a.test)
 
 
 def remember(a):
@@ -75,7 +82,7 @@ def remember(a):
 def model(a, K=7, rnd=False):
     "Fit on training only; return test rows, per-row predictor, training d2h list."
     names, train = load(a.train)
-    tnames, test = load(a.test)
+    tnames, test = get_test(a)
     goals = [(n, 0.0 if n[-1] == "-" else 1.0) for n in names if n[-1] in "+-"]
     stats = goal_stats(names, train, goals)
     mi = next((i for i, n in enumerate(names) if n.lower().startswith("mpg")),
@@ -643,11 +650,135 @@ def spot(a):
                       "threshold": thr}))
 
 
+# ---- race: budgeted adaptive selection versus random selection ----
+
+def race(a):
+    with open(a.test, encoding="utf-8-sig") as f:
+        cases = json.load(f)
+    header = [str(h).strip() for h in cases["header"]]
+    rows = [["?" if v is None else str(v).strip() for v in r]
+            for r in cases["rows"]]
+    a._test = (header, rows)
+    names, train = load(a.train)
+    _, predict, hist = model(a)
+    goals = [(n, 0.0 if n[-1] == "-" else 1.0) for n in names if n[-1] in "+-"]
+    stats = goal_stats(names, train, goals)
+    hs = sorted(hist)
+    target = hs[len(hs) // 4] if hs else 0.0   # lower-quartile training d2h
+
+    cols = [j for j, n in enumerate(header) if n[-1] not in "X+-"]
+    sc = {}
+    for j in cols:
+        if header[j][0].isupper():
+            vs = [v for v in (num(r[j]) for r in rows if j < len(r)) if v is not None]
+            mu = sum(vs) / len(vs) if vs else 0.0
+            sd = sqrt(sum((v - mu) ** 2 for v in vs) / max(1, len(vs) - 1)) if vs else 1.0
+            sc[j] = (mu, sd or 1.0)
+
+    def gap(r, s):
+        t = c = 0
+        for j in cols:
+            x, y = (r[j] if j < len(r) else "?"), (s[j] if j < len(s) else "?")
+            if x in ("?", "") or y in ("?", ""):
+                continue
+            if j in sc:
+                p, q = num(x), num(y)
+                if p is None or q is None:
+                    continue
+                g = (p - q) / sc[j][1]
+            else:
+                g = float(x != y)
+            t += g * g
+            c += 1
+        return sqrt(t / c) if c else 1.0
+
+    cache = {}
+
+    def pred(i):
+        if i not in cache:
+            cache[i] = predict(rows[i])[1]
+        return cache[i]
+
+    def inspect(ep, strat, i):
+        print(json.dumps({"episode": ep, "strategy": strat, "inspect": i}))
+        sys.stdout.flush()
+        line = sys.stdin.readline()
+        try:
+            vals = parse_goals(json.loads(line), names, goals)
+        except Exception:
+            vals = [None] * len(goals)
+        tot = 0.0
+        for (gname, h), v in zip(goals, vals):
+            tot += 1.0 if v is None else (logi(v, *stats[gname]) - h) ** 2
+        return sqrt(tot / len(goals))
+
+    def summarize(seq):
+        out = {"inspected": [i for i, _ in seq], "quality": [q for _, q in seq]}
+        for k in RACE_CHECKS:
+            qs = [q for _, q in seq[:k]]
+            out["best_at_%d" % k] = min(qs) if qs else 1.0
+        need = RACE_SENTINEL
+        for n, (_, q) in enumerate(seq, 1):
+            if q <= target:
+                need = n
+                break
+        out["inspections_to_target"] = need
+        return out
+
+    results = []
+    for ep, e in enumerate(cases["episodes"]):
+        pool, seen = [], set()
+        for i in e.get("pool", []):
+            if i not in seen:
+                seen.add(i)
+                pool.append(i)
+
+        # random strategy: the preselected order
+        order, used = [], set()
+        for i in list(e.get("random_order", [])) + pool:
+            if i not in used and i in seen and len(order) < BUDGET:
+                used.add(i)
+                order.append(i)
+        rnd = [(i, inspect(ep, "random", i)) for i in order]
+
+        # adaptive strategy: predicted quality plus local residual correction
+        obs, seq = {}, []
+        for _ in range(min(BUDGET, len(pool))):
+            best, bs = None, None
+            for i in pool:
+                if i in obs:
+                    continue
+                adj = pred(i)
+                if obs:
+                    near = sorted((gap(rows[i], rows[k]), k) for k in obs)[:3]
+                    w = [(1 / (d + 0.05), obs[k] - pred(k)) for d, k in near]
+                    adj += sum(x * y for x, y in w) / sum(x for x, _ in w)
+                if bs is None or adj < bs:
+                    best, bs = i, adj
+            q = inspect(ep, "adaptive", best)
+            obs[best] = q
+            seq.append((best, q))
+        results.append({"episode": ep, "adaptive": summarize(seq),
+                        "random": summarize(rnd)})
+
+    comps = {}
+    for m in ("best_at_5", "best_at_10", "inspections_to_target"):
+        xs = [r["adaptive"][m] for r in results]
+        ys = [r["random"][m] for r in results]
+        c = compare(xs, ys)
+        c["adaptive_mean"] = sum(xs) / len(xs) if xs else 0.0
+        c["random_mean"] = sum(ys) / len(ys) if ys else 0.0
+        comps[m] = c
+    print(json.dumps({"target": target, "results": results,
+                      "comparisons": comps}))
+    sys.stdout.flush()
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("cmd", choices=["remember", "guess", "certify", "flow",
                                     "blame", "justify", "choose", "fix",
-                                    "spot"])
+                                    "spot", "race"])
     ap.add_argument("--train", required=False)
     ap.add_argument("--test", required=True)
     a = ap.parse_args()
@@ -658,7 +789,7 @@ def main():
         ap.error("--train is required")
     {"remember": remember, "guess": guess, "flow": flow,
      "blame": blame, "justify": justify, "choose": choose,
-     "fix": fix, "spot": spot}[a.cmd](a)
+     "fix": fix, "spot": spot, "race": race}[a.cmd](a)
 
 
 if __name__ == "__main__":

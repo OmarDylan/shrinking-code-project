@@ -10,6 +10,7 @@ K_NN, N_CONFIG, MIN_GAIN = 5, 12, 0.05
 EDIT = ["Clndrs", "Volume"]
 SPOT_COLS = ["Clndrs", "Volume", "Model", "origin"]
 SPOT_Q, SPOT_FLOOR = 0.95, 3.0
+SENTINEL = 11
 
 
 def load(path):
@@ -82,9 +83,7 @@ def remember(a):
     }))
 
 
-def predict_all(a):
-    th, tr = load(a.train)
-    eh, te = load(a.test)
+def predict_data(th, tr, eh, te):
     stats = goal_stats(th, tr)
     feats = [h for h in th if h and not h.endswith(("X", "+", "-"))]
     numc = [h for h in feats if h[0].isupper()]
@@ -137,6 +136,12 @@ def predict_all(a):
     mpg = [float(v) for v in pred["Mpg+"]]
     scores = [d2h({g: float(pred[g][i]) for g in GOALS}, stats) for i in range(len(te))]
     return mpg, scores, stats, th, tr
+
+
+def predict_all(a):
+    th, tr = load(a.train)
+    eh, te = load(a.test)
+    return predict_data(th, tr, eh, te)
 
 
 def guess(a):
@@ -448,7 +453,6 @@ def fix(a):
 def spot(a):
     th, tr = load(a.train)
     eh, te = load(a.test)
-    # inputs only: ignore X columns, goal columns (+/-)
     cols = [h for h in SPOT_COLS if h in th and not h.endswith(("X", "+", "-"))]
     numc = [h for h in cols if h[0].isupper()]
     symc = [h for h in cols if not h[0].isupper()]
@@ -464,7 +468,6 @@ def spot(a):
         ref[h] = (m, max(sd, 1e-6))
     known = {h: set(sym(th, tr, h)) - {"?", ""} for h in symc}
 
-    # volume conditional on cylinders
     groups = {}
     if "Clndrs" in th and "Volume" in th:
         d = {}
@@ -517,16 +520,76 @@ def spot(a):
     print(json.dumps({"scores": scores, "alerts": alerts, "threshold": thr}))
 
 
+def race(a):
+    with open(a.test) as f:
+        cases = json.load(f)
+    eh = [str(h).strip() for h in cases["header"]]
+    te = [["?" if v is None else str(v).strip() for v in r] for r in cases["rows"]]
+    th, tr = load(a.train)
+    _, pred, stats, _, _ = predict_data(th, tr, eh, te)
+    gc = {g: column(th, tr, g) for g in GOALS}
+    hist = [d2h({g: gc[g][i] for g in GOALS}, stats)
+            for i in range(len(tr)) if all(gc[g][i] is not None for g in GOALS)]
+    target = float(np.quantile(hist, 0.25)) if hist else 0.0
+
+    def inspect(ep, strat, i):
+        sys.stdout.write(json.dumps({"episode": ep, "strategy": strat, "inspect": i}) + "\n")
+        sys.stdout.flush()
+        line = sys.stdin.readline()
+        if not line:
+            return None
+        try:
+            resp = json.loads(line)
+        except ValueError:
+            return None
+        gv = find_goals(resp)
+        if gv is None or any(v is None for v in gv.values()):
+            return None
+        return d2h(gv, stats)
+
+    def run(ep, strat, order):
+        seen, insp, curve = set(), [], []
+        best, reach = 1.0, SENTINEL
+        for i in order:
+            if len(insp) >= BUDGET:
+                break
+            if i in seen:
+                continue
+            seen.add(i)
+            q = inspect(ep, strat, i)
+            insp.append(i)
+            if q is not None:
+                best = min(best, q)
+                if reach == SENTINEL and q <= target:
+                    reach = len(insp)
+            curve.append(best)
+        while len(curve) < BUDGET:
+            curve.append(best)
+        return {"inspected": insp, "best_at_5": curve[4], "best_at_10": curve[9],
+                "evals_to_target": reach}
+
+    results = []
+    for ep, e in enumerate(cases["episodes"]):
+        pool = [int(i) for i in e["pool"]]
+        adaptive = run(ep, "adaptive", sorted(pool, key=lambda i: (pred[i], i)))
+        rnd = run(ep, "random", [int(i) for i in e["random_order"]])
+        results.append({"episode": ep, "adaptive": adaptive, "random": rnd})
+    comps = {m: compare([r["adaptive"][m] for r in results], [r["random"][m] for r in results])
+             for m in ("best_at_5", "best_at_10", "evals_to_target")}
+    sys.stdout.write(json.dumps({"results": results, "comparisons": comps, "target": target}) + "\n")
+    sys.stdout.flush()
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("cmd", choices=["remember", "guess", "certify", "flow", "blame",
-                                    "justify", "choose", "fix", "spot"])
+                                    "justify", "choose", "fix", "spot", "race"])
     ap.add_argument("--train", required=True)
     ap.add_argument("--test", required=True)
     a = ap.parse_args()
     {"remember": remember, "guess": guess, "certify": certify,
      "flow": flow, "blame": blame, "justify": justify, "choose": choose,
-     "fix": fix, "spot": spot}[a.cmd](a)
+     "fix": fix, "spot": spot, "race": race}[a.cmd](a)
 
 
 main()

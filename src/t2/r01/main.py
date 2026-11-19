@@ -544,6 +544,66 @@ def spot(h, tr, h2, te, goals, stats):
     scores = [sc(raw({i: parse(r, i, True) for i in ins})) for r in te]
     return {"scores": scores, "alerts": [s > thr for s in scores], "threshold": thr}
 
+# ---- race skill ----
+RACE_BUDGET, SENTINEL = 10, 11
+
+def race(h, tr, cases, goals, stats):
+    h2, rows = cases["header"], cases["rows"]
+    pred = guess(h, tr, h2, rows, goals, stats)["scores"]
+    tq = sorted(d2h({i: num(r[i]) if i < len(r) else None for i, _ in goals}, goals, stats)
+                for r in tr)
+    if tq:
+        p = 0.25 * (len(tq) - 1)
+        lo = int(p)
+        hi = min(lo + 1, len(tq) - 1)
+        target = tq[lo] + (tq[hi] - tq[lo]) * (p - lo)
+    else:
+        target = 0.0
+
+    def run(e, strategy, order):
+        seen, qs = [], []
+        for k in order:
+            if len(seen) >= RACE_BUDGET:
+                break
+            if k in seen:
+                continue
+            sys.stdout.write(json.dumps({"episode": e, "strategy": strategy, "inspect": k}) + "\n")
+            sys.stdout.flush()
+            line = sys.stdin.readline()
+            if not line:
+                break
+            try:
+                resp = json.loads(line)
+            except ValueError:
+                break
+            vals = _observed(resp, h, goals)
+            if vals and all(vals.get(i) is not None for i, _ in goals):
+                q = d2h(vals, goals, stats)
+            else:
+                q = pred[k] if k < len(pred) else 1.0
+            seen.append(k)
+            qs.append(q)
+        need = next((i + 1 for i, q in enumerate(qs) if q <= target), SENTINEL)
+        return {"inspected": seen, "qualities": qs,
+                "best5": min(qs[:5]) if qs else 1.0,
+                "best10": min(qs) if qs else 1.0,
+                "needed": need}
+
+    results = []
+    for e, ep in enumerate(cases.get("episodes", [])):
+        pool = list(ep.get("pool", []))
+        adaptive_order = sorted(pool, key=lambda k: (pred[k], k))
+        rnd = list(ep.get("random_order", []))
+        results.append({"episode": e,
+                        "adaptive": run(e, "adaptive", adaptive_order),
+                        "random": run(e, "random", rnd)})
+    comps = {}
+    for m in ("best5", "best10", "needed"):
+        xs = [r["adaptive"][m] for r in results]
+        ys = [r["random"][m] for r in results]
+        comps[m] = certify([{"xs": xs, "ys": ys}])["comparisons"][0]
+    return {"results": results, "comparisons": comps, "target": target}
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("cmd")
@@ -555,6 +615,17 @@ def main():
         with open(a.test) as f:
             cases = json.load(f)
         print(json.dumps(certify(cases)))
+        return
+
+    if a.cmd == "race":
+        h, tr = load(a.train)
+        with open(a.test) as f:
+            cases = json.load(f)
+        goals = [(i, 1.0 if n.endswith("+") else 0.0)
+                 for i, n in enumerate(h) if n.endswith("+") or n.endswith("-")]
+        stats = goal_stats(h, tr, goals)
+        print(json.dumps(race(h, tr, cases, goals, stats)))
+        sys.stdout.flush()
         return
 
     h, tr = load(a.train)
