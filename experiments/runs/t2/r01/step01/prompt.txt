@@ -1,0 +1,86 @@
+
+Implement a compact Python program for car inventory analysis.
+
+Dataset header:
+Clndrs,Volume,HpX,Model,origin,Lbs-,Acc+,Mpg+
+
+Uppercase initial: numerical column.
+Lowercase initial: symbolic column.
+X suffix: ignored column.
++ suffix: maximize.
+- suffix: minimize.
+? means missing.
+
+Current skill: remember
+
+Customer requirements:
+From hundreds of cars, show me the unusually great buys.
+Show me what a typical good car, average car, and poor car look like.
+
+Acceptance contract:
+Remember
+
+Requirements: 1 and 2.
+
+- Load the training inventory.
+- Identify the goal columns.
+- Calculate normalization statistics from training data.
+- Calculate distance to heaven for observed cars.
+- Rank cars from best to worst.
+- Identify the ten best cars.
+- Identify the best, median and worst representative cars.
+
+Goal directions:
+- Lbs-: minimize
+- Acc+: maximize
+- Mpg+: maximize
+
+Evaluation:
+- Use the shared 80/20 split.
+- Fit normalization statistics using training rows only.
+- Evaluate ranking on the 80 observed test cars.
+- Compare results against a common reference calculation.
+- Record individual distance errors.
+
+This is a retrospective inventory-ranking task.
+Observed goals are available for this skill.
+They must be hidden for predictive tasks.
+
+Interface:
+
+python3 main.py remember --train TRAIN --test TEST
+
+Output: one JSON object containing:
+- scores: distance to heaven for every test row
+- top: indices of the ten best test rows
+- best: index of the best test row
+- median: index of the median-ranked test row
+- worst: index of the worst test row
+
+Indices are zero-based.
+Break ranking ties using the original row index.
+
+
+Required scoring formula:
+- Calculate each goal's mean and sample standard deviation
+  using training rows only (n - 1 denominator).
+- z = (value - mean) / (sd + 1e-32).
+- Clamp z to [-3, 3].
+- norm(value) = 1 / (1 + exp(-1.702 * z)).
+- Heaven is 0 for Lbs- and 1 for Acc+ and Mpg+.
+- d2h = sqrt(sum((norm(goal) - heaven)**2) / 3).
+- Lower d2h is better.
+- Rank by unrounded d2h; break exact ties by row index.
+
+Follow the specified input and output interface.
+Read datasets only from the supplied command-line paths.
+Do not hardcode dataset rows or expected test answers.
+Do not access the network or unrelated files.
+Do not inspect evaluator source.
+
+Return one complete Python source file.
+Return only Python code.
+Do not include Markdown or explanations.
+
+Background library:
+Use Python standard library only.
