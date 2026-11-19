@@ -223,6 +223,79 @@ def flow(h, tr, h2, te, goals, stats):
     out["alerts"] = alerts
     return out
 
+# ---- blame skill ----
+def blame(h, tr, h2, te, goals, stats):
+    idx2 = {n: i for i, n in enumerate(h2)}
+    gi = {i for i, _ in goals}
+    ins = [i for i, n in enumerate(h) if i not in gi and not n.endswith("X")
+           and (n[:1].isupper() or n[:1].islower())]
+
+    def cell(r, i, test):
+        j = idx2.get(h[i]) if test else i
+        return r[j] if j is not None and j < len(r) else "?"
+
+    ns = {}
+    for i in ins:
+        if h[i][:1].isupper():
+            v = [x for x in (num(cell(r, i, False)) for r in tr) if x is not None]
+            m = sum(v) / len(v) if v else 0.0
+            sd = math.sqrt(sum((x - m) ** 2 for x in v) / (len(v) - 1)) if len(v) > 1 else 0.0
+            ns[i] = (m, sd)
+
+    ds = []
+    for r in tr:
+        vals = {i: num(cell(r, i, False)) for i, _ in goals}
+        ds.append(d2h(vals, goals, stats))
+    order = sorted(range(len(tr)), key=lambda k: (ds[k], k))
+    q = max(1, len(tr) // 4) if tr else 0
+    good = [tr[k] for k in order[:q]]
+    poor = [tr[k] for k in order[len(order) - q:]] if q else []
+
+    prof = {}
+    for i in ins:
+        if i in ns:
+            def center(g):
+                v = [norm(x, *ns[i]) for x in (num(cell(r, i, False)) for r in g) if x is not None]
+                return sum(v) / len(v) if v else None
+            prof[i] = (center(good), center(poor))
+        else:
+            def freq(g):
+                c = {}
+                for r in g:
+                    v = cell(r, i, False)
+                    c[v] = c.get(v, 0) + 1
+                return {k: n / len(g) for k, n in c.items()} if g else {}
+            prof[i] = (freq(good), freq(poor))
+
+    out = []
+    for r in te:
+        goalsd = {}
+        for i, hv in goals:
+            x = num(cell(r, i, True))
+            goalsd[h[i]] = 0.0 if x is None else abs(norm(x, *stats[i]) - hv)
+        feats = {}
+        for i in ins:
+            s = 0.0
+            if i in ns:
+                x = num(cell(r, i, True))
+                g, p = prof[i]
+                if x is not None and g is not None and p is not None:
+                    nx = norm(x, *ns[i])
+                    s = max(0.0, abs(nx - g) - abs(nx - p))
+            else:
+                v = cell(r, i, True)
+                if v not in ("?", ""):
+                    g, p = prof[i]
+                    s = max(0.0, p.get(v, 0.0) - g.get(v, 0.0))
+            feats[h[i]] = s
+        out.append({
+            "goals": goalsd,
+            "features": feats,
+            "goal_order": sorted(goalsd, key=lambda k: (-goalsd[k], k)),
+            "feature_order": sorted(feats, key=lambda k: (-feats[k], k)),
+        })
+    return {"diagnoses": out}
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("cmd")
@@ -245,6 +318,8 @@ def main():
         out = flow(h, tr, h2, te, goals, stats)
     elif a.cmd == "guess":
         out = guess(h, tr, h2, te, goals, stats)
+    elif a.cmd == "blame":
+        out = blame(h, tr, h2, te, goals, stats)
     else:
         out = remember(h, tr, h2, te, goals, stats)
     print(json.dumps(out))

@@ -189,13 +189,83 @@ def flow(a):
     print(json.dumps({"mpg": mpg, "scores": scores, "alerts": alerts}))
 
 
+def blame(a):
+    th, tr = load(a.train)
+    eh, te = load(a.test)
+    stats = goal_stats(th, tr)
+    gc = {g: column(th, tr, g) for g in GOALS}
+    rows = [i for i in range(len(tr)) if all(gc[g][i] is not None for g in GOALS)]
+    sc = {i: d2h({g: gc[g][i] for g in GOALS}, stats) for i in rows}
+    order = sorted(rows, key=lambda i: (sc[i], i))
+    k = max(1, int(len(order) * 0.25)) if order else 0
+    good, poor = order[:k], order[len(order) - k:] if k else []
+
+    inputs = [h for h in th if h and not h.endswith(("X", "+", "-"))]
+    prof = {}
+    for h in inputs:
+        if h[0].isupper():
+            v = [x for x in column(th, tr, h) if x is not None]
+            n = len(v)
+            m = sum(v) / n if n else 0.0
+            sd = math.sqrt(sum((x - m) ** 2 for x in v) / (n - 1)) if n > 1 else 0.0
+            st = {h: (m, sd)}
+            col = column(th, tr, h)
+
+            def center(grp):
+                z = [norm(col[i], h, st) for i in grp if col[i] is not None]
+                return sum(z) / len(z) if z else 0.5
+            prof[h] = ("n", st, center(good), center(poor))
+        else:
+            col = sym(th, tr, h)
+
+            def freq(grp):
+                z = [col[i] for i in grp if col[i] not in ("?", "")]
+                d = {}
+                for s in z:
+                    d[s] = d.get(s, 0) + 1
+                return {s: c / len(z) for s, c in d.items()} if z else {}
+            prof[h] = ("s", freq(good), freq(poor))
+
+    tg = {g: column(eh, te, g) for g in GOALS}
+    out = []
+    for r in range(len(te)):
+        goals = {}
+        for g, hv in GOALS.items():
+            goals[g] = abs(norm(tg[g][r], g, stats) - hv)
+        feats = {}
+        for h in inputs:
+            p = prof[h]
+            if p[0] == "n":
+                x = column(eh, [te[r]], h)[0]
+                if x is None:
+                    s = 0.0
+                else:
+                    z = norm(x, h, p[1])
+                    s = max(0.0, abs(z - p[2]) - abs(z - p[3]))
+            else:
+                v = sym(eh, [te[r]], h)[0]
+                if v in ("?", ""):
+                    s = 0.0
+                else:
+                    s = max(0.0, p[2].get(v, 0.0) - p[1].get(v, 0.0))
+            feats[h] = float(s)
+        out.append({
+            "goals": goals,
+            "features": feats,
+            "goal_order": sorted(goals, key=lambda n: (-goals[n], n)),
+            "feature_order": sorted(feats, key=lambda n: (-feats[n], n)),
+        })
+    print(json.dumps({"diagnoses": out}))
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["remember", "guess", "certify", "flow"])
+    ap.add_argument("cmd", choices=["remember", "guess", "certify", "flow", "blame"])
     ap.add_argument("--train", required=True)
     ap.add_argument("--test", required=True)
     a = ap.parse_args()
-    {"remember": remember, "guess": guess, "certify": certify, "flow": flow}[a.cmd](a)
+    {"remember": remember, "guess": guess, "certify": certify,
+     "flow": flow, "blame": blame}[a.cmd](a)
 
 
 main()

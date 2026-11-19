@@ -221,9 +221,87 @@ def flow(a):
     print(json.dumps({"mpg": mpg, "scores": scores, "alerts": alerts}))
 
 
+# ---- blame: retrospective diagnosis of poor cars ----
+
+def blame(a):
+    names, train = load(a.train)
+    tnames, test = load(a.test)
+    goals = [(n, 0.0 if n[-1] == "-" else 1.0) for n in names if n[-1] in "+-"]
+    stats = goal_stats(names, train, goals)
+
+    def val(r, i):
+        return num(r[i]) if 0 <= i < len(r) else None
+
+    def d2h(r):
+        tot = 0.0
+        for n, h in goals:
+            v = val(r, names.index(n))
+            tot += 1.0 if v is None else (logi(v, *stats[n]) - h) ** 2
+        return sqrt(tot / len(goals))
+
+    ds = [d2h(r) for r in train]
+    order = sorted(range(len(train)), key=lambda i: (ds[i], i))
+    k = max(1, len(order) // 4)
+    good = [train[i] for i in order[:k]]
+    poor = [train[i] for i in order[-k:]]
+
+    xs = [(i, n) for i, n in enumerate(names)
+          if n[-1] not in "X+-" and n in tnames]
+    cstat, prof = {}, {}
+    for i, n in xs:
+        if n[0].isupper():
+            vs = [v for v in (val(r, i) for r in train) if v is not None]
+            c = len(vs)
+            mu = sum(vs) / c if c else 0.0
+            sd = sqrt(sum((v - mu) ** 2 for v in vs) / (c - 1)) if c > 1 else 0.0
+            cstat[i] = (mu, sd)
+
+            def center(g, i=i):
+                z = [logi(v, *cstat[i]) for v in (val(r, i) for r in g)
+                     if v is not None]
+                return sum(z) / len(z) if z else None
+            prof[i] = (center(good), center(poor))
+        else:
+            def freq(g, i=i):
+                vs = [r[i] for r in g if i < len(r) and r[i] not in ("?", "")]
+                d = {}
+                for v in vs:
+                    d[v] = d.get(v, 0) + 1
+                return {v: c / len(vs) for v, c in d.items()}
+            prof[i] = (freq(good), freq(poor))
+
+    out = []
+    for r in test:
+        goalgaps = {}
+        for n, h in goals:
+            v = val(r, tnames.index(n))
+            goalgaps[n] = 1.0 if v is None else abs(logi(v, *stats[n]) - h)
+        feats = {}
+        for i, n in xs:
+            j = tnames.index(n)
+            s = 0.0
+            if j < len(r) and r[j] not in ("?", ""):
+                g, p = prof[i]
+                if n[0].isupper():
+                    v = num(r[j])
+                    if v is not None and g is not None and p is not None:
+                        x = logi(v, *cstat[i])
+                        s = max(0.0, abs(x - g) - abs(x - p))
+                else:
+                    s = max(0.0, p.get(r[j], 0.0) - g.get(r[j], 0.0))
+            feats[n] = s
+        out.append({
+            "goals": goalgaps,
+            "features": feats,
+            "goal_order": sorted(goalgaps, key=lambda n: (-goalgaps[n], n)),
+            "feature_order": sorted(feats, key=lambda n: (-feats[n], n)),
+        })
+    print(json.dumps({"diagnoses": out}))
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["remember", "guess", "certify", "flow"])
+    ap.add_argument("cmd", choices=["remember", "guess", "certify", "flow", "blame"])
     ap.add_argument("--train", required=False)
     ap.add_argument("--test", required=True)
     a = ap.parse_args()
@@ -232,7 +310,8 @@ def main():
         return
     if not a.train:
         ap.error("--train is required")
-    {"remember": remember, "guess": guess, "flow": flow}[a.cmd](a)
+    {"remember": remember, "guess": guess, "flow": flow,
+     "blame": blame}[a.cmd](a)
 
 
 if __name__ == "__main__":
