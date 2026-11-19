@@ -1,0 +1,92 @@
+name: CSC491 Overnight Evaluation
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/csc491-overnight.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  evaluate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+
+    steps:
+      - name: Get repository and Git history
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Install Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install scientific libraries
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install numpy scipy scikit-learn pandas matplotlib
+          python -c "import sklearn; print('sklearn:', sklearn.__version__)"
+
+      - name: Evaluate each historical treatment snapshot
+        shell: bash
+        run: |
+          set -uo pipefail
+
+          mkdir -p experiments/overnight
+
+          python --version > experiments/overnight/environment.txt
+          python -m pip freeze >> experiments/overnight/environment.txt
+
+          for step in 3 4 5 6 7 8 9 10; do
+            echo "========== STEP $step =========="
+
+            commit=$(git log -1 --format=%H \
+              --fixed-strings \
+              --grep="Record all treatments for step $step pilot")
+
+            if [ -z "$commit" ]; then
+              echo "MISSING HISTORICAL COMMIT FOR STEP $step"
+              exit 1
+            fi
+
+            echo "Step $step commit: $commit" \
+              >> experiments/overnight/commits.txt
+
+            for t in 2 4 6; do
+              git show "${commit}:src/t${t}/r01/main.py" \
+                > "src/t${t}/r01/main.py" || exit 1
+            done
+
+            if python3 scripts/evaluate_step.py \
+              --step "$step" \
+              --repeat 1 \
+              >> experiments/overnight/evaluation.log 2>&1
+            then
+              echo "Step $step evaluator completed"
+            else
+              echo "Step $step evaluator encountered an error" \
+                | tee -a experiments/overnight/evaluation.log
+            fi
+          done
+
+          cat experiments/overnight/evaluation.log
+
+      - name: Build comparison report and charts
+        if: always()
+        run: python3 scripts/cloud_report.py
+
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: csc491-overnight-results-${{ github.run_number }}
+          path: |
+            experiments/overnight/
+            experiments/summary/
+          retention-days: 30
