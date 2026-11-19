@@ -62,7 +62,11 @@ for t in range(1, 7):
 
     summary = {}
     if raw.exists():
-        summary = json.loads(raw.read_text()).get("summary", {})
+        payload = json.loads(raw.read_text())
+        summary = payload.get("summary", {})
+        summary["runtime"] = payload.get(
+            "runtime", summary.get("runtime")
+        )
 
     status = "PASS" if guess_pass and remember_pass is not False else "FAIL"
 

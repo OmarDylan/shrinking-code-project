@@ -6,6 +6,6 @@ mpg_error: 3.3910
 disty_error: 0.0834
 baseline_mpg_error: 6.9599
 baseline_disty_error: 0.1818
-Runtime: 2.2517s
+Runtime: 2.9525s
 PASS (valid predictions)
 Results saved to: /Users/Dylan 1/Desktop/SCHOOL/Fall-2026/CSC491/shrinking-code-project/experiments/summary/t3-guess-r01.json
