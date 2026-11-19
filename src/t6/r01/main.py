@@ -4,6 +4,7 @@ from math import exp, sqrt
 
 COHEN_T, CLIFFS_T, KS_T = 0.35, 0.197, 1.36
 WINDOW = 20
+BUDGET, PICKS = 10, 3
 
 
 def load(path):
@@ -328,7 +329,6 @@ def justify(a):
         j = (i + 1) % n
         s, o = scores[i], scores[j]
         acc = bool(s <= cutoff)
-        gi, gj = diag[i]["goals"], diag[j]["goals"]
         weakest = diag[i]["goal_order"][0] if diag[i]["goal_order"] else None
         fo = diag[i]["feature_order"]
         top = fo[0] if fo and diag[i]["features"][fo[0]] > 0 else None
@@ -361,10 +361,105 @@ def justify(a):
     print(json.dumps({"explanations": out}))
 
 
+# ---- choose: few inspections, best cars ----
+
+def parse_goals(resp, names, goals):
+    "Extract observed goal values (in goal order) from an evaluator reply."
+    gn = [n for n, _ in goals]
+    if isinstance(resp, dict):
+        src = resp
+        for k in ("goals", "observed", "y", "values"):
+            if k in resp:
+                src = resp[k]
+                break
+        if isinstance(src, dict):
+            vals = []
+            for n in gn:
+                v = src.get(n, src.get(n[:-1], src.get(n[:-1].lower())))
+                vals.append(num(str(v)) if v is not None else None)
+            return vals
+        resp = src
+    if isinstance(resp, list):
+        if len(resp) == len(names):
+            return [num(str(resp[names.index(n)])) for n in gn]
+        if len(resp) == len(gn):
+            return [num(str(v)) for v in resp]
+    return [None] * len(gn)
+
+
+def choose(a):
+    names, train = load(a.train)
+    tnames, test = load(a.test)
+    _, predict, _ = model(a)
+    goals = [(n, 0.0 if n[-1] == "-" else 1.0) for n in names if n[-1] in "+-"]
+    stats = goal_stats(names, train, goals)
+    pred = [predict(r)[1] for r in test]
+
+    # test-row feature space (inputs only), scaled by test spread
+    cols = [j for j, n in enumerate(tnames) if n[-1] not in "X+-"]
+    sc = {}
+    for j in cols:
+        if tnames[j][0].isupper():
+            vs = [v for v in (num(r[j]) for r in test if j < len(r)) if v is not None]
+            mu = sum(vs) / len(vs) if vs else 0.0
+            sd = sqrt(sum((v - mu) ** 2 for v in vs) / max(1, len(vs) - 1)) if vs else 1.0
+            sc[j] = (mu, sd or 1.0)
+
+    def gap(r, s):
+        t = c = 0
+        for j in cols:
+            x, y = (r[j] if j < len(r) else "?"), (s[j] if j < len(s) else "?")
+            if x in ("?", "") or y in ("?", ""):
+                continue
+            if j in sc:
+                p, q = num(x), num(y)
+                if p is None or q is None:
+                    continue
+                g = (p - q) / sc[j][1]
+            else:
+                g = float(x != y)
+            t += g * g
+            c += 1
+        return sqrt(t / c) if c else 1.0
+
+    obs = {}
+    n = len(test)
+    for _ in range(min(BUDGET, n)):
+        if obs:
+            near = {}
+            for i in range(n):
+                if i not in obs:
+                    near[i] = sorted((gap(test[i], test[k]), k) for k in obs)[:3]
+        best, bs = None, None
+        for i in range(n):
+            if i in obs:
+                continue
+            adj = pred[i]
+            if obs:
+                w = [(1 / (d + 0.05), obs[k] - pred[k]) for d, k in near[i]]
+                adj += sum(x * y for x, y in w) / sum(x for x, _ in w)
+            if bs is None or adj < bs:
+                best, bs = i, adj
+        print(json.dumps({"inspect": best}))
+        sys.stdout.flush()
+        line = sys.stdin.readline()
+        try:
+            vals = parse_goals(json.loads(line), names, goals)
+        except Exception:
+            vals = [None] * len(goals)
+        tot = 0.0
+        for (gname, h), v in zip(goals, vals):
+            tot += 1.0 if v is None else (logi(v, *stats[gname]) - h) ** 2
+        obs[best] = sqrt(tot / len(goals))
+    sel = sorted(obs, key=lambda i: (obs[i], i))[:PICKS]
+    print(json.dumps({"selected": sel}))
+    sys.stdout.flush()
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("cmd", choices=["remember", "guess", "certify", "flow",
-                                    "blame", "justify"])
+                                    "blame", "justify", "choose"])
     ap.add_argument("--train", required=False)
     ap.add_argument("--test", required=True)
     a = ap.parse_args()
@@ -374,7 +469,7 @@ def main():
     if not a.train:
         ap.error("--train is required")
     {"remember": remember, "guess": guess, "flow": flow,
-     "blame": blame, "justify": justify}[a.cmd](a)
+     "blame": blame, "justify": justify, "choose": choose}[a.cmd](a)
 
 
 if __name__ == "__main__":

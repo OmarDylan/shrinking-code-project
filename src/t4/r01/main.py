@@ -5,6 +5,7 @@ from sklearn.ensemble import RandomForestRegressor
 GOALS = {"Lbs-": 0, "Acc+": 1, "Mpg+": 1}
 COHEN_T, CLIFFS_T, KS_T = 0.35, 0.197, 1.36
 WINDOW = 20
+BUDGET, PICKS = 10, 3
 
 
 def load(path):
@@ -307,14 +308,59 @@ def justify(a):
     print(json.dumps({"explanations": res}))
 
 
+def find_goals(obj):
+    """Locate goal values in an evaluator response (flat or nested)."""
+    if isinstance(obj, dict):
+        if any(g in obj for g in GOALS):
+            out = {}
+            for g in GOALS:
+                v = obj.get(g)
+                out[g] = float(v) if isinstance(v, (int, float)) else num(str(v)) if v is not None else None
+            return out
+        for v in obj.values():
+            r = find_goals(v)
+            if r:
+                return r
+    return None
+
+
+def choose(a):
+    # Surrogate trained on training data ranks test cars from inputs only;
+    # the inspection budget is spent on the most promising predicted cars.
+    _, pred, stats, _, _ = predict_all(a)
+    n = len(pred)
+    order = sorted(range(n), key=lambda i: (pred[i], i))
+    seen = {}
+    for i in order[:min(BUDGET, n)]:
+        sys.stdout.write(json.dumps({"inspect": i}) + "\n")
+        sys.stdout.flush()
+        line = sys.stdin.readline()
+        if not line:
+            break
+        try:
+            resp = json.loads(line)
+        except ValueError:
+            continue
+        gv = find_goals(resp)
+        if gv is None:
+            continue
+        row = resp.get("row", i) if isinstance(resp, dict) else i
+        if not isinstance(row, int):
+            row = i
+        seen[row] = d2h(gv, stats)
+    best = sorted(seen, key=lambda i: (seen[i], i))[:PICKS]
+    sys.stdout.write(json.dumps({"selected": best}) + "\n")
+    sys.stdout.flush()
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["remember", "guess", "certify", "flow", "blame", "justify"])
+    ap.add_argument("cmd", choices=["remember", "guess", "certify", "flow", "blame", "justify", "choose"])
     ap.add_argument("--train", required=True)
     ap.add_argument("--test", required=True)
     a = ap.parse_args()
     {"remember": remember, "guess": guess, "certify": certify,
-     "flow": flow, "blame": blame, "justify": justify}[a.cmd](a)
+     "flow": flow, "blame": blame, "justify": justify, "choose": choose}[a.cmd](a)
 
 
 main()

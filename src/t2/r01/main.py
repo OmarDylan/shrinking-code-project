@@ -13,7 +13,7 @@ def num(s):
         return None
     try:
         return float(s)
-    except ValueError:
+    except (ValueError, TypeError):
         return None
 
 def goal_stats(h, tr, goals):
@@ -340,6 +340,56 @@ def justify(h, tr, h2, te, goals, stats):
                     "top_feature": top, "text": t})
     return {"explanations": res}
 
+# ---- choose skill ----
+BUDGET, PICKS = 10, 3
+
+def _observed(resp, h, goals):
+    """Extract {goal_col: value} from an evaluator response of unknown exact shape."""
+    src = resp
+    if isinstance(resp, dict):
+        for k in ("goals", "observed", "values", "y"):
+            if isinstance(resp.get(k), (dict, list)):
+                src = resp[k]
+                break
+    vals = {}
+    if isinstance(src, dict):
+        low = {str(k).lower(): v for k, v in src.items()}
+        for i, _ in goals:
+            n = h[i]
+            for key in (n, n.lower(), n[:-1], n[:-1].lower()):
+                if key in src or key in low:
+                    vals[i] = num(str(src[key] if key in src else low[key]))
+                    break
+    elif isinstance(src, list):
+        for (i, _), v in zip(goals, src):
+            vals[i] = num(str(v))
+    return vals
+
+def choose(h, tr, h2, te, goals, stats):
+    N = len(te)
+    budget = min(BUDGET, N)
+    pred = guess(h, tr, h2, te, goals, stats)["scores"]
+    order = sorted(range(N), key=lambda k: (pred[k], k))
+    inspected, observed = [], {}
+    for k in order[:budget]:
+        sys.stdout.write(json.dumps({"inspect": k}) + "\n")
+        sys.stdout.flush()
+        line = sys.stdin.readline()
+        if not line:
+            break
+        try:
+            resp = json.loads(line)
+        except ValueError:
+            break
+        inspected.append(k)
+        vals = _observed(resp, h, goals)
+        if vals and all(vals.get(i) is not None for i, _ in goals):
+            observed[k] = d2h(vals, goals, stats)
+        else:
+            observed[k] = pred[k]
+    best = sorted(inspected, key=lambda k: (observed[k], k))[:PICKS]
+    return {"selected": best}
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("cmd")
@@ -358,7 +408,9 @@ def main():
     goals = [(i, 1.0 if n.endswith("+") else 0.0)
              for i, n in enumerate(h) if n.endswith("+") or n.endswith("-")]
     stats = goal_stats(h, tr, goals)
-    if a.cmd == "flow":
+    if a.cmd == "choose":
+        out = choose(h, tr, h2, te, goals, stats)
+    elif a.cmd == "flow":
         out = flow(h, tr, h2, te, goals, stats)
     elif a.cmd == "guess":
         out = guess(h, tr, h2, te, goals, stats)
@@ -369,5 +421,6 @@ def main():
     else:
         out = remember(h, tr, h2, te, goals, stats)
     print(json.dumps(out))
+    sys.stdout.flush()
 
 main()

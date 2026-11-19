@@ -1,0 +1,79 @@
+
+Implement a compact Python program for car inventory analysis.
+
+Dataset header:
+Clndrs,Volume,HpX,Model,origin,Lbs-,Acc+,Mpg+
+
+Uppercase initial: numerical column.
+Lowercase initial: symbolic column.
+X suffix: ignored column.
++ suffix: maximize.
+- suffix: minimize.
+? means missing.
+
+Current skill: choose
+
+Customer requirements:
+Find me a great car with as few inspections as possible.
+Find strong alternatives without inspecting the whole inventory.
+
+Acceptance contract:
+Choose
+
+Requirements: 13 and 14.
+
+- Find high-quality cars without inspecting the entire inventory.
+- Initially receive only test car input characteristics.
+- Request observed goal values through an inspection oracle.
+- Inspect exactly 10 distinct test cars.
+- Recommend the three best inspected cars.
+- Rank recommendations by observed distance to heaven.
+- Break ties using the original row index.
+
+
+Evaluation:
+- Use the same 80 test cars for every treatment.
+- Learn normalization statistics using training data only.
+- Enforce the inspection budget externally.
+- Record all inspected and recommended cars.
+- Compare against random selection with the same budget.
+- Measure regret relative to the best available test car.
+- Record execution time.
+
+Interface:
+
+python3 main.py choose --train TRAIN --test MASKED_TEST
+
+The inspection protocol uses JSON lines over stdin and stdout.
+
+The program requests an inspection:
+{"inspect": 12}
+
+The evaluator responds with the row index and observed goals.
+
+The program finishes by returning:
+{"selected": [12, 5, 19]}
+
+Indices are zero-based.
+The selected indices above are illustrative.
+
+Budget: 10 inspections.
+Recommendations: 3 cars.
+
+Treatments may use different search strategies.
+
+Follow the specified input and output interface.
+Read datasets only from the supplied command-line paths.
+Do not hardcode dataset rows or expected test answers.
+Do not access the network or unrelated files.
+Do not inspect evaluator source.
+
+Return one complete Python source file.
+Return only Python code.
+Do not include Markdown or explanations.
+
+Background library:
+Use scikit-learn and its dependencies where appropriate. Python standard library is also permitted.
+
+Implement this skill independently.
+Do not import or depend on implementations of earlier skills.
