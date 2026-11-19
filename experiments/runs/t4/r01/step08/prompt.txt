@@ -1,0 +1,743 @@
+
+Implement a compact Python program for car inventory analysis.
+
+Dataset header:
+Clndrs,Volume,HpX,Model,origin,Lbs-,Acc+,Mpg+
+
+Uppercase initial: numerical column.
+Lowercase initial: symbolic column.
+X suffix: ignored column.
++ suffix: maximize.
+- suffix: minimize.
+? means missing.
+
+Current skill: fix
+
+Customer requirements:
+Tell me the smallest change that could improve a poor car.
+Show me how a car could resemble better cars in the inventory.
+
+Acceptance contract:
+Fix
+
+Requirements: 15 and 16.
+
+- Identify cars with poor predicted quality.
+- Hide all test goal values.
+- Reuse training data to estimate quality.
+- Change only Clndrs and Volume.
+- Keep Model and origin unchanged.
+- Consider the first 12 distinct engine configurations
+  from the best 25% of training cars.
+- Require an estimated improvement of at least 0.05.
+- Prefer fewer changed specifications, then smaller
+  normalized input distance, then better predicted quality.
+- Leave already good cars unchanged.
+- Preserve all previous skills.
+
+Evaluation:
+- Evaluate all 80 test cars.
+- Use a common five-nearest-neighbor scoring model.
+- Break neighbor-distance ties at 12 decimal places
+  using the original training row order.
+- Compare proposed repairs with reference calculations.
+- Record estimated improvement and number of changes.
+- Record execution time.
+
+Interface:
+
+python3 main.py fix --train TRAIN --test MASKED_TEST
+
+Output: one JSON object containing repairs.
+
+Each repair contains:
+- row
+- before
+- after
+- changes
+- status
+
+Status values:
+- already_good
+- improved
+- no_candidate
+
+Repairs are hypothetical configuration recommendations.
+Estimated improvements are not observed causal effects.
+
+Follow the specified input and output interface.
+Read datasets only from the supplied command-line paths.
+Do not hardcode dataset rows or expected test answers.
+Do not access the network or unrelated files.
+Do not inspect evaluator source.
+
+Return one complete Python source file.
+Return only Python code.
+Do not include Markdown or explanations.
+
+Background library:
+Use scikit-learn and its dependencies where appropriate. Python standard library is also permitted.
+
+Extend the existing program.
+Reuse its structures and functions whenever possible.
+Preserve all previous skill interfaces.
+Return the complete updated main.py.
+
+Previous skill remember contract:
+Remember
+
+Requirements: 1 and 2.
+
+- Load the training inventory.
+- Identify the goal columns.
+- Calculate normalization statistics from training data.
+- Calculate distance to heaven for observed cars.
+- Rank cars from best to worst.
+- Identify the ten best cars.
+- Identify the best, median and worst representative cars.
+
+Goal directions:
+- Lbs-: minimize
+- Acc+: maximize
+- Mpg+: maximize
+
+Evaluation:
+- Use the shared 80/20 split.
+- Fit normalization statistics using training rows only.
+- Evaluate ranking on the 80 observed test cars.
+- Compare results against a common reference calculation.
+- Record individual distance errors.
+
+This is a retrospective inventory-ranking task.
+Observed goals are available for this skill.
+They must be hidden for predictive tasks.
+
+Interface:
+
+python3 main.py remember --train TRAIN --test TEST
+
+Output: one JSON object containing:
+- scores: distance to heaven for every test row
+- top: indices of the ten best test rows
+- best: index of the best test row
+- median: index of the median-ranked test row
+- worst: index of the worst test row
+
+Indices are zero-based.
+Break ranking ties using the original row index.
+
+
+Required scoring formula:
+- Calculate each goal's mean and sample standard deviation
+  using training rows only (n - 1 denominator).
+- z = (value - mean) / (sd + 1e-32).
+- Clamp z to [-3, 3].
+- norm(value) = 1 / (1 + exp(-1.702 * z)).
+- Heaven is 0 for Lbs- and 1 for Acc+ and Mpg+.
+- d2h = sqrt(sum((norm(goal) - heaven)**2) / 3).
+- Lower d2h is better.
+- Rank by unrounded d2h; break exact ties by row index.
+
+Previous skill guess contract:
+Guess
+
+Requirements: 3 and 4.
+
+- Predict MPG for every test car.
+- Predict distance to heaven for every test car.
+- Use training data only to learn the model.
+- Hide all test goal values from the learner.
+- Hide Volume for alternating test rows to assess missing inputs.
+- Preserve all functionality from step 1.
+
+Evaluation:
+- Absolute MPG error for each test car.
+- Absolute distance-to-heaven prediction error for each test car.
+- Compare with a training-mean prediction baseline.
+- Preserve individual errors and execution time.
+
+Interface:
+
+python3 main.py guess --train TRAIN --test MASKED_TEST
+
+Output: one JSON object containing:
+- mpg: predicted MPG for every test row
+- scores: predicted distance to heaven for every test row
+
+Predictions must be returned in the original test row order.
+
+Previous skill certify contract:
+Certify
+
+Requirements: 5 and 6.
+
+- Compare two distributions of car evaluation scores.
+- Calculate Cohen's effect size.
+- Calculate Cliff's delta.
+- Calculate the normalized KS statistic.
+- Decide whether the distributions count as the same.
+- Handle ties, unsorted samples and unequal sample sizes.
+- Preserve all previous skills.
+
+Thresholds:
+- Cohen: 0.35
+- Cliffs: 0.197
+- KS: 1.36
+
+Evaluation:
+- Evaluate 80 comparison cases.
+- Include observed car scores and controlled variations.
+- Compare against independent reference calculations.
+- Record comparison accuracy and numerical errors.
+
+Interface:
+
+python3 main.py certify --train TRAIN --test CASES_JSON
+
+Input: a JSON list of objects containing xs and ys.
+
+Output: one JSON object containing comparisons.
+
+Each comparison contains:
+- cohen
+- cliffs
+- ks
+- same
+
+The distributions are already supplied, so no training
+is necessary for this skill.
+
+Previous skill flow contract:
+Flow
+
+Requirements: 7 and 8.
+
+- Process arriving cars sequentially.
+- Predict MPG and distance to heaven for each car.
+- Use only training data and currently available inputs.
+- Maintain a rolling window of 20 predicted quality scores.
+- Compare the window against historical training quality.
+- Raise an alert when the distributions are different.
+- Do not raise alerts before the first full window.
+- Preserve all previous skills.
+
+Evaluation:
+- Individual MPG and distance prediction errors.
+- Correctness of statistical alert decisions.
+- Agreement with alerts based on observed quality.
+- Verify that future arrivals cannot change earlier predictions.
+- Record execution time.
+
+Interface:
+
+python3 main.py flow --train TRAIN --test MASKED_TEST
+
+Output: one JSON object containing:
+- mpg: predicted MPG for each arriving car
+- scores: predicted distance to heaven
+- alerts: boolean alert for each arriving car
+
+Window size: 20.
+
+Previous skill blame contract:
+Blame
+
+Requirements: 9 and 10.
+
+- Rank training cars using distance to heaven.
+- Build profiles of the best and worst 25% of training cars.
+- Identify the weakest goals of each observed test car.
+- Rank input characteristics associated with poor cars.
+- Exclude ignored columns.
+- Preserve all previous skills.
+
+Diagnosis method:
+- Goal gaps are absolute distances from normalized heaven.
+- Numerical feature scores measure how much closer a
+  characteristic is to the poor profile than the good profile.
+- Numerical profile centers are normalized group means.
+- Symbolic feature scores are positive differences between
+  poor-group and good-group relative frequencies.
+- Negative feature scores are clipped to zero.
+- Missing inputs receive zero evidence.
+- Rank scores in descending order, breaking ties by name.
+
+Evaluation:
+- Evaluate all 80 observed test cars.
+- Learn profiles using training data only.
+- Compare diagnostic scores with independent calculations.
+- Record diagnostic errors and runtime.
+
+Interface:
+
+python3 main.py blame --train TRAIN --test TEST
+
+Output: one JSON object containing diagnoses.
+
+Each diagnosis contains:
+- goals: goal names mapped to their gaps
+- features: input names mapped to association scores
+- goal_order: goal names ranked by weakness
+- feature_order: input names ranked by association
+
+This is retrospective diagnosis, not causal inference.
+
+Previous skill justify contract:
+Justify
+
+Requirements: 11 and 12.
+
+- Explain why one car is recommended over another.
+- Explain why a car is accepted or rejected.
+- Use observed goals and existing diagnostic evidence.
+- Use the median training quality score as acceptance cutoff.
+- Recommend the car with the lower distance to heaven.
+- Report a tie when quality scores match to 12 decimal places.
+- Identify the goal contributing most to the winner's advantage.
+- Identify the current car's weakest goal.
+- Report an associated feature only when evidence is positive.
+- Preserve all previous skills.
+
+Evaluation:
+- Evaluate all 80 test cars.
+- Compare each car with the next car in the test inventory.
+- Compare the last car with the first car.
+- Verify recommendation and acceptance decisions.
+- Verify that explanations agree with the numerical evidence.
+- Record individual results and execution time.
+
+Interface:
+
+python3 main.py justify --train TRAIN --test TEST
+
+Output: one JSON object containing explanations.
+
+Each explanation contains:
+- row
+- other
+- score
+- other_score
+- cutoff
+- accepted
+- winner (null for a tie)
+- advantage_goal (null for a tie)
+- weakest_goal
+- top_feature (null when no positive evidence)
+- text
+
+Indices are zero-based.
+
+This is retrospective explanation, not causal inference.
+
+Previous skill choose contract:
+Choose
+
+Requirements: 13 and 14.
+
+- Find high-quality cars without inspecting the entire inventory.
+- Initially receive only test car input characteristics.
+- Request observed goal values through an inspection oracle.
+- Inspect exactly 10 distinct test cars.
+- Recommend the three best inspected cars.
+- Rank recommendations by observed distance to heaven.
+- Break ties using the original row index.
+- Preserve all previous skills.
+
+Evaluation:
+- Use the same 80 test cars for every treatment.
+- Learn normalization statistics using training data only.
+- Enforce the inspection budget externally.
+- Record all inspected and recommended cars.
+- Compare against random selection with the same budget.
+- Measure regret relative to the best available test car.
+- Record execution time.
+
+Interface:
+
+python3 main.py choose --train TRAIN --test MASKED_TEST
+
+The inspection protocol uses JSON lines over stdin and stdout.
+
+The program requests an inspection:
+{"inspect": 12}
+
+The evaluator responds with the row index and observed goals.
+
+The program finishes by returning:
+{"selected": [12, 5, 19]}
+
+Indices are zero-based.
+The selected indices above are illustrative.
+
+Budget: 10 inspections.
+Recommendations: 3 cars.
+
+Treatments may use different search strategies.
+
+Existing program:
+import csv, sys, json, math, argparse
+import numpy as np
+from sklearn.ensemble import RandomForestRegressor
+
+GOALS = {"Lbs-": 0, "Acc+": 1, "Mpg+": 1}
+COHEN_T, CLIFFS_T, KS_T = 0.35, 0.197, 1.36
+WINDOW = 20
+BUDGET, PICKS = 10, 3
+
+
+def load(path):
+    with open(path, newline="") as f:
+        rows = [r for r in csv.reader(f) if r and any(c.strip() for c in r)]
+    head = [h.strip() for h in rows[0]]
+    return head, [[c.strip() for c in r] for r in rows[1:]]
+
+
+def num(s):
+    if s == "?" or s == "":
+        return None
+    try:
+        return float(s)
+    except ValueError:
+        return None
+
+
+def column(head, rows, name):
+    if name not in head:
+        return [None] * len(rows)
+    i = head.index(name)
+    return [num(r[i]) if i < len(r) else None for r in rows]
+
+
+def sym(head, rows, name):
+    if name not in head:
+        return ["?"] * len(rows)
+    i = head.index(name)
+    return [r[i] if i < len(r) else "?" for r in rows]
+
+
+def goal_stats(th, tr):
+    stats = {}
+    for g in GOALS:
+        v = [x for x in column(th, tr, g) if x is not None]
+        n = len(v)
+        m = sum(v) / n
+        sd = math.sqrt(sum((x - m) ** 2 for x in v) / (n - 1)) if n > 1 else 0.0
+        stats[g] = (m, sd)
+    return stats
+
+
+def norm(x, g, stats):
+    if x is None:
+        return 0.5
+    m, sd = stats[g]
+    z = max(-3.0, min(3.0, (x - m) / (sd + 1e-32)))
+    return 1 / (1 + math.exp(-1.702 * z))
+
+
+def d2h(vals, stats):
+    s = sum((norm(vals[g], g, stats) - h) ** 2 for g, h in GOALS.items())
+    return math.sqrt(s / 3)
+
+
+def remember(a):
+    th, tr = load(a.train)
+    eh, te = load(a.test)
+    stats = goal_stats(th, tr)
+    cols = {g: column(eh, te, g) for g in GOALS}
+    scores = [d2h({g: cols[g][i] for g in GOALS}, stats) for i in range(len(te))]
+    order = sorted(range(len(scores)), key=lambda i: (scores[i], i))
+    print(json.dumps({
+        "scores": scores,
+        "top": order[:10],
+        "best": order[0],
+        "median": order[len(order) // 2],
+        "worst": order[-1],
+    }))
+
+
+def predict_all(a):
+    th, tr = load(a.train)
+    eh, te = load(a.test)
+    stats = goal_stats(th, tr)
+    feats = [h for h in th if h and not h.endswith(("X", "+", "-"))]
+    numc = [h for h in feats if h[0].isupper()]
+    symc = [h for h in feats if not h[0].isupper()]
+    med = {}
+    for h in numc:
+        v = [x for x in column(th, tr, h) if x is not None]
+        med[h] = float(np.median(v)) if v else 0.0
+    gmed = {}
+    if "Clndrs" in th and "Volume" in th:
+        d = {}
+        for c, v in zip(column(th, tr, "Clndrs"), column(th, tr, "Volume")):
+            if c is not None and v is not None:
+                d.setdefault(c, []).append(v)
+        gmed = {c: float(np.median(v)) for c, v in d.items()}
+    cats = {h: sorted(set(sym(th, tr, h))) for h in symc}
+
+    def build(head, rows, mask_vol=False):
+        cl = column(head, rows, "Clndrs")
+        X = []
+        nc = {h: column(head, rows, h) for h in numc}
+        sc = {h: sym(head, rows, h) for h in symc}
+        for i in range(len(rows)):
+            r = []
+            for h in numc:
+                x = nc[h][i]
+                if h == "Volume" and (mask_vol or x is None):
+                    x = gmed.get(cl[i]) if cl[i] is not None else None
+                if x is None:
+                    x = med[h]
+                r.append(x)
+            for h in symc:
+                r.extend(1.0 if sc[h][i] == c else 0.0 for c in cats[h])
+            X.append(r)
+        return np.array(X, dtype=float).reshape(len(rows), -1)
+
+    Xa = build(th, tr)
+    Xb = build(th, tr, True)
+    Xt = build(eh, te)
+    pred = {}
+    for g in GOALS:
+        y = column(th, tr, g)
+        idx = [i for i, v in enumerate(y) if v is not None]
+        yy = np.array([y[i] for i in idx])
+        X = np.vstack([Xa[idx], Xb[idx]])
+        Y = np.concatenate([yy, yy])
+        m = RandomForestRegressor(n_estimators=200, min_samples_leaf=2, random_state=0)
+        m.fit(X, Y)
+        pred[g] = m.predict(Xt)
+    mpg = [float(v) for v in pred["Mpg+"]]
+    scores = [d2h({g: float(pred[g][i]) for g in GOALS}, stats) for i in range(len(te))]
+    return mpg, scores, stats, th, tr
+
+
+def guess(a):
+    mpg, scores, _, _, _ = predict_all(a)
+    print(json.dumps({"mpg": mpg, "scores": scores}))
+
+
+def compare(xs, ys):
+    x = np.sort(np.asarray(xs, dtype=float))
+    y = np.sort(np.asarray(ys, dtype=float))
+    n, m = len(x), len(y)
+    if n == 0 or m == 0:
+        return {"cohen": 0.0, "cliffs": 0.0, "ks": 0.0, "same": True}
+    v1 = float(np.var(x, ddof=1)) if n > 1 else 0.0
+    v2 = float(np.var(y, ddof=1)) if m > 1 else 0.0
+    dof = n + m - 2
+    pooled = math.sqrt(((n - 1) * v1 + (m - 1) * v2) / dof) if dof > 0 else 0.0
+    diff = abs(float(x.mean()) - float(y.mean()))
+    if pooled > 0:
+        cohen = diff / pooled
+    else:
+        cohen = 0.0 if diff < 1e-12 else 1e9
+    gt = np.searchsorted(y, x, side="left").sum()
+    lt = (m - np.searchsorted(y, x, side="right")).sum()
+    cliffs = abs(float(gt - lt)) / (n * m)
+    allv = np.concatenate([x, y])
+    cx = np.searchsorted(x, allv, side="right") / n
+    cy = np.searchsorted(y, allv, side="right") / m
+    d = float(np.max(np.abs(cx - cy)))
+    ks = d * math.sqrt(n * m / (n + m))
+    same = bool(cohen < COHEN_T and cliffs < CLIFFS_T and ks < KS_T)
+    return {"cohen": float(cohen), "cliffs": float(cliffs), "ks": float(ks), "same": same}
+
+
+def certify(a):
+    with open(a.test) as f:
+        cases = json.load(f)
+    print(json.dumps({"comparisons": [compare(c["xs"], c["ys"]) for c in cases]}))
+
+
+def flow(a):
+    # Models are fit on training data only; each arrival's prediction depends
+    # only on that car's own inputs, so later arrivals cannot alter earlier ones.
+    mpg, scores, stats, th, tr = predict_all(a)
+    cols = {g: column(th, tr, g) for g in GOALS}
+    hist = [d2h({g: cols[g][i] for g in GOALS}, stats)
+            for i in range(len(tr)) if all(cols[g][i] is not None for g in GOALS)]
+    alerts = []
+    for i in range(len(scores)):
+        if i + 1 < WINDOW or not hist:
+            alerts.append(False)
+            continue
+        win = scores[i + 1 - WINDOW:i + 1]
+        alerts.append(not compare(win, hist)["same"])
+    print(json.dumps({"mpg": mpg, "scores": scores, "alerts": alerts}))
+
+
+def diagnose(a):
+    th, tr = load(a.train)
+    eh, te = load(a.test)
+    stats = goal_stats(th, tr)
+    gc = {g: column(th, tr, g) for g in GOALS}
+    rows = [i for i in range(len(tr)) if all(gc[g][i] is not None for g in GOALS)]
+    sc = {i: d2h({g: gc[g][i] for g in GOALS}, stats) for i in rows}
+    order = sorted(rows, key=lambda i: (sc[i], i))
+    k = max(1, int(len(order) * 0.25)) if order else 0
+    good, poor = order[:k], order[len(order) - k:] if k else []
+
+    inputs = [h for h in th if h and not h.endswith(("X", "+", "-"))]
+    prof = {}
+    for h in inputs:
+        if h[0].isupper():
+            v = [x for x in column(th, tr, h) if x is not None]
+            n = len(v)
+            m = sum(v) / n if n else 0.0
+            sd = math.sqrt(sum((x - m) ** 2 for x in v) / (n - 1)) if n > 1 else 0.0
+            st = {h: (m, sd)}
+            col = column(th, tr, h)
+
+            def center(grp, col=col, h=h, st=st):
+                z = [norm(col[i], h, st) for i in grp if col[i] is not None]
+                return sum(z) / len(z) if z else 0.5
+            prof[h] = ("n", st, center(good), center(poor))
+        else:
+            col = sym(th, tr, h)
+
+            def freq(grp, col=col):
+                z = [col[i] for i in grp if col[i] not in ("?", "")]
+                d = {}
+                for s in z:
+                    d[s] = d.get(s, 0) + 1
+                return {s: c / len(z) for s, c in d.items()} if z else {}
+            prof[h] = ("s", freq(good), freq(poor))
+
+    tg = {g: column(eh, te, g) for g in GOALS}
+    out = []
+    for r in range(len(te)):
+        goals = {}
+        for g, hv in GOALS.items():
+            goals[g] = abs(norm(tg[g][r], g, stats) - hv)
+        feats = {}
+        for h in inputs:
+            p = prof[h]
+            if p[0] == "n":
+                x = column(eh, [te[r]], h)[0]
+                if x is None:
+                    s = 0.0
+                else:
+                    z = norm(x, h, p[1])
+                    s = max(0.0, abs(z - p[2]) - abs(z - p[3]))
+            else:
+                v = sym(eh, [te[r]], h)[0]
+                if v in ("?", ""):
+                    s = 0.0
+                else:
+                    s = max(0.0, p[2].get(v, 0.0) - p[1].get(v, 0.0))
+            feats[h] = float(s)
+        out.append({
+            "goals": goals,
+            "features": feats,
+            "goal_order": sorted(goals, key=lambda n: (-goals[n], n)),
+            "feature_order": sorted(feats, key=lambda n: (-feats[n], n)),
+        })
+    return out, stats, list(sc.values()), tg, te
+
+
+def blame(a):
+    out = diagnose(a)[0]
+    print(json.dumps({"diagnoses": out}))
+
+
+def justify(a):
+    diag, stats, hist, tg, te = diagnose(a)
+    n = len(te)
+    cutoff = float(np.median(hist)) if hist else 0.5
+    scores = [d2h({g: tg[g][i] for g in GOALS}, stats) for i in range(n)]
+    res = []
+    for i in range(n):
+        j = (i + 1) % n
+        s, o = scores[i], scores[j]
+        acc = bool(s <= cutoff)
+        d = diag[i]
+        weakest = d["goal_order"][0]
+        top = None
+        if d["feature_order"] and d["features"][d["feature_order"][0]] > 0:
+            top = d["feature_order"][0]
+        tie = round(s, 12) == round(o, 12)
+        winner = adv = None
+        if not tie:
+            w, l = (i, j) if s < o else (j, i)
+            winner = w
+            gw, gl = diag[w]["goals"], diag[l]["goals"]
+            contrib = {g: gl[g] ** 2 - gw[g] ** 2 for g in GOALS}
+            adv = max(GOALS, key=lambda g: contrib[g])
+        if tie:
+            t = f"Car {i} and car {j} tie on quality (distance to heaven {s:.6f} vs {o:.6f})."
+        else:
+            t = (f"Car {winner} is recommended over car {j if winner == i else i} "
+                 f"because its distance to heaven is lower ({min(s, o):.6f} vs {max(s, o):.6f}); "
+                 f"the largest advantage comes from {adv}.")
+        t += (f" Car {i} is {'accepted' if acc else 'rejected'}: score {s:.6f} is "
+              f"{'at or below' if acc else 'above'} the median training cutoff {cutoff:.6f}."
+              f" Its weakest goal is {weakest} (gap {d['goals'][weakest]:.4f}).")
+        if top:
+            t += f" Feature {top} is most associated with poor cars (evidence {d['features'][top]:.4f})."
+        else:
+            t += " No input feature shows positive association with poor cars."
+        t += " This is retrospective, not causal."
+        res.append({"row": i, "other": j, "score": s, "other_score": o,
+                    "cutoff": cutoff, "accepted": acc, "winner": winner,
+                    "advantage_goal": adv, "weakest_goal": weakest,
+                    "top_feature": top, "text": t})
+    print(json.dumps({"explanations": res}))
+
+
+def find_goals(obj):
+    """Locate goal values in an evaluator response (flat or nested)."""
+    if isinstance(obj, dict):
+        if any(g in obj for g in GOALS):
+            out = {}
+            for g in GOALS:
+                v = obj.get(g)
+                out[g] = float(v) if isinstance(v, (int, float)) else num(str(v)) if v is not None else None
+            return out
+        for v in obj.values():
+            r = find_goals(v)
+            if r:
+                return r
+    return None
+
+
+def choose(a):
+    # Surrogate trained on training data ranks test cars from inputs only;
+    # the inspection budget is spent on the most promising predicted cars.
+    _, pred, stats, _, _ = predict_all(a)
+    n = len(pred)
+    order = sorted(range(n), key=lambda i: (pred[i], i))
+    seen = {}
+    for i in order[:min(BUDGET, n)]:
+        sys.stdout.write(json.dumps({"inspect": i}) + "\n")
+        sys.stdout.flush()
+        line = sys.stdin.readline()
+        if not line:
+            break
+        try:
+            resp = json.loads(line)
+        except ValueError:
+            continue
+        gv = find_goals(resp)
+        if gv is None:
+            continue
+        row = resp.get("row", i) if isinstance(resp, dict) else i
+        if not isinstance(row, int):
+            row = i
+        seen[row] = d2h(gv, stats)
+    best = sorted(seen, key=lambda i: (seen[i], i))[:PICKS]
+    sys.stdout.write(json.dumps({"selected": best}) + "\n")
+    sys.stdout.flush()
+
+
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("cmd", choices=["remember", "guess", "certify", "flow", "blame", "justify", "choose"])
+    ap.add_argument("--train", required=True)
+    ap.add_argument("--test", required=True)
+    a = ap.parse_args()
+    {"remember": remember, "guess": guess, "certify": certify,
+     "flow": flow, "blame": blame, "justify": justify, "choose": choose}[a.cmd](a)
+
+
+main()

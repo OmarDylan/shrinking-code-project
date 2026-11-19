@@ -390,6 +390,108 @@ def choose(h, tr, h2, te, goals, stats):
     best = sorted(inspected, key=lambda k: (observed[k], k))[:PICKS]
     return {"selected": best}
 
+# ---- fix skill ----
+K, N_CONF, MIN_GAIN = 5, 12, 0.05
+FIX_COLS = ("Clndrs", "Volume")
+
+def fix(h, tr, h2, te, goals, stats):
+    idx2 = {n: i for i, n in enumerate(h2)}
+    gi = {i for i, _ in goals}
+    ins = [i for i, n in enumerate(h) if i not in gi and not n.endswith("X")
+           and (n[:1].isupper() or n[:1].islower())]
+    isnum = {i: h[i][:1].isupper() for i in ins}
+
+    def parse(r, i, test):
+        j = idx2.get(h[i]) if test else i
+        s = r[j] if j is not None and j < len(r) else "?"
+        if isnum[i]:
+            return num(s)
+        return None if s in ("?", "") else s
+
+    rng = {}
+    for i in ins:
+        if isnum[i]:
+            v = [x for x in (parse(r, i, False) for r in tr) if x is not None]
+            rng[i] = (min(v), (max(v) - min(v)) or 1.0) if v else (0.0, 1.0)
+
+    trf = [{i: parse(r, i, False) for i in ins} for r in tr]
+    tq = [d2h({i: num(r[i]) if i < len(r) else None for i, _ in goals}, goals, stats)
+          for r in tr]
+    base = sum(tq) / len(tq) if tq else 0.0
+    sq = sorted(tq)
+    n = len(sq)
+    cutoff = 0.0 if n == 0 else (sq[n // 2] if n % 2 else (sq[n // 2 - 1] + sq[n // 2]) / 2)
+
+    def dist(a, b, cols):
+        s, c = 0.0, 0
+        for i in cols:
+            x, y = a.get(i), b.get(i)
+            if x is None or y is None:
+                continue
+            if isnum[i]:
+                d = (x - y) / rng[i][1]
+            else:
+                d = 0.0 if x == y else 1.0
+            s += d * d
+            c += 1
+        return s / c if c else 0.0
+
+    def predict(f):
+        ds = sorted(((round(dist(f, t, ins), 12), k) for k, t in enumerate(trf)))
+        top = ds[:K]
+        return sum(tq[k] for _, k in top) / len(top) if top else base
+
+    order = sorted(range(len(tr)), key=lambda k: (tq[k], k))
+    q = max(1, len(tr) // 4) if tr else 0
+    cn = {h[i]: i for i in ins}
+    ci = [cn[c] for c in FIX_COLS if c in cn]
+    confs, seen = [], set()
+    for k in order[:q]:
+        c = tuple(trf[k][i] for i in ci)
+        if any(x is None for x in c) or c in seen:
+            continue
+        seen.add(c)
+        confs.append(c)
+        if len(confs) >= N_CONF:
+            break
+
+    def show(f):
+        return {h[i]: f[i] for i in ins}
+
+    reps = []
+    for k, r in enumerate(te):
+        f = {i: parse(r, i, True) for i in ins}
+        p0 = predict(f)
+        rep = {"row": k, "before": show(f), "after": show(f), "changes": {},
+               "status": "already_good"}
+        if p0 > cutoff:
+            best = None
+            for c in confs:
+                g = dict(f)
+                ch = 0
+                for i, v in zip(ci, c):
+                    if g[i] != v:
+                        ch += 1
+                    g[i] = v
+                if ch == 0:
+                    continue
+                p1 = predict(g)
+                if p0 - p1 < MIN_GAIN:
+                    continue
+                key = (ch, dist(f, g, ci), p1)
+                if best is None or key < best[0]:
+                    best = (key, g, p0 - p1)
+            if best:
+                g = best[1]
+                rep["after"] = show(g)
+                rep["changes"] = {h[i]: g[i] for i in ci if f[i] != g[i]}
+                rep["status"] = "improved"
+                rep["improvement"] = best[2]
+            else:
+                rep["status"] = "no_candidate"
+        reps.append(rep)
+    return {"repairs": reps}
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("cmd")
@@ -408,7 +510,9 @@ def main():
     goals = [(i, 1.0 if n.endswith("+") else 0.0)
              for i, n in enumerate(h) if n.endswith("+") or n.endswith("-")]
     stats = goal_stats(h, tr, goals)
-    if a.cmd == "choose":
+    if a.cmd == "fix":
+        out = fix(h, tr, h2, te, goals, stats)
+    elif a.cmd == "choose":
         out = choose(h, tr, h2, te, goals, stats)
     elif a.cmd == "flow":
         out = flow(h, tr, h2, te, goals, stats)

@@ -6,6 +6,8 @@ GOALS = {"Lbs-": 0, "Acc+": 1, "Mpg+": 1}
 COHEN_T, CLIFFS_T, KS_T = 0.35, 0.197, 1.36
 WINDOW = 20
 BUDGET, PICKS = 10, 3
+K_NN, N_CONFIG, MIN_GAIN = 5, 12, 0.05
+EDIT = ["Clndrs", "Volume"]
 
 
 def load(path):
@@ -174,8 +176,6 @@ def certify(a):
 
 
 def flow(a):
-    # Models are fit on training data only; each arrival's prediction depends
-    # only on that car's own inputs, so later arrivals cannot alter earlier ones.
     mpg, scores, stats, th, tr = predict_all(a)
     cols = {g: column(th, tr, g) for g in GOALS}
     hist = [d2h({g: cols[g][i] for g in GOALS}, stats)
@@ -325,8 +325,6 @@ def find_goals(obj):
 
 
 def choose(a):
-    # Surrogate trained on training data ranks test cars from inputs only;
-    # the inspection budget is spent on the most promising predicted cars.
     _, pred, stats, _, _ = predict_all(a)
     n = len(pred)
     order = sorted(range(n), key=lambda i: (pred[i], i))
@@ -353,14 +351,108 @@ def choose(a):
     sys.stdout.flush()
 
 
+def fix(a):
+    th, tr = load(a.train)
+    eh, te = load(a.test)
+    stats = goal_stats(th, tr)
+    gc = {g: column(th, tr, g) for g in GOALS}
+    ok = [i for i in range(len(tr)) if all(gc[g][i] is not None for g in GOALS)]
+    qual = np.array([d2h({g: gc[g][i] for g in GOALS}, stats) for i in ok])
+    cutoff = float(np.median(qual)) if len(qual) else 0.5
+
+    feats = [h for h in th if h and not h.endswith(("X", "+", "-"))]
+    numc = [h for h in feats if h[0].isupper()]
+    symc = [h for h in feats if not h[0].isupper()]
+    tn = {h: column(th, tr, h) for h in numc}
+    ts = {h: sym(th, tr, h) for h in symc}
+    med, rng = {}, {}
+    for h in numc:
+        v = [x for x in tn[h] if x is not None]
+        med[h] = float(np.median(v)) if v else 0.0
+        rng[h] = (max(v) - min(v)) if v and max(v) > min(v) else 1.0
+    tnum = {h: np.array([med[h] if x is None else x for x in tn[h]], float)[ok] / rng[h] for h in numc}
+    tsym = {h: np.array(ts[h], dtype=object)[ok] for h in symc}
+    ids = np.arange(len(ok))
+
+    def score(car):
+        d2 = np.zeros(len(ok))
+        for h in numc:
+            d2 += (tnum[h] - car[h] / rng[h]) ** 2
+        for h in symc:
+            d2 += (tsym[h] != car[h]).astype(float)
+        d = np.round(np.sqrt(d2), 12)
+        nb = np.lexsort((ids, d))[:K_NN]
+        return float(qual[nb].mean()) if len(nb) else 0.5
+
+    # candidate engine configurations: first 12 distinct from best 25% of training
+    order = sorted(range(len(ok)), key=lambda i: (qual[i], i))
+    best = order[:max(1, int(len(order) * 0.25))] if order else []
+    cc, cv = (column(th, tr, e) for e in EDIT)
+    cfgs, seen = [], set()
+    for i in best:
+        r = ok[i]
+        if cc[r] is None or cv[r] is None:
+            continue
+        key = (cc[r], cv[r])
+        if key not in seen:
+            seen.add(key)
+            cfgs.append(key)
+        if len(cfgs) >= N_CONFIG:
+            break
+
+    en = {h: column(eh, te, h) for h in numc}
+    es = {h: sym(eh, te, h) for h in symc}
+    repairs = []
+    for r in range(len(te)):
+        car = {}
+        for h in numc:
+            x = en[h][r]
+            car[h] = med[h] if x is None else x
+        for h in symc:
+            car[h] = es[h][r]
+        before = dict(car)
+        sb = score(car)
+        rep = {"row": r, "before": before, "after": dict(before), "changes": 0}
+        if sb <= cutoff:
+            rep["status"] = "already_good"
+            repairs.append(rep)
+            continue
+        cands = []
+        for c, v in cfgs:
+            ch = int(car["Clndrs"] != c) + int(car["Volume"] != v)
+            if ch == 0:
+                continue
+            new = dict(car)
+            new["Clndrs"], new["Volume"] = c, v
+            sa = score(new)
+            if sb - sa < MIN_GAIN:
+                continue
+            dist = math.sqrt(((car["Clndrs"] - c) / rng["Clndrs"]) ** 2 +
+                             ((car["Volume"] - v) / rng["Volume"]) ** 2)
+            cands.append((ch, dist, sa, new))
+        if not cands:
+            rep["status"] = "no_candidate"
+        else:
+            ch, dist, sa, new = min(cands, key=lambda t: (t[0], t[1], t[2]))
+            rep["after"] = new
+            rep["changes"] = ch
+            rep["status"] = "improved"
+            rep["improvement"] = sb - sa
+            rep["distance"] = dist
+        rep["before_score"] = sb
+        repairs.append(rep)
+    print(json.dumps({"repairs": repairs}))
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["remember", "guess", "certify", "flow", "blame", "justify", "choose"])
+    ap.add_argument("cmd", choices=["remember", "guess", "certify", "flow", "blame", "justify", "choose", "fix"])
     ap.add_argument("--train", required=True)
     ap.add_argument("--test", required=True)
     a = ap.parse_args()
     {"remember": remember, "guess": guess, "certify": certify,
-     "flow": flow, "blame": blame, "justify": justify, "choose": choose}[a.cmd](a)
+     "flow": flow, "blame": blame, "justify": justify, "choose": choose,
+     "fix": fix}[a.cmd](a)
 
 
 main()

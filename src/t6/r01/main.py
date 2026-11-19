@@ -5,6 +5,8 @@ from math import exp, sqrt
 COHEN_T, CLIFFS_T, KS_T = 0.35, 0.197, 1.36
 WINDOW = 20
 BUDGET, PICKS = 10, 3
+FIX_K, FIX_CONFIGS, FIX_MIN_GAIN = 5, 12, 0.05
+FIX_COLS = ("Clndrs", "Volume")
 
 
 def load(path):
@@ -69,7 +71,7 @@ def remember(a):
     }))
 
 
-def model(a, K=7):
+def model(a, K=7, rnd=False):
     "Fit on training only; return test rows, per-row predictor, training d2h list."
     names, train = load(a.train)
     tnames, test = load(a.test)
@@ -132,7 +134,8 @@ def model(a, K=7):
                 g = abs(a_ - b_) if isn else float(a_ != b_)
                 s += g * g
                 c += 1
-            ds.append((sqrt(s / c) if c else 1.0, k))
+            d = sqrt(s / c) if c else 1.0
+            ds.append((round(d, 12) if rnd else d, k))
         ds.sort()
         nn = [k for _, k in ds[:K]]
         ms = [tr[k][1] for k in nn if tr[k][1] is not None]
@@ -456,10 +459,116 @@ def choose(a):
     sys.stdout.flush()
 
 
+# ---- fix: smallest hypothetical change to improve a poor car ----
+
+def fix(a):
+    names, train = load(a.train)
+    tnames, test = load(a.test)
+    _, predict, hist = model(a, FIX_K, True)
+    cutoff = median(hist)
+    order = sorted(range(len(train)), key=lambda i: (hist[i], i))
+    best = order[:max(1, len(order) // 4)]
+    fcols = [c for c in FIX_COLS if c in names and c in tnames]
+    tidx = {c: tnames.index(c) for c in fcols}
+    nidx = {c: names.index(c) for c in fcols}
+
+    # distinct engine configurations from the best 25%, in rank order
+    configs, seen = [], set()
+    for i in best:
+        r = train[i]
+        cfg = tuple(r[nidx[c]] if nidx[c] < len(r) else "?" for c in fcols)
+        if "?" in cfg or cfg in seen:
+            continue
+        seen.add(cfg)
+        configs.append(cfg)
+        if len(configs) >= FIX_CONFIGS:
+            break
+
+    st = {}
+    for c in fcols:
+        vs = [v for v in (num(r[nidx[c]]) for r in train if nidx[c] < len(r))
+              if v is not None]
+        k = len(vs)
+        mu = sum(vs) / k if k else 0.0
+        sd = sqrt(sum((v - mu) ** 2 for v in vs) / (k - 1)) if k > 1 else 0.0
+        st[c] = (mu, sd)
+
+    def conv(s):
+        v = num(s)
+        if v is None:
+            return None if s in ("?", "") else s
+        return int(v) if v == int(v) else v
+
+    inputs = [(j, n) for j, n in enumerate(tnames) if n[-1] not in "X+-"]
+
+    def snap(r):
+        return {n: conv(r[j]) if j < len(r) else None for j, n in inputs}
+
+    def same(x, y):
+        p, q = num(x), num(y)
+        return p == q if p is not None and q is not None else x == y
+
+    def ndist(r, cfg, changed):
+        t = 0.0
+        for c, new in changed:
+            old = r[tidx[c]] if tidx[c] < len(r) else "?"
+            p, q = num(old), num(new)
+            if p is None or q is None:
+                g = 1.0
+            else:
+                g = abs(logi(p, *st[c]) - logi(q, *st[c]))
+            t += g * g
+        return sqrt(t / max(1, len(fcols)))
+
+    out = []
+    for ri, r in enumerate(test):
+        r = list(r)
+        s0 = predict(r)[1]
+        before = snap(r)
+        if s0 <= cutoff:
+            out.append({"row": ri, "before": before, "after": before,
+                        "changes": [], "status": "already_good",
+                        "estimated_improvement": 0.0, "n_changes": 0})
+            continue
+        pick = None
+        for cfg in configs:
+            changed = []
+            for c, new in zip(fcols, cfg):
+                old = r[tidx[c]] if tidx[c] < len(r) else "?"
+                if not same(old, new):
+                    changed.append((c, new))
+            if not changed:
+                continue
+            r2 = list(r)
+            for c, new in changed:
+                while len(r2) <= tidx[c]:
+                    r2.append("?")
+                r2[tidx[c]] = new
+            s1 = predict(r2)[1]
+            if s0 - s1 < FIX_MIN_GAIN:
+                continue
+            key = (len(changed), ndist(r, cfg, changed), s1)
+            if pick is None or key < pick[0]:
+                pick = (key, r2, changed, s1)
+        if pick is None:
+            out.append({"row": ri, "before": before, "after": before,
+                        "changes": [], "status": "no_candidate",
+                        "estimated_improvement": 0.0, "n_changes": 0})
+            continue
+        _, r2, changed, s1 = pick
+        out.append({"row": ri, "before": before, "after": snap(r2),
+                    "changes": [{"column": c, "from": before[c], "to": conv(new)}
+                                for c, new in changed],
+                    "status": "improved",
+                    "estimated_improvement": s0 - s1,
+                    "n_changes": len(changed)})
+    print(json.dumps({"repairs": out}))
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("cmd", choices=["remember", "guess", "certify", "flow",
-                                    "blame", "justify", "choose"])
+                                    "blame", "justify", "choose", "fix"])
     ap.add_argument("--train", required=False)
     ap.add_argument("--test", required=True)
     a = ap.parse_args()
@@ -469,7 +578,8 @@ def main():
     if not a.train:
         ap.error("--train is required")
     {"remember": remember, "guess": guess, "flow": flow,
-     "blame": blame, "justify": justify, "choose": choose}[a.cmd](a)
+     "blame": blame, "justify": justify, "choose": choose,
+     "fix": fix}[a.cmd](a)
 
 
 if __name__ == "__main__":
