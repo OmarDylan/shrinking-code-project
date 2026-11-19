@@ -1,0 +1,83 @@
+T3 | r05 | Step 9: spot
+{
+  "protocol": "v2",
+  "contract_sha256": "33aed7556be266825118db5411311676169961e72f21ef5984aa292e4a7e97df",
+  "prompt_sha256": "e5895f9c3d274e2325ec0b742dfd015af3619a36ed1283cf1746f6d7411e9c1c",
+  "treatment": 3,
+  "repeat": 5,
+  "step": 9,
+  "skill": "spot",
+  "library": "sklearn",
+  "reuse": false,
+  "requested_model": "sonnet",
+  "model_usage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 2,
+      "outputTokens": 2264,
+      "cacheReadInputTokens": 4849,
+      "cacheCreationInputTokens": 363,
+      "webSearchRequests": 0,
+      "costUSD": 0.0245809,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 959,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 363,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 363,
+    "cache_read_input_tokens": 4849,
+    "output_tokens": 2264,
+    "output_tokens_details": {
+      "thinking_tokens": 959
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 363,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 2264,
+        "cache_read_input_tokens": 4849,
+        "cache_creation_input_tokens": 363,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 363
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "estimated_cost_usd": 0.0245809,
+  "generation_seconds": 17.165069499998935,
+  "returncode": 0,
+  "status": "generated",
+  "imports": [
+    "csv",
+    "json",
+    "numpy",
+    "sys"
+  ],
+  "assigned_library_imported": false,
+  "source_sha256": "ba58329fba237c3a49083c19c446f157c952bb1a75946bc47c72348f68528477",
+  "added_physical_lines": 88,
+  "removed_physical_lines": 0,
+  "file_physical_lines": 88,
+  "cumulative_physical_lines": 633,
+  "source": "src/t3/r05/spot.py"
+}
+

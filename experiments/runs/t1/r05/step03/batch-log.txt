@@ -1,0 +1,82 @@
+T1 | r05 | Step 3: certify
+{
+  "protocol": "v2",
+  "contract_sha256": "33aed7556be266825118db5411311676169961e72f21ef5984aa292e4a7e97df",
+  "prompt_sha256": "1954e438ef218ace77ead84eda83b556f8c94b5d9da1d36f6ad9e4be9140e9e0",
+  "treatment": 1,
+  "repeat": 5,
+  "step": 3,
+  "skill": "certify",
+  "library": "python",
+  "reuse": false,
+  "requested_model": "sonnet",
+  "model_usage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 2,
+      "outputTokens": 605,
+      "cacheReadInputTokens": 2173,
+      "cacheCreationInputTokens": 364,
+      "webSearchRequests": 0,
+      "costUSD": 0.0077272999999999994,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 0,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 364,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 364,
+    "cache_read_input_tokens": 2173,
+    "output_tokens": 605,
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 364,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 605,
+        "cache_read_input_tokens": 2173,
+        "cache_creation_input_tokens": 364,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 364
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "estimated_cost_usd": 0.0077272999999999994,
+  "generation_seconds": 4.8332069579919335,
+  "returncode": 0,
+  "status": "generated",
+  "imports": [
+    "json",
+    "math",
+    "sys"
+  ],
+  "assigned_library_imported": null,
+  "source_sha256": "49a0bdd795cb401d10874b5280e89b861b460402a570e76cf1583b32da70515b",
+  "added_physical_lines": 42,
+  "removed_physical_lines": 0,
+  "file_physical_lines": 42,
+  "cumulative_physical_lines": 197,
+  "source": "src/t1/r05/certify.py"
+}
+

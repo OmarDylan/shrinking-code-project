@@ -1,0 +1,83 @@
+T5 | r05 | Step 6: justify
+{
+  "protocol": "v2",
+  "contract_sha256": "33aed7556be266825118db5411311676169961e72f21ef5984aa292e4a7e97df",
+  "prompt_sha256": "22d4fbfb6fe6b1624b25c70987137afa566a2bbd5989ab57287b7e382a43ec15",
+  "treatment": 5,
+  "repeat": 5,
+  "step": 6,
+  "skill": "justify",
+  "library": "ezr",
+  "reuse": false,
+  "requested_model": "sonnet",
+  "model_usage": {
+    "claude-sonnet-5-5": {
+      "inputTokens": 2,
+      "outputTokens": 2547,
+      "cacheReadInputTokens": 20165,
+      "cacheCreationInputTokens": 362,
+      "webSearchRequests": 0,
+      "costUSD": 0.028938500000000002,
+      "contextWindow": 1000000,
+      "maxOutputTokens": 128000,
+      "thinkingTokens": 798,
+      "cacheCreationEphemeral5mInputTokens": 0,
+      "cacheCreationEphemeral1hInputTokens": 362,
+      "canonicalModel": "claude-sonnet-5-5",
+      "provider": "firstParty",
+      "costBasis": "list"
+    }
+  },
+  "usage": {
+    "input_tokens": 2,
+    "cache_creation_input_tokens": 362,
+    "cache_read_input_tokens": 20165,
+    "output_tokens": 2547,
+    "output_tokens_details": {
+      "thinking_tokens": 798
+    },
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 362,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "global",
+    "iterations": [
+      {
+        "input_tokens": 2,
+        "output_tokens": 2547,
+        "cache_read_input_tokens": 20165,
+        "cache_creation_input_tokens": 362,
+        "cache_creation": {
+          "ephemeral_5m_input_tokens": 0,
+          "ephemeral_1h_input_tokens": 362
+        },
+        "type": "message"
+      }
+    ],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "estimated_cost_usd": 0.028938500000000002,
+  "generation_seconds": 17.48095016600564,
+  "returncode": 0,
+  "status": "generated",
+  "imports": [
+    "argparse",
+    "json",
+    "math",
+    "sys"
+  ],
+  "assigned_library_imported": false,
+  "source_sha256": "e65017934f4fcc3399bbb77c1ed0f2b0124dfb837ee1a52d680053c8cce08b92",
+  "added_physical_lines": 97,
+  "removed_physical_lines": 0,
+  "file_physical_lines": 97,
+  "cumulative_physical_lines": 447,
+  "source": "src/t5/r05/justify.py"
+}
+
