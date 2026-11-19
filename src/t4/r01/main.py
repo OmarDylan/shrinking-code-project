@@ -3,6 +3,7 @@ import numpy as np
 from sklearn.ensemble import RandomForestRegressor
 
 GOALS = {"Lbs-": 0, "Acc+": 1, "Mpg+": 1}
+COHEN_T, CLIFFS_T, KS_T = 0.35, 0.197, 1.36
 
 
 def load(path):
@@ -132,13 +133,49 @@ def guess(a):
     print(json.dumps({"mpg": mpg, "scores": scores}))
 
 
+def compare(xs, ys):
+    x = np.sort(np.asarray(xs, dtype=float))
+    y = np.sort(np.asarray(ys, dtype=float))
+    n, m = len(x), len(y)
+    if n == 0 or m == 0:
+        return {"cohen": 0.0, "cliffs": 0.0, "ks": 0.0, "same": True}
+    # Cohen's d (pooled sd, sample variances)
+    v1 = float(np.var(x, ddof=1)) if n > 1 else 0.0
+    v2 = float(np.var(y, ddof=1)) if m > 1 else 0.0
+    dof = n + m - 2
+    pooled = math.sqrt(((n - 1) * v1 + (m - 1) * v2) / dof) if dof > 0 else 0.0
+    diff = abs(float(x.mean()) - float(y.mean()))
+    if pooled > 0:
+        cohen = diff / pooled
+    else:
+        cohen = 0.0 if diff < 1e-12 else 1e9
+    # Cliff's delta, ties count as zero
+    gt = np.searchsorted(y, x, side="left").sum()
+    lt = (m - np.searchsorted(y, x, side="right")).sum()
+    cliffs = abs(float(gt - lt)) / (n * m)
+    # KS statistic over the pooled support, normalized
+    allv = np.concatenate([x, y])
+    cx = np.searchsorted(x, allv, side="right") / n
+    cy = np.searchsorted(y, allv, side="right") / m
+    d = float(np.max(np.abs(cx - cy)))
+    ks = d * math.sqrt(n * m / (n + m))
+    same = bool(cohen < COHEN_T and cliffs < CLIFFS_T and ks < KS_T)
+    return {"cohen": float(cohen), "cliffs": float(cliffs), "ks": float(ks), "same": same}
+
+
+def certify(a):
+    with open(a.test) as f:
+        cases = json.load(f)
+    print(json.dumps({"comparisons": [compare(c["xs"], c["ys"]) for c in cases]}))
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["remember", "guess"])
+    ap.add_argument("cmd", choices=["remember", "guess", "certify"])
     ap.add_argument("--train", required=True)
     ap.add_argument("--test", required=True)
     a = ap.parse_args()
-    (remember if a.cmd == "remember" else guess)(a)
+    {"remember": remember, "guess": guess, "certify": certify}[a.cmd](a)
 
 
 main()

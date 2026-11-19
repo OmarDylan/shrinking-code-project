@@ -1,5 +1,8 @@
 import sys, json, argparse
+from bisect import bisect_left, bisect_right
 from math import exp, sqrt
+
+COHEN_T, CLIFFS_T, KS_T = 0.35, 0.197, 1.36
 
 
 def load(path):
@@ -139,12 +142,73 @@ def guess(a, K=7):
     print(json.dumps({"mpg": mpg_out, "scores": sc_out}))
 
 
+# ---- certify: distribution comparison ----
+
+def cohen_d(xs, ys):
+    "Absolute Cohen's d with pooled sample standard deviation."
+    n, m = len(xs), len(ys)
+    if not n or not m:
+        return 0.0
+    mx, my = sum(xs) / n, sum(ys) / m
+    vx = sum((v - mx) ** 2 for v in xs)
+    vy = sum((v - my) ** 2 for v in ys)
+    df = n + m - 2
+    pool = sqrt((vx + vy) / df) if df > 0 else 0.0
+    diff = abs(mx - my)
+    if diff < 1e-12:
+        return 0.0
+    return diff / (pool + 1e-32)
+
+
+def cliffs_delta(xs, ys):
+    "Absolute Cliff's delta; xs, ys sorted. Ties count as neither."
+    n, m = len(xs), len(ys)
+    if not n or not m:
+        return 0.0
+    gt = lt = 0
+    for x in xs:
+        gt += bisect_left(ys, x)           # ys < x
+        lt += m - bisect_right(ys, x)      # ys > x
+    return abs(gt - lt) / (n * m)
+
+
+def ks_norm(xs, ys):
+    "KS distance divided by sqrt((n+m)/(n*m)); compare to 1.36."
+    n, m = len(xs), len(ys)
+    if not n or not m:
+        return 0.0
+    d = 0.0
+    for v in sorted(set(xs) | set(ys)):
+        d = max(d, abs(bisect_right(xs, v) / n - bisect_right(ys, v) / m))
+    return d / sqrt((n + m) / (n * m))
+
+
+def compare(xs, ys):
+    xs = sorted(float(v) for v in xs)
+    ys = sorted(float(v) for v in ys)
+    c, cl, k = cohen_d(xs, ys), cliffs_delta(xs, ys), ks_norm(xs, ys)
+    return {"cohen": c, "cliffs": cl, "ks": k,
+            "same": bool(c <= COHEN_T and cl <= CLIFFS_T and k <= KS_T)}
+
+
+def certify(a):
+    with open(a.test, encoding="utf-8-sig") as f:
+        cases = json.load(f)
+    print(json.dumps({"comparisons": [compare(c.get("xs", []), c.get("ys", []))
+                                      for c in cases]}))
+
+
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("cmd", choices=["remember", "guess"])
-    ap.add_argument("--train", required=True)
+    ap.add_argument("cmd", choices=["remember", "guess", "certify"])
+    ap.add_argument("--train", required=False)
     ap.add_argument("--test", required=True)
     a = ap.parse_args()
+    if a.cmd == "certify":
+        certify(a)
+        return
+    if not a.train:
+        ap.error("--train is required")
     (remember if a.cmd == "remember" else guess)(a)
 
 

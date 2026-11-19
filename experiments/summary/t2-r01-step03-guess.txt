@@ -1,0 +1,11 @@
+Skill: guess
+Training rows: 318
+Testing rows: 80
+Partial-input rows: 40
+mpg_error: 4.0283
+disty_error: 0.0861
+baseline_mpg_error: 6.9599
+baseline_disty_error: 0.1818
+Runtime: 0.0294s
+PASS (valid predictions)
+Results saved to: /Users/Dylan 1/Desktop/SCHOOL/Fall-2026/CSC491/shrinking-code-project/experiments/summary/t2-r01-step03-guess.json

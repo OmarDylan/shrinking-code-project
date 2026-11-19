@@ -1,0 +1,7 @@
+treatment,repeat,skill,library,reuse,status,checks,new_loc,removed_loc,total_loc,input_tokens,cache_creation_tokens,cache_read_tokens,output_tokens,estimated_cost_usd,generation_seconds,execution_seconds,mpg_error,disty_error,accuracy,f1,regret,source
+T1,1,certify,python,False,FAIL,certify:FAIL,59,0,251,1278,1276,0,1444,0.019548,11.445191875000091,,,,,,,src/t1/r01/certify.py
+T2,1,certify,python,True,FAIL,remember:PASS;guess:PASS;certify:FAIL,65,2,227,4741,4739,0,3918,0.05813999999999999,21.817474916999345,,,,,,,src/t2/r01/main.py
+T3,1,certify,sklearn,False,FAIL,certify:FAIL,75,0,236,1301,1299,0,1342,0.01862,9.98094575000141,,,,,,,src/t3/r01/certify.py
+T4,1,certify,sklearn,True,FAIL,remember:PASS;guess:PASS;certify:FAIL,39,2,181,4215,4213,0,3160,0.048456,18.033199165998667,,,,,,,src/t4/r01/main.py
+T5,1,certify,ezr,False,FAIL,certify:FAIL,57,0,209,17896,17894,0,1412,0.0857,9.806217374998596,,,,,,,src/t5/r01/certify.py
+T6,1,certify,ezr,True,PASS,remember:PASS;guess:PASS;certify:PASS,66,2,216,20918,20916,0,3544,0.11910799999999999,19.90675808299966,0.02729541699955007,,,1.0,,,src/t6/r01/main.py

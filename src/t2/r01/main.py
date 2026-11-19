@@ -1,4 +1,5 @@
 import csv, sys, json, math, argparse
+from bisect import bisect_left, bisect_right
 
 def load(path):
     with open(path, newline="") as f:
@@ -30,7 +31,6 @@ def norm(x, m, sd):
     return 1 / (1 + math.exp(-1.702 * z))
 
 def d2h(vals, goals, stats):
-    # vals: dict col -> value or None
     s = 0.0
     for i, hv in goals:
         x = vals.get(i)
@@ -104,7 +104,6 @@ def guess(h, tr, h2, te, goals, stats):
             f.extend(1.0 if v == c else 0.0 for c in cats[i])
         return f
 
-    # targets: goals and d2h computed from training observed goals only
     tgt = []
     for r in tr:
         vals = {i: num(get(r, i)) for i, _ in goals}
@@ -143,12 +142,76 @@ def guess(h, tr, h2, te, goals, stats):
         scores.append(min(1.0, max(0.0, pd)) if pd is not None else base_d)
     return {"mpg": mpg, "scores": scores}
 
+# ---- certify skill ----
+COHEN_T, CLIFFS_T, KS_T = 0.35, 0.197, 1.36
+
+def _clean(v):
+    out = []
+    for x in v or []:
+        try:
+            f = float(x)
+        except (TypeError, ValueError):
+            continue
+        if f == f:
+            out.append(f)
+    return out
+
+def cohen_d(xs, ys):
+    n, m = len(xs), len(ys)
+    if n == 0 or m == 0:
+        return 0.0
+    mx, my = sum(xs) / n, sum(ys) / m
+    vx = sum((x - mx) ** 2 for x in xs)
+    vy = sum((y - my) ** 2 for y in ys)
+    dof = n + m - 2
+    sp = math.sqrt((vx + vy) / dof) if dof > 0 else 0.0
+    diff = abs(mx - my)
+    if sp == 0:
+        return 0.0 if diff == 0 else 1e12
+    return diff / sp
+
+def cliffs_delta(xs, ys):
+    n, m = len(xs), len(ys)
+    if n == 0 or m == 0:
+        return 0.0
+    s = sorted(ys)
+    gt = lt = 0
+    for x in xs:
+        gt += bisect_left(s, x)          # ys < x
+        lt += m - bisect_right(s, x)     # ys > x
+    return abs(gt - lt) / (n * m)
+
+def ks_norm(xs, ys):
+    n, m = len(xs), len(ys)
+    if n == 0 or m == 0:
+        return 0.0
+    a, b = sorted(xs), sorted(ys)
+    d = 0.0
+    for v in sorted(set(a) | set(b)):
+        d = max(d, abs(bisect_right(a, v) / n - bisect_right(b, v) / m))
+    return d * math.sqrt(n * m / (n + m))
+
+def certify(cases):
+    res = []
+    for c in cases:
+        xs, ys = _clean(c.get("xs")), _clean(c.get("ys"))
+        co, cl, ks = cohen_d(xs, ys), cliffs_delta(xs, ys), ks_norm(xs, ys)
+        same = co < COHEN_T and cl < CLIFFS_T and ks < KS_T
+        res.append({"cohen": co, "cliffs": cl, "ks": ks, "same": bool(same)})
+    return {"comparisons": res}
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("cmd")
     ap.add_argument("--train", required=True)
     ap.add_argument("--test", required=True)
     a = ap.parse_args()
+
+    if a.cmd == "certify":
+        with open(a.test) as f:
+            cases = json.load(f)
+        print(json.dumps(certify(cases)))
+        return
 
     h, tr = load(a.train)
     h2, te = load(a.test)

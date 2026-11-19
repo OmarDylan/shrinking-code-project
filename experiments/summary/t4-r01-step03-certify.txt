@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "/Users/Dylan 1/Desktop/SCHOOL/Fall-2026/CSC491/shrinking-code-project/tests/check_certify.py", line 170, in <module>
+    check(sys.argv[1])
+    ~~~~~^^^^^^^^^^^^^
+  File "/Users/Dylan 1/Desktop/SCHOOL/Fall-2026/CSC491/shrinking-code-project/tests/check_certify.py", line 126, in check
+    assert math.isclose(
+           ~~~~~~~~~~~~^
+      actual[key], want[key],
+      ^^^^^^^^^^^^^^^^^^^^^^^
+      rel_tol=1E-9,
+      ^^^^^^^^^^^^^
+      abs_tol=1E-9
+      ^^^^^^^^^^^^
+    ), (j, key, actual[key], want[key])
+    ^
+AssertionError: (77, 'cohen', 1000000000.0, 4.999999999999999e+31)
