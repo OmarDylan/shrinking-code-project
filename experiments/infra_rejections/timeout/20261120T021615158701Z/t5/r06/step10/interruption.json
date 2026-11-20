@@ -1,0 +1,10 @@
+{
+  "treatment": 5,
+  "repeat": 6,
+  "step": 10,
+  "reason": "Claude process exceeded 300-second timeout",
+  "classification": "infrastructure_timeout",
+  "original_attempt_usage": "unknown",
+  "original_attempt_cost": "unknown",
+  "action": "Evidence preserved before targeted retry"
+}

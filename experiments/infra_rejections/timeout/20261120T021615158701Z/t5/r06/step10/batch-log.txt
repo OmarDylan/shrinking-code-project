@@ -1,0 +1,26 @@
+T5 | r06 | Step 10: race
+
+Traceback (most recent call last):
+  File "/Users/Dylan 1/Desktop/SCHOOL/Fall-2026/CSC491/shrinking-code-project/scripts/generate_v2.py", line 395, in <module>
+    generate(p.parse_args())
+    ~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/Users/Dylan 1/Desktop/SCHOOL/Fall-2026/CSC491/shrinking-code-project/scripts/generate_v2.py", line 294, in generate
+    run = subprocess.run(
+      command,
+    ...<5 lines>...
+      timeout=300
+    )
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 557, in run
+    stdout, stderr = process.communicate(input, timeout=timeout)
+                     ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1221, in communicate
+    stdout, stderr = self._communicate(input, endtime, timeout)
+                     ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 2154, in _communicate
+    self._check_timeout(endtime, orig_timeout, stdout, stderr)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 1268, in _check_timeout
+    raise TimeoutExpired(
+    ...<2 lines>...
+            stderr=b''.join(stderr_seq) if stderr_seq else None)
+subprocess.TimeoutExpired: Command '['claude', '-p', '--model', 'sonnet', '--output-format', 'json', '--safe-mode', '--no-session-persistence', '--tools', '', '--strict-mcp-config', '--mcp-config', '{"mcpServers":{}}', '--max-turns', '1', '--max-budget-usd', '0.5', '--system-prompt', 'You write compact, correct Python programs.']' timed out after 300 seconds
