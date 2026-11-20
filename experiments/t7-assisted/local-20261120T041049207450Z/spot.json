@@ -1,0 +1,660 @@
+{
+  "seed": 1,
+  "summary": {
+    "training_rows": 318,
+    "testing_rows": 80,
+    "injected_anomalies": 20,
+    "threshold": 0.39329884550580607,
+    "true_positive": 20,
+    "false_positive": 0,
+    "true_negative": 60,
+    "false_negative": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "accuracy": 1.0,
+    "runtime": 0.05811195800197311
+  },
+  "errors": [
+    {
+      "row": 0,
+      "score": 1.0,
+      "alert": true,
+      "injected_anomaly": true,
+      "corrupted_feature": "origin",
+      "correct": true
+    },
+    {
+      "row": 1,
+      "score": 0.1789170696873386,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 2,
+      "score": 0.04683218744528895,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 3,
+      "score": 1.0,
+      "alert": true,
+      "injected_anomaly": true,
+      "corrupted_feature": "Clndrs",
+      "correct": true
+    },
+    {
+      "row": 4,
+      "score": 0.27407360038091966,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 5,
+      "score": 0.09797125615411462,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 6,
+      "score": 0.2287745333740938,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 7,
+      "score": 0.32245381573271215,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 8,
+      "score": 1.0,
+      "alert": true,
+      "injected_anomaly": true,
+      "corrupted_feature": "Model",
+      "correct": true
+    },
+    {
+      "row": 9,
+      "score": 0.14784278781748053,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 10,
+      "score": 0.15654770224133752,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 11,
+      "score": 0.14784278781748053,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 12,
+      "score": 1.0,
+      "alert": true,
+      "injected_anomaly": true,
+      "corrupted_feature": "Model",
+      "correct": true
+    },
+    {
+      "row": 13,
+      "score": 0.24150716270805841,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 14,
+      "score": 0.08831893567368693,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 15,
+      "score": 1.0,
+      "alert": true,
+      "injected_anomaly": true,
+      "corrupted_feature": "Clndrs",
+      "correct": true
+    },
+    {
+      "row": 16,
+      "score": 0.27407360038091966,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 17,
+      "score": 1.0,
+      "alert": true,
+      "injected_anomaly": true,
+      "corrupted_feature": "Clndrs",
+      "correct": true
+    },
+    {
+      "row": 18,
+      "score": 0.14784278781748053,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 19,
+      "score": 0.09287733235361635,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 20,
+      "score": 0.24341066095151584,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 21,
+      "score": 0.1789170696873386,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 22,
+      "score": 0.27407360038091966,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 23,
+      "score": 0.0552879525722686,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 24,
+      "score": 0.24499152404713975,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 25,
+      "score": 0.17551805938882462,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 26,
+      "score": 1.0,
+      "alert": true,
+      "injected_anomaly": true,
+      "corrupted_feature": "Volume",
+      "correct": true
+    },
+    {
+      "row": 27,
+      "score": 0.24150716270805841,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 28,
+      "score": 0.27407360038091966,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 29,
+      "score": 0.09287733235361635,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 30,
+      "score": 0.16761374391070502,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 31,
+      "score": 0.2242161366941644,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 32,
+      "score": 1.0,
+      "alert": true,
+      "injected_anomaly": true,
+      "corrupted_feature": "origin",
+      "correct": true
+    },
+    {
+      "row": 33,
+      "score": 0.24518027544886525,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 34,
+      "score": 0.13361800268051274,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 35,
+      "score": 0.08831893567368693,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 36,
+      "score": 0.1789170696873386,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 37,
+      "score": 0.183475466367268,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 38,
+      "score": 0.27407360038091966,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 39,
+      "score": 0.1789170696873386,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 40,
+      "score": 0.27407360038091966,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 41,
+      "score": 0.27407360038091966,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 42,
+      "score": 0.1789170696873386,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 43,
+      "score": 0.2242161366941644,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 44,
+      "score": 0.183475466367268,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 45,
+      "score": 0.2287745333740938,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 46,
+      "score": 1.0,
+      "alert": true,
+      "injected_anomaly": true,
+      "corrupted_feature": "Model",
+      "correct": true
+    },
+    {
+      "row": 47,
+      "score": 0.14784278781748053,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 48,
+      "score": 1.0,
+      "alert": true,
+      "injected_anomaly": true,
+      "corrupted_feature": "Clndrs",
+      "correct": true
+    },
+    {
+      "row": 49,
+      "score": 1.0,
+      "alert": true,
+      "injected_anomaly": true,
+      "corrupted_feature": "Volume",
+      "correct": true
+    },
+    {
+      "row": 50,
+      "score": 0.32245381573271215,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 51,
+      "score": 1.0,
+      "alert": true,
+      "injected_anomaly": true,
+      "corrupted_feature": "origin",
+      "correct": true
+    },
+    {
+      "row": 52,
+      "score": 0.13817639936044218,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 53,
+      "score": 0.24499152404713975,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 54,
+      "score": 0.1549668391457136,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 55,
+      "score": 1.0,
+      "alert": true,
+      "injected_anomaly": true,
+      "corrupted_feature": "Model",
+      "correct": true
+    },
+    {
+      "row": 56,
+      "score": 0.27407360038091966,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 57,
+      "score": 1.0,
+      "alert": true,
+      "injected_anomaly": true,
+      "corrupted_feature": "Model",
+      "correct": true
+    },
+    {
+      "row": 58,
+      "score": 0.14784278781748053,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 59,
+      "score": 0.14784278781748053,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 60,
+      "score": 1.0,
+      "alert": true,
+      "injected_anomaly": true,
+      "corrupted_feature": "origin",
+      "correct": true
+    },
+    {
+      "row": 61,
+      "score": 0.183475466367268,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 62,
+      "score": 1.0,
+      "alert": true,
+      "injected_anomaly": true,
+      "corrupted_feature": "origin",
+      "correct": true
+    },
+    {
+      "row": 63,
+      "score": 1.0,
+      "alert": true,
+      "injected_anomaly": true,
+      "corrupted_feature": "Volume",
+      "correct": true
+    },
+    {
+      "row": 64,
+      "score": 0.32245381573271215,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 65,
+      "score": 0.1789170696873386,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 66,
+      "score": 0.24150716270805841,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 67,
+      "score": 0.26951520370099025,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 68,
+      "score": 0.14784278781748053,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 69,
+      "score": 0.27407360038091966,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 70,
+      "score": 0.13817639936044218,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 71,
+      "score": 0.26951520370099025,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 72,
+      "score": 1.0,
+      "alert": true,
+      "injected_anomaly": true,
+      "corrupted_feature": "Volume",
+      "correct": true
+    },
+    {
+      "row": 73,
+      "score": 1.0,
+      "alert": true,
+      "injected_anomaly": true,
+      "corrupted_feature": "Clndrs",
+      "correct": true
+    },
+    {
+      "row": 74,
+      "score": 0.24150716270805841,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 75,
+      "score": 0.09287733235361635,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 76,
+      "score": 0.24150716270805841,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 77,
+      "score": 0.183475466367268,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 78,
+      "score": 0.14784278781748053,
+      "alert": false,
+      "injected_anomaly": false,
+      "corrupted_feature": null,
+      "correct": true
+    },
+    {
+      "row": 79,
+      "score": 1.0,
+      "alert": true,
+      "injected_anomaly": true,
+      "corrupted_feature": "Volume",
+      "correct": true
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+Skill: fix
+Evaluated cars: 80
+Correct: 80/80
+Already good: 50
+Eligible for repair: 30
+Improved: 30
+No candidate: 0
+Reached quality cutoff: 30
+Mean estimated gain: 0.4147
+Mean changes: 2.0000
+Runtime: 0.5545s
+PASS
+
+Example repair:
+{
+  "row": 5,
+  "before": 0.6331099268640268,
+  "after": 0.3656877756231464,
+  "changes": {
+    "Clndrs": 4.0,
+    "Volume": 97.0
+  },
+  "status": "improved",
+  "gain": 0.26742215124088037,
+  "edits": 2,
+  "correct": true
+}
+Results saved to: /Users/Dylan 1/Desktop/SCHOOL/Fall-2026/CSC491/shrinking-code-project/experiments/t7-assisted/local-20261120T041049207450Z/fix.json
+
+STDERR:

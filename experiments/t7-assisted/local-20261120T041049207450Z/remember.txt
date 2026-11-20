@@ -1,0 +1,8 @@
+Skill: remember
+Training rows: 318
+Testing rows: 80
+Mean error: 0.00000000
+Maximum error: 0.00000000
+PASS
+
+STDERR:

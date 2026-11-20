@@ -1,0 +1,18 @@
+Skill: spot
+Training rows: 318
+Test listings: 80
+Injected anomalies: 20
+Threshold: 0.3933
+True positives: 20
+False positives: 0
+True negatives: 60
+False negatives: 0
+Precision: 100.00%
+Recall: 100.00%
+F1: 1.0000
+Accuracy: 100.00%
+Runtime: 0.0581s
+PASS (valid anomaly detection output)
+Results saved to: /Users/Dylan 1/Desktop/SCHOOL/Fall-2026/CSC491/shrinking-code-project/experiments/t7-assisted/local-20261120T041049207450Z/spot.json
+
+STDERR:

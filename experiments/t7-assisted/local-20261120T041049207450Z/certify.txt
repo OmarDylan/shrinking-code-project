@@ -1,0 +1,11 @@
+Skill: certify
+Comparisons: 80
+Correct: 80/80
+Same: 56
+Different: 24
+Accuracy: 100.00%
+Runtime: 0.0667s
+PASS
+Results saved to: /Users/Dylan 1/Desktop/SCHOOL/Fall-2026/CSC491/shrinking-code-project/experiments/t7-assisted/local-20261120T041049207450Z/certify.json
+
+STDERR:

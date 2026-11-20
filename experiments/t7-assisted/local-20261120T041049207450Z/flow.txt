@@ -1,0 +1,16 @@
+Skill: flow
+Training rows: 318
+Streaming cars: 80
+Window size: 20
+MPG error: 4.2750
+Disty error: 0.1321
+Alerts: 17
+Observed alerts: 4
+Alert agreement: 65.57%
+Runtime: 0.1626s
+Prefix consistency: PASS
+Statistical alert decisions: PASS
+PASS
+Results saved to: /Users/Dylan 1/Desktop/SCHOOL/Fall-2026/CSC491/shrinking-code-project/experiments/t7-assisted/local-20261120T041049207450Z/flow.json
+
+STDERR:

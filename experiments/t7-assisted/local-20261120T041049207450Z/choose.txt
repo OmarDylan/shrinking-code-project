@@ -1,0 +1,20 @@
+Skill: choose
+Available cars: 80
+Inspections: 10/80
+Inspected indices: [22, 41, 69, 72, 10, 44, 48, 17, 32, 54]
+Recommended indices: [72, 44, 22]
+best: 0.1056
+top_mean: 0.1641
+pool_best: 0.0864
+regret: 0.0192
+pool_median: 0.5190
+random_best_mean: 0.2068
+random_top_mean: 0.2948
+Inspection savings: 87.50%
+Runtime: 0.1492s
+Budget compliance: PASS
+Recommendation validity: PASS
+PASS
+Results saved to: /Users/Dylan 1/Desktop/SCHOOL/Fall-2026/CSC491/shrinking-code-project/experiments/t7-assisted/local-20261120T041049207450Z/choose.json
+
+STDERR:

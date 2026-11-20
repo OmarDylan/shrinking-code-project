@@ -1,0 +1,11 @@
+Skill: blame
+Training rows: 318
+Diagnosed cars: 80
+Correct: 80/80
+Goal error: 0.00000000
+Feature error: 0.00000000
+Runtime: 0.0914s
+PASS
+Results saved to: /Users/Dylan 1/Desktop/SCHOOL/Fall-2026/CSC491/shrinking-code-project/experiments/t7-assisted/local-20261120T041049207450Z/blame.json
+
+STDERR:

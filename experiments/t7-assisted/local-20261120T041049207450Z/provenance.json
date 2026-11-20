@@ -1,0 +1,27 @@
+{
+  "treatment": "T7-assisted",
+  "protocol": "v2",
+  "condition": "coursework reuse, AI-assisted new adapters",
+  "not_human_only": true,
+  "repetition": 1,
+  "dataset": "/Users/Dylan 1/Desktop/SCHOOL/Fall-2026/CSC491/shrinking-code-project/data/splits/seed1",
+  "generated_at_utc": "2026-11-20T04:10:49.208285+00:00",
+  "files": {
+    "src/t7_assisted/main.py": {
+      "sha256": "285f2f769f18f21e1de6ce654497812a0072fb090e7a6d8a2ef8525fe46fa8b1",
+      "physical_lines": 437
+    },
+    "src/t7_assisted/prior/eg5/eg5.py": {
+      "sha256": "4095325dbeeadfaaf9f35daf763cd701d3223cd4a40d7973c7f36eb82aa9a918",
+      "physical_lines": 920
+    },
+    "src/t7_assisted/prior/eg6/eg6.py": {
+      "sha256": "a3cc38fa14b59e09b55361edbdd8d868a6776989f0f2bfe0e1054feaf7a38b62",
+      "physical_lines": 580
+    }
+  },
+  "human_development_time_seconds": null,
+  "ai_assistance_time_seconds": null,
+  "generation_tokens": null,
+  "api_equivalent_cost_usd": null
+}
