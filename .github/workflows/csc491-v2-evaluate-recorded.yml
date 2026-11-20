@@ -1,0 +1,59 @@
+name: CSC491 V2 Evaluate Recorded R02-R05
+run-name: CSC491 recorded R02-R05 ${{ inputs.snapshot }}
+on:
+  workflow_dispatch:
+    inputs:
+      snapshot:
+        description: Exact reviewed main commit SHA
+        required: true
+        type: string
+permissions:
+  contents: read
+jobs:
+  evaluate-and-analyze:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Verify reviewed snapshot
+        env:
+          EXPECTED: ${{ inputs.snapshot }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$EXPECTED"
+      - name: Build offline evaluation image
+        run: docker build -t csc491-v2-eval - < scripts/Dockerfile.v2-final
+      - name: Evaluate recorded repetitions in restricted containers
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p experiments/v2-results
+          opts=(--rm --network none --read-only --cap-drop ALL --security-opt no-new-privileges
+            --pids-limit 256 --memory 4g --cpus 2 --tmpfs /tmp:rw,nosuid,nodev,mode=1777
+            --user "$(id -u):$(id -g)" -e HOME=/tmp -e PYTHONDONTWRITEBYTECODE=1 -e PYTHONUNBUFFERED=1)
+          for part in scripts docs tests vendor data experiments/runs; do
+            opts+=(--mount "type=bind,src=$PWD/$part,dst=/repo/$part,readonly")
+          done
+          opts+=(--mount "type=bind,src=$PWD/experiments/v2-results,dst=/repo/experiments/v2-results")
+          docker run "${opts[@]}" csc491-v2-eval sh -c 'python --version; python -m pip freeze' > experiments/v2-results/environment.txt
+          git rev-parse HEAD >> experiments/v2-results/environment.txt
+          docker image inspect csc491-v2-eval --format '{{.Id}}' >> experiments/v2-results/environment.txt
+          for rep in 2 3 4 5; do
+            echo "Evaluating recorded r$(printf '%02d' "$rep")"
+            docker run "${opts[@]}" csc491-v2-eval python scripts/evaluate_v2.py --repeat "$rep"
+          done
+      - name: Analyze four independent repetitions
+        run: python3 scripts/analyze_v2_final.py --input experiments/v2-results --output experiments/v2-recorded-analysis --first 2 --last 5
+      - name: Store evaluation and statistics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: csc491-v2-recorded-r02-r05
+          path: |
+            experiments/v2-results/
+            experiments/v2-recorded-analysis/
+          if-no-files-found: error
+          retention-days: 30
