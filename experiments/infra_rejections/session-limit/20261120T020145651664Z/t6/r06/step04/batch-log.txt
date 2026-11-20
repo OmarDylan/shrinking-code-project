@@ -1,0 +1,42 @@
+T6 | r06 | Step 4: flow
+{
+  "protocol": "v2",
+  "contract_sha256": "33aed7556be266825118db5411311676169961e72f21ef5984aa292e4a7e97df",
+  "prompt_sha256": "f5350542a8625bd959d4351a6e68daf4a76fc943154e0639c7c66b2e673d1200",
+  "treatment": 6,
+  "repeat": 6,
+  "step": 4,
+  "skill": "flow",
+  "library": "ezr",
+  "reuse": true,
+  "requested_model": "sonnet",
+  "model_usage": {},
+  "usage": {
+    "output_tokens_details": {
+      "thinking_tokens": 0
+    },
+    "input_tokens": 0,
+    "cache_creation_input_tokens": 0,
+    "cache_read_input_tokens": 0,
+    "output_tokens": 0,
+    "server_tool_use": {
+      "web_search_requests": 0,
+      "web_fetch_requests": 0
+    },
+    "service_tier": "standard",
+    "cache_creation": {
+      "ephemeral_1h_input_tokens": 0,
+      "ephemeral_5m_input_tokens": 0
+    },
+    "inference_geo": "",
+    "iterations": [],
+    "speed": "standard",
+    "fallback_credit": null
+  },
+  "estimated_cost_usd": 0,
+  "generation_seconds": 0.8404777079995256,
+  "returncode": 1,
+  "status": "generation_failed",
+  "error": "Claude generation failed"
+}
+
