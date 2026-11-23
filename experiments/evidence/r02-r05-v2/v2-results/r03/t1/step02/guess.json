@@ -1,0 +1,652 @@
+{
+  "seed": 1,
+  "runtime": 0.03511694499999862,
+  "summary": {
+    "mpg_error": 3.9605516029424215,
+    "disty_error": 0.08477473254477551,
+    "baseline_mpg_error": 6.959905660377358,
+    "baseline_disty_error": 0.18176826214001335
+  },
+  "errors": [
+    {
+      "row": 0,
+      "partial_inputs": true,
+      "mpg_error": 7.7526042744714445,
+      "disty_error": 0.08268436064394769,
+      "baseline_mpg_error": 6.10062893081761,
+      "baseline_disty_error": 0.1904368176698331
+    },
+    {
+      "row": 1,
+      "partial_inputs": false,
+      "mpg_error": 3.62198466453642,
+      "disty_error": 0.09778430515498154,
+      "baseline_mpg_error": 3.89937106918239,
+      "baseline_disty_error": 0.04059271767773348
+    },
+    {
+      "row": 2,
+      "partial_inputs": true,
+      "mpg_error": 2.5189175118656593,
+      "disty_error": 0.0993466669794657,
+      "baseline_mpg_error": 3.89937106918239,
+      "baseline_disty_error": 0.12916919979206953
+    },
+    {
+      "row": 3,
+      "partial_inputs": false,
+      "mpg_error": 8.4010326587028,
+      "disty_error": 0.15718281498933906,
+      "baseline_mpg_error": 3.89937106918239,
+      "baseline_disty_error": 0.01436022339816434
+    },
+    {
+      "row": 4,
+      "partial_inputs": true,
+      "mpg_error": 12.41345922705245,
+      "disty_error": 0.16936145992604906,
+      "baseline_mpg_error": 3.89937106918239,
+      "baseline_disty_error": 0.026458333244226084
+    },
+    {
+      "row": 5,
+      "partial_inputs": false,
+      "mpg_error": 0.3866665049925224,
+      "disty_error": 0.019799091352813658,
+      "baseline_mpg_error": 3.89937106918239,
+      "baseline_disty_error": 0.12738059861959206
+    },
+    {
+      "row": 6,
+      "partial_inputs": true,
+      "mpg_error": 1.2696256558964443,
+      "disty_error": 0.10605653532296161,
+      "baseline_mpg_error": 6.10062893081761,
+      "baseline_disty_error": 0.08127297867568867
+    },
+    {
+      "row": 7,
+      "partial_inputs": false,
+      "mpg_error": 2.5624245696549277,
+      "disty_error": 0.021864944055826174,
+      "baseline_mpg_error": 13.89937106918239,
+      "baseline_disty_error": 0.390063463046989
+    },
+    {
+      "row": 8,
+      "partial_inputs": true,
+      "mpg_error": 1.5577993680938143,
+      "disty_error": 0.1620342445977096,
+      "baseline_mpg_error": 6.10062893081761,
+      "baseline_disty_error": 0.0007103935897748714
+    },
+    {
+      "row": 9,
+      "partial_inputs": false,
+      "mpg_error": 4.590049442339147,
+      "disty_error": 0.05478676926470244,
+      "baseline_mpg_error": 3.89937106918239,
+      "baseline_disty_error": 0.05524904927112195
+    },
+    {
+      "row": 10,
+      "partial_inputs": true,
+      "mpg_error": 0.29915597257740956,
+      "disty_error": 0.1275644511333893,
+      "baseline_mpg_error": 6.10062893081761,
+      "baseline_disty_error": 0.33209686217489087
+    },
+    {
+      "row": 11,
+      "partial_inputs": false,
+      "mpg_error": 4.703316091245814,
+      "disty_error": 0.02075889063853409,
+      "baseline_mpg_error": 6.10062893081761,
+      "baseline_disty_error": 0.08200861925514857
+    },
+    {
+      "row": 12,
+      "partial_inputs": true,
+      "mpg_error": 2.4134592270524493,
+      "disty_error": 0.0068374238214296,
+      "baseline_mpg_error": 6.10062893081761,
+      "baseline_disty_error": 0.20265721699170475
+    },
+    {
+      "row": 13,
+      "partial_inputs": false,
+      "mpg_error": 2.62633150555245,
+      "disty_error": 0.02135121444368604,
+      "baseline_mpg_error": 3.89937106918239,
+      "baseline_disty_error": 0.20751786630200197
+    },
+    {
+      "row": 14,
+      "partial_inputs": true,
+      "mpg_error": 0.5618808166737459,
+      "disty_error": 0.036984752064880055,
+      "baseline_mpg_error": 3.89937106918239,
+      "baseline_disty_error": 0.02497357599579464
+    },
+    {
+      "row": 15,
+      "partial_inputs": false,
+      "mpg_error": 4.524505882390983,
+      "disty_error": 0.14730425031799488,
+      "baseline_mpg_error": 3.89937106918239,
+      "baseline_disty_error": 0.1529415947878906
+    },
+    {
+      "row": 16,
+      "partial_inputs": true,
+      "mpg_error": 2.4134592270524493,
+      "disty_error": 0.10410227775645675,
+      "baseline_mpg_error": 6.10062893081761,
+      "baseline_disty_error": 0.0917175154138184
+    },
+    {
+      "row": 17,
+      "partial_inputs": false,
+      "mpg_error": 3.677528968849579,
+      "disty_error": 0.007642357448914783,
+      "baseline_mpg_error": 6.10062893081761,
+      "baseline_disty_error": 0.20877672283510113
+    },
+    {
+      "row": 18,
+      "partial_inputs": true,
+      "mpg_error": 3.168872267489135,
+      "disty_error": 0.0006649297262111276,
+      "baseline_mpg_error": 6.10062893081761,
+      "baseline_disty_error": 0.18146947098706911
+    },
+    {
+      "row": 19,
+      "partial_inputs": false,
+      "mpg_error": 2.784185412941703,
+      "disty_error": 0.0007786917125640613,
+      "baseline_mpg_error": 3.89937106918239,
+      "baseline_disty_error": 0.013882692025994015
+    },
+    {
+      "row": 20,
+      "partial_inputs": true,
+      "mpg_error": 6.078594388787344,
+      "disty_error": 0.029646087771283858,
+      "baseline_mpg_error": 3.89937106918239,
+      "baseline_disty_error": 0.28031177782905503
+    },
+    {
+      "row": 21,
+      "partial_inputs": false,
+      "mpg_error": 2.383100164575275,
+      "disty_error": 0.014112437837198122,
+      "baseline_mpg_error": 3.89937106918239,
+      "baseline_disty_error": 0.10491997264032621
+    },
+    {
+      "row": 22,
+      "partial_inputs": true,
+      "mpg_error": 5.423737653299213,
+      "disty_error": 0.08746834546382082,
+      "baseline_mpg_error": 6.10062893081761,
+      "baseline_disty_error": 0.33348383695554046
+    },
+    {
+      "row": 23,
+      "partial_inputs": false,
+      "mpg_error": 0.5786305924255437,
+      "disty_error": 0.023257697102004204,
+      "baseline_mpg_error": 3.89937106918239,
+      "baseline_disty_error": 0.1107263026757056
+    },
+    {
+      "row": 24,
+      "partial_inputs": true,
+      "mpg_error": 4.881839762677018,
+      "disty_error": 0.0757061022301857,
+      "baseline_mpg_error": 13.89937106918239,
+      "baseline_disty_error": 0.370135882599134
+    },
+    {
+      "row": 25,
+      "partial_inputs": false,
+      "mpg_error": 3.3911987092565425,
+      "disty_error": 0.10431539170876938,
+      "baseline_mpg_error": 6.10062893081761,
+      "baseline_disty_error": 0.36877679553398246
+    },
+    {
+      "row": 26,
+      "partial_inputs": true,
+      "mpg_error": 5.448958173599799,
+      "disty_error": 0.009358217215058529,
+      "baseline_mpg_error": 6.10062893081761,
+      "baseline_disty_error": 0.12125062572435502
+    },
+    {
+      "row": 27,
+      "partial_inputs": false,
+      "mpg_error": 0.608320451794917,
+      "disty_error": 0.11827424968599409,
+      "baseline_mpg_error": 3.89937106918239,
+      "baseline_disty_error": 0.042264667794062905
+    },
+    {
+      "row": 28,
+      "partial_inputs": true,
+      "mpg_error": 7.586540772947551,
+      "disty_error": 0.15904957135973918,
+      "baseline_mpg_error": 16.10062893081761,
+      "baseline_disty_error": 0.35486936453001433
+    },
+    {
+      "row": 29,
+      "partial_inputs": false,
+      "mpg_error": 1.361817322208772,
+      "disty_error": 0.04236349379730098,
+      "baseline_mpg_error": 3.89937106918239,
+      "baseline_disty_error": 0.026591276354436144
+    },
+    {
+      "row": 30,
+      "partial_inputs": true,
+      "mpg_error": 2.5050305895443827,
+      "disty_error": 0.10813897425951241,
+      "baseline_mpg_error": 6.10062893081761,
+      "baseline_disty_error": 0.2629743225201157
+    },
+    {
+      "row": 31,
+      "partial_inputs": false,
+      "mpg_error": 3.4404141603118212,
+      "disty_error": 0.02854786692548117,
+      "baseline_mpg_error": 3.89937106918239,
+      "baseline_disty_error": 0.11315171187336848
+    },
+    {
+      "row": 32,
+      "partial_inputs": true,
+      "mpg_error": 3.8645128769597648,
+      "disty_error": 0.10605276852885265,
+      "baseline_mpg_error": 6.10062893081761,
+      "baseline_disty_error": 0.09769079240489681
+    },
+    {
+      "row": 33,
+      "partial_inputs": false,
+      "mpg_error": 9.354676063920298,
+      "disty_error": 0.35771276572105876,
+      "baseline_mpg_error": 3.89937106918239,
+      "baseline_disty_error": 0.07525981526528569
+    },
+    {
+      "row": 34,
+      "partial_inputs": true,
+      "mpg_error": 1.1963626099124944,
+      "disty_error": 0.004792163998855736,
+      "baseline_mpg_error": 3.89937106918239,
+      "baseline_disty_error": 0.06488179090711899
+    },
+    {
+      "row": 35,
+      "partial_inputs": false,
+      "mpg_error": 0.9667897354126893,
+      "disty_error": 0.023455434333777614,
+      "baseline_mpg_error": 3.89937106918239,
+      "baseline_disty_error": 0.10781596930380954
+    },
+    {
+      "row": 36,
+      "partial_inputs": true,
+      "mpg_error": 7.017674510390478,
+      "disty_error": 0.04204596353134232,
+      "baseline_mpg_error": 6.10062893081761,
+      "baseline_disty_error": 0.15732038432094653
+    },
+    {
+      "row": 37,
+      "partial_inputs": false,
+      "mpg_error": 6.1066383664890225,
+      "disty_error": 0.21252605347185988,
+      "baseline_mpg_error": 16.10062893081761,
+      "baseline_disty_error": 0.4423943032696643
+    },
+    {
+      "row": 38,
+      "partial_inputs": true,
+      "mpg_error": 12.41345922705245,
+      "disty_error": 0.1867599421396196,
+      "baseline_mpg_error": 3.89937106918239,
+      "baseline_disty_error": 0.009059851030655541
+    },
+    {
+      "row": 39,
+      "partial_inputs": false,
+      "mpg_error": 3.3815182758343205,
+      "disty_error": 0.1596499629509177,
+      "baseline_mpg_error": 3.89937106918239,
+      "baseline_disty_error": 0.08412777865858079
+    },
+    {
+      "row": 40,
+      "partial_inputs": true,
+      "mpg_error": 2.4134592270524493,
+      "disty_error": 0.08571425708867897,
+      "baseline_mpg_error": 6.10062893081761,
+      "baseline_disty_error": 0.2815340502589541
+    },
+    {
+      "row": 41,
+      "partial_inputs": false,
+      "mpg_error": 3.993267365409629,
+      "disty_error": 0.07603168721078923,
+      "baseline_mpg_error": 16.10062893081761,
+      "baseline_disty_error": 0.18658939190134083
+    },
+    {
+      "row": 42,
+      "partial_inputs": true,
+      "mpg_error": 5.11672275099815,
+      "disty_error": 0.14254386561251609,
+      "baseline_mpg_error": 3.89937106918239,
+      "baseline_disty_error": 0.02292625349853261
+    },
+    {
+      "row": 43,
+      "partial_inputs": false,
+      "mpg_error": 2.887854747967925,
+      "disty_error": 0.022806565491834685,
+      "baseline_mpg_error": 3.89937106918239,
+      "baseline_disty_error": 0.09168491374167043
+    },
+    {
+      "row": 44,
+      "partial_inputs": true,
+      "mpg_error": 2.9790220812320456,
+      "disty_error": 0.10824532209247048,
+      "baseline_mpg_error": 6.10062893081761,
+      "baseline_disty_error": 0.33737708678173106
+    },
+    {
+      "row": 45,
+      "partial_inputs": false,
+      "mpg_error": 3.658036375871582,
+      "disty_error": 0.05378568548666374,
+      "baseline_mpg_error": 3.89937106918239,
+      "baseline_disty_error": 0.10021068501670571
+    },
+    {
+      "row": 46,
+      "partial_inputs": true,
+      "mpg_error": 3.4716101072523085,
+      "disty_error": 0.10317930442048306,
+      "baseline_mpg_error": 13.89937106918239,
+      "baseline_disty_error": 0.4207559653253312
+    },
+    {
+      "row": 47,
+      "partial_inputs": false,
+      "mpg_error": 0.3460254012889301,
+      "disty_error": 0.07123434432258047,
+      "baseline_mpg_error": 6.10062893081761,
+      "baseline_disty_error": 0.11618594474607125
+    },
+    {
+      "row": 48,
+      "partial_inputs": true,
+      "mpg_error": 1.2981397551718956,
+      "disty_error": 0.10787828721506296,
+      "baseline_mpg_error": 6.10062893081761,
+      "baseline_disty_error": 0.30440457678889277
+    },
+    {
+      "row": 49,
+      "partial_inputs": false,
+      "mpg_error": 2.183111774702912,
+      "disty_error": 0.034053438695677785,
+      "baseline_mpg_error": 13.89937106918239,
+      "baseline_disty_error": 0.4084697531104604
+    },
+    {
+      "row": 50,
+      "partial_inputs": true,
+      "mpg_error": 3.9214056112126556,
+      "disty_error": 0.091014497207898,
+      "baseline_mpg_error": 13.89937106918239,
+      "baseline_disty_error": 0.4009723628082369
+    },
+    {
+      "row": 51,
+      "partial_inputs": false,
+      "mpg_error": 3.4166944197713924,
+      "disty_error": 0.07463458156829617,
+      "baseline_mpg_error": 13.89937106918239,
+      "baseline_disty_error": 0.39461915056217833
+    },
+    {
+      "row": 52,
+      "partial_inputs": true,
+      "mpg_error": 3.064708435008299,
+      "disty_error": 0.0011846611026116172,
+      "baseline_mpg_error": 3.89937106918239,
+      "baseline_disty_error": 0.023112381824927364
+    },
+    {
+      "row": 53,
+      "partial_inputs": false,
+      "mpg_error": 5.198000230841197,
+      "disty_error": 0.07928713322033254,
+      "baseline_mpg_error": 13.89937106918239,
+      "baseline_disty_error": 0.374497594269793
+    },
+    {
+      "row": 54,
+      "partial_inputs": true,
+      "mpg_error": 0.7451295720268973,
+      "disty_error": 0.06187243442951462,
+      "baseline_mpg_error": 6.10062893081761,
+      "baseline_disty_error": 0.2745077984794786
+    },
+    {
+      "row": 55,
+      "partial_inputs": false,
+      "mpg_error": 1.7994780457766524,
+      "disty_error": 0.06036229462145726,
+      "baseline_mpg_error": 3.89937106918239,
+      "baseline_disty_error": 0.04159777752116889
+    },
+    {
+      "row": 56,
+      "partial_inputs": true,
+      "mpg_error": 4.576262346700787,
+      "disty_error": 0.10534361166802825,
+      "baseline_mpg_error": 16.10062893081761,
+      "baseline_disty_error": 0.1406718798236914
+    },
+    {
+      "row": 57,
+      "partial_inputs": false,
+      "mpg_error": 4.11775366812671,
+      "disty_error": 0.1092980581086978,
+      "baseline_mpg_error": 3.89937106918239,
+      "baseline_disty_error": 0.027462262149101635
+    },
+    {
+      "row": 58,
+      "partial_inputs": true,
+      "mpg_error": 7.176892125674488,
+      "disty_error": 0.14395002889476127,
+      "baseline_mpg_error": 3.89937106918239,
+      "baseline_disty_error": 0.01038668382529584
+    },
+    {
+      "row": 59,
+      "partial_inputs": false,
+      "mpg_error": 1.3248639939151197,
+      "disty_error": 0.19939860229708212,
+      "baseline_mpg_error": 6.10062893081761,
+      "baseline_disty_error": 0.03670263637451815
+    },
+    {
+      "row": 60,
+      "partial_inputs": true,
+      "mpg_error": 2.6281203891117215,
+      "disty_error": 0.020687583499850004,
+      "baseline_mpg_error": 13.89937106918239,
+      "baseline_disty_error": 0.35321134039134505
+    },
+    {
+      "row": 61,
+      "partial_inputs": false,
+      "mpg_error": 1.8952544520945978,
+      "disty_error": 0.07562557992997188,
+      "baseline_mpg_error": 6.10062893081761,
+      "baseline_disty_error": 0.1393805599930633
+    },
+    {
+      "row": 62,
+      "partial_inputs": true,
+      "mpg_error": 7.745981391097157,
+      "disty_error": 0.2937086651748906,
+      "baseline_mpg_error": 3.89937106918239,
+      "baseline_disty_error": 0.10509166552794202
+    },
+    {
+      "row": 63,
+      "partial_inputs": false,
+      "mpg_error": 3.3832004439750314,
+      "disty_error": 0.14218403546807856,
+      "baseline_mpg_error": 3.89937106918239,
+      "baseline_disty_error": 0.04156134059070693
+    },
+    {
+      "row": 64,
+      "partial_inputs": true,
+      "mpg_error": 3.0408143967664447,
+      "disty_error": 0.08853078544907522,
+      "baseline_mpg_error": 13.89937106918239,
+      "baseline_disty_error": 0.4136294101176421
+    },
+    {
+      "row": 65,
+      "partial_inputs": false,
+      "mpg_error": 4.439264029897899,
+      "disty_error": 0.1791541104836966,
+      "baseline_mpg_error": 6.10062893081761,
+      "baseline_disty_error": 0.33391918717628977
+    },
+    {
+      "row": 66,
+      "partial_inputs": true,
+      "mpg_error": 4.391148683436672,
+      "disty_error": 0.062390220920995776,
+      "baseline_mpg_error": 13.89937106918239,
+      "baseline_disty_error": 0.36463245967603464
+    },
+    {
+      "row": 67,
+      "partial_inputs": false,
+      "mpg_error": 6.541035201007787,
+      "disty_error": 0.031678626434213486,
+      "baseline_mpg_error": 3.89937106918239,
+      "baseline_disty_error": 0.2513413231156393
+    },
+    {
+      "row": 68,
+      "partial_inputs": true,
+      "mpg_error": 9.131554146830542,
+      "disty_error": 0.14139033610328972,
+      "baseline_mpg_error": 3.89937106918239,
+      "baseline_disty_error": 0.029249114174482782
+    },
+    {
+      "row": 69,
+      "partial_inputs": false,
+      "mpg_error": 6.006732634590371,
+      "disty_error": 0.04477420112526215,
+      "baseline_mpg_error": 6.10062893081761,
+      "baseline_disty_error": 0.21784687798686792
+    },
+    {
+      "row": 70,
+      "partial_inputs": true,
+      "mpg_error": 5.021283452641033,
+      "disty_error": 0.07874696893500471,
+      "baseline_mpg_error": 6.10062893081761,
+      "baseline_disty_error": 0.07323329514778815
+    },
+    {
+      "row": 71,
+      "partial_inputs": false,
+      "mpg_error": 6.676522564725353,
+      "disty_error": 0.18366551509438594,
+      "baseline_mpg_error": 6.10062893081761,
+      "baseline_disty_error": 0.29879999902893795
+    },
+    {
+      "row": 72,
+      "partial_inputs": true,
+      "mpg_error": 7.020977918767954,
+      "disty_error": 0.19403443255325353,
+      "baseline_mpg_error": 16.10062893081761,
+      "baseline_disty_error": 0.4231661972425141
+    },
+    {
+      "row": 73,
+      "partial_inputs": false,
+      "mpg_error": 0.7132043900707004,
+      "disty_error": 0.030952123140865373,
+      "baseline_mpg_error": 6.10062893081761,
+      "baseline_disty_error": 0.20244813500596948
+    },
+    {
+      "row": 74,
+      "partial_inputs": true,
+      "mpg_error": 6.078594388787344,
+      "disty_error": 0.04043169818313186,
+      "baseline_mpg_error": 3.89937106918239,
+      "baseline_disty_error": 0.26952616741720703
+    },
+    {
+      "row": 75,
+      "partial_inputs": false,
+      "mpg_error": 1.6497728844364445,
+      "disty_error": 0.021064162730735747,
+      "baseline_mpg_error": 3.89937106918239,
+      "baseline_disty_error": 0.07882882362077748
+    },
+    {
+      "row": 76,
+      "partial_inputs": true,
+      "mpg_error": 5.394535123249845,
+      "disty_error": 0.019178300797734638,
+      "baseline_mpg_error": 13.89937106918239,
+      "baseline_disty_error": 0.3056987912398018
+    },
+    {
+      "row": 77,
+      "partial_inputs": false,
+      "mpg_error": 7.1875467791403835,
+      "disty_error": 0.04408664480263352,
+      "baseline_mpg_error": 16.10062893081761,
+      "baseline_disty_error": 0.15685208584494387
+    },
+    {
+      "row": 78,
+      "partial_inputs": true,
+      "mpg_error": 0.8684458531694581,
+      "disty_error": 0.01192824843283724,
+      "baseline_mpg_error": 6.10062893081761,
+      "baseline_disty_error": 0.18256769871060974
+    },
+    {
+      "row": 79,
+      "partial_inputs": false,
+      "mpg_error": 3.104627418763922,
+      "disty_error": 0.00782378218220714,
+      "baseline_mpg_error": 3.89937106918239,
+      "baseline_disty_error": 0.2240642164387624
+    }
+  ]
+}

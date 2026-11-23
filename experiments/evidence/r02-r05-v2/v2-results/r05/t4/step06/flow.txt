@@ -1,0 +1,15 @@
+Skill: flow
+Training rows: 318
+Streaming cars: 80
+Window size: 20
+MPG error: 3.3029
+Disty error: 0.0743
+Alerts: 5
+Observed alerts: 4
+Alert agreement: 88.52%
+Runtime: 2.6189s
+Prefix consistency: PASS
+Statistical alert decisions: PASS
+PASS
+Results saved to: /repo/experiments/v2-results/r05/t4/step06/flow.json
+

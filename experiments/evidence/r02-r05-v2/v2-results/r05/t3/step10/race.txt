@@ -1,0 +1,40 @@
+Skill: race
+Episodes: 20
+Cars per episode: 40
+Budget per strategy: 10
+Quality target: 0.3454
+
+best5:
+  Adaptive: 0.1186
+  Random:   0.2146
+  Cohen:    1.1233
+  Cliffs:   0.6250
+  KS:       2.0555
+  Same:     False
+
+best10:
+  Adaptive: 0.1130
+  Random:   0.1556
+  Cohen:    0.9047
+  Cliffs:   0.4500
+  KS:       1.2649
+  Same:     False
+
+labels_to_target:
+  Adaptive: 1.0000
+  Random:   3.2000
+  Cohen:    1.6072
+  Cliffs:   0.7000
+  KS:       2.2136
+  Same:     False
+
+Target reached:
+  adaptive: 20/20
+  random: 20/20
+
+Runtime: 12.3525s
+Budget compliance: PASS
+Statistical comparisons: PASS
+PASS
+Results saved to: /repo/experiments/v2-results/r05/t3/step10/race.json
+

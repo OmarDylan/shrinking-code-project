@@ -1,0 +1,572 @@
+{
+  "seed": 1,
+  "summary": {
+    "cases": 80,
+    "correct": 80,
+    "goal_error": 0.0,
+    "feature_error": 2.0816681711721685e-17,
+    "runtime": 0.029634401000009802
+  },
+  "errors": [
+    {
+      "row": 0,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Acc+",
+      "top_feature": "origin"
+    },
+    {
+      "row": 1,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Mpg+",
+      "top_feature": "origin"
+    },
+    {
+      "row": 2,
+      "goals_error": 0.0,
+      "features_error": 4.163336342344337e-17,
+      "weakest_goal": "Lbs-",
+      "top_feature": "Clndrs"
+    },
+    {
+      "row": 3,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Mpg+",
+      "top_feature": "Clndrs"
+    },
+    {
+      "row": 4,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Mpg+",
+      "top_feature": "origin"
+    },
+    {
+      "row": 5,
+      "goals_error": 0.0,
+      "features_error": 9.71445146547012e-17,
+      "weakest_goal": "Lbs-",
+      "top_feature": "origin"
+    },
+    {
+      "row": 6,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Acc+",
+      "top_feature": "origin"
+    },
+    {
+      "row": 7,
+      "goals_error": 0.0,
+      "features_error": 5.551115123125783e-17,
+      "weakest_goal": "Lbs-",
+      "top_feature": "Volume"
+    },
+    {
+      "row": 8,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Acc+",
+      "top_feature": "Clndrs"
+    },
+    {
+      "row": 9,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Mpg+",
+      "top_feature": "origin"
+    },
+    {
+      "row": 10,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Mpg+",
+      "top_feature": "Clndrs"
+    },
+    {
+      "row": 11,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Acc+",
+      "top_feature": "Model"
+    },
+    {
+      "row": 12,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Acc+",
+      "top_feature": "origin"
+    },
+    {
+      "row": 13,
+      "goals_error": 0.0,
+      "features_error": 5.551115123125783e-17,
+      "weakest_goal": "Acc+",
+      "top_feature": "Clndrs"
+    },
+    {
+      "row": 14,
+      "goals_error": 0.0,
+      "features_error": 4.163336342344337e-17,
+      "weakest_goal": "Mpg+",
+      "top_feature": "origin"
+    },
+    {
+      "row": 15,
+      "goals_error": 0.0,
+      "features_error": 4.163336342344337e-17,
+      "weakest_goal": "Acc+",
+      "top_feature": "Clndrs"
+    },
+    {
+      "row": 16,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Acc+",
+      "top_feature": "origin"
+    },
+    {
+      "row": 17,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Acc+",
+      "top_feature": "Clndrs"
+    },
+    {
+      "row": 18,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Acc+",
+      "top_feature": "Model"
+    },
+    {
+      "row": 19,
+      "goals_error": 0.0,
+      "features_error": 4.163336342344337e-17,
+      "weakest_goal": "Mpg+",
+      "top_feature": "origin"
+    },
+    {
+      "row": 20,
+      "goals_error": 0.0,
+      "features_error": 5.551115123125783e-17,
+      "weakest_goal": "Lbs-",
+      "top_feature": "Volume"
+    },
+    {
+      "row": 21,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Mpg+",
+      "top_feature": "origin"
+    },
+    {
+      "row": 22,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Mpg+",
+      "top_feature": "Clndrs"
+    },
+    {
+      "row": 23,
+      "goals_error": 0.0,
+      "features_error": 4.163336342344337e-17,
+      "weakest_goal": "Lbs-",
+      "top_feature": "origin"
+    },
+    {
+      "row": 24,
+      "goals_error": 0.0,
+      "features_error": 5.551115123125783e-17,
+      "weakest_goal": "Lbs-",
+      "top_feature": "Volume"
+    },
+    {
+      "row": 25,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Mpg+",
+      "top_feature": "Clndrs"
+    },
+    {
+      "row": 26,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Acc+",
+      "top_feature": "origin"
+    },
+    {
+      "row": 27,
+      "goals_error": 0.0,
+      "features_error": 5.551115123125783e-17,
+      "weakest_goal": "Lbs-",
+      "top_feature": "Clndrs"
+    },
+    {
+      "row": 28,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Acc+",
+      "top_feature": "origin"
+    },
+    {
+      "row": 29,
+      "goals_error": 0.0,
+      "features_error": 4.163336342344337e-17,
+      "weakest_goal": "Mpg+",
+      "top_feature": "origin"
+    },
+    {
+      "row": 30,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Acc+",
+      "top_feature": "Model"
+    },
+    {
+      "row": 31,
+      "goals_error": 0.0,
+      "features_error": 4.163336342344337e-17,
+      "weakest_goal": "Mpg+",
+      "top_feature": "origin"
+    },
+    {
+      "row": 32,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Acc+",
+      "top_feature": "Clndrs"
+    },
+    {
+      "row": 33,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Acc+",
+      "top_feature": "Model"
+    },
+    {
+      "row": 34,
+      "goals_error": 0.0,
+      "features_error": 4.163336342344337e-17,
+      "weakest_goal": "Acc+",
+      "top_feature": "origin"
+    },
+    {
+      "row": 35,
+      "goals_error": 0.0,
+      "features_error": 4.163336342344337e-17,
+      "weakest_goal": "Lbs-",
+      "top_feature": "origin"
+    },
+    {
+      "row": 36,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Acc+",
+      "top_feature": "origin"
+    },
+    {
+      "row": 37,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Lbs-",
+      "top_feature": "Clndrs"
+    },
+    {
+      "row": 38,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Mpg+",
+      "top_feature": "origin"
+    },
+    {
+      "row": 39,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Mpg+",
+      "top_feature": "Model"
+    },
+    {
+      "row": 40,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Lbs-",
+      "top_feature": "origin"
+    },
+    {
+      "row": 41,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Acc+",
+      "top_feature": "Clndrs"
+    },
+    {
+      "row": 42,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Mpg+",
+      "top_feature": "Model"
+    },
+    {
+      "row": 43,
+      "goals_error": 0.0,
+      "features_error": 4.163336342344337e-17,
+      "weakest_goal": "Mpg+",
+      "top_feature": "origin"
+    },
+    {
+      "row": 44,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Mpg+",
+      "top_feature": "Clndrs"
+    },
+    {
+      "row": 45,
+      "goals_error": 0.0,
+      "features_error": 4.163336342344337e-17,
+      "weakest_goal": "Lbs-",
+      "top_feature": "origin"
+    },
+    {
+      "row": 46,
+      "goals_error": 0.0,
+      "features_error": 5.551115123125783e-17,
+      "weakest_goal": "Lbs-",
+      "top_feature": "Volume"
+    },
+    {
+      "row": 47,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Acc+",
+      "top_feature": "origin"
+    },
+    {
+      "row": 48,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Acc+",
+      "top_feature": "Clndrs"
+    },
+    {
+      "row": 49,
+      "goals_error": 0.0,
+      "features_error": 5.551115123125783e-17,
+      "weakest_goal": "Lbs-",
+      "top_feature": "Volume"
+    },
+    {
+      "row": 50,
+      "goals_error": 0.0,
+      "features_error": 5.551115123125783e-17,
+      "weakest_goal": "Lbs-",
+      "top_feature": "Volume"
+    },
+    {
+      "row": 51,
+      "goals_error": 0.0,
+      "features_error": 5.551115123125783e-17,
+      "weakest_goal": "Mpg+",
+      "top_feature": "Volume"
+    },
+    {
+      "row": 52,
+      "goals_error": 0.0,
+      "features_error": 4.163336342344337e-17,
+      "weakest_goal": "Mpg+",
+      "top_feature": "origin"
+    },
+    {
+      "row": 53,
+      "goals_error": 0.0,
+      "features_error": 5.551115123125783e-17,
+      "weakest_goal": "Mpg+",
+      "top_feature": "Volume"
+    },
+    {
+      "row": 54,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Acc+",
+      "top_feature": "Clndrs"
+    },
+    {
+      "row": 55,
+      "goals_error": 0.0,
+      "features_error": 4.163336342344337e-17,
+      "weakest_goal": "Mpg+",
+      "top_feature": "origin"
+    },
+    {
+      "row": 56,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Acc+",
+      "top_feature": "Clndrs"
+    },
+    {
+      "row": 57,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Mpg+",
+      "top_feature": "Model"
+    },
+    {
+      "row": 58,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Mpg+",
+      "top_feature": "origin"
+    },
+    {
+      "row": 59,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Acc+",
+      "top_feature": "origin"
+    },
+    {
+      "row": 60,
+      "goals_error": 0.0,
+      "features_error": 5.551115123125783e-17,
+      "weakest_goal": "Lbs-",
+      "top_feature": "Volume"
+    },
+    {
+      "row": 61,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Lbs-",
+      "top_feature": "Clndrs"
+    },
+    {
+      "row": 62,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Acc+",
+      "top_feature": "Model"
+    },
+    {
+      "row": 63,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Mpg+",
+      "top_feature": "Model"
+    },
+    {
+      "row": 64,
+      "goals_error": 0.0,
+      "features_error": 5.551115123125783e-17,
+      "weakest_goal": "Lbs-",
+      "top_feature": "Volume"
+    },
+    {
+      "row": 65,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Mpg+",
+      "top_feature": "Model"
+    },
+    {
+      "row": 66,
+      "goals_error": 0.0,
+      "features_error": 5.551115123125783e-17,
+      "weakest_goal": "Lbs-",
+      "top_feature": "Clndrs"
+    },
+    {
+      "row": 67,
+      "goals_error": 0.0,
+      "features_error": 5.551115123125783e-17,
+      "weakest_goal": "Acc+",
+      "top_feature": "Clndrs"
+    },
+    {
+      "row": 68,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Mpg+",
+      "top_feature": "origin"
+    },
+    {
+      "row": 69,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Acc+",
+      "top_feature": "Clndrs"
+    },
+    {
+      "row": 70,
+      "goals_error": 0.0,
+      "features_error": 4.163336342344337e-17,
+      "weakest_goal": "Lbs-",
+      "top_feature": "Clndrs"
+    },
+    {
+      "row": 71,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Acc+",
+      "top_feature": "Model"
+    },
+    {
+      "row": 72,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Lbs-",
+      "top_feature": "Clndrs"
+    },
+    {
+      "row": 73,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Acc+",
+      "top_feature": "Model"
+    },
+    {
+      "row": 74,
+      "goals_error": 0.0,
+      "features_error": 5.551115123125783e-17,
+      "weakest_goal": "Acc+",
+      "top_feature": "Clndrs"
+    },
+    {
+      "row": 75,
+      "goals_error": 0.0,
+      "features_error": 4.163336342344337e-17,
+      "weakest_goal": "Lbs-",
+      "top_feature": "origin"
+    },
+    {
+      "row": 76,
+      "goals_error": 0.0,
+      "features_error": 5.551115123125783e-17,
+      "weakest_goal": "Mpg+",
+      "top_feature": "Clndrs"
+    },
+    {
+      "row": 77,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Acc+",
+      "top_feature": "Clndrs"
+    },
+    {
+      "row": 78,
+      "goals_error": 0.0,
+      "features_error": 0.0,
+      "weakest_goal": "Acc+",
+      "top_feature": "origin"
+    },
+    {
+      "row": 79,
+      "goals_error": 0.0,
+      "features_error": 5.551115123125783e-17,
+      "weakest_goal": "Lbs-",
+      "top_feature": "Clndrs"
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+=== r02 ===
+Python 3.13.18
+cloudpickle==3.1.3
+joblib==1.6.0
+narwhals==2.29.0
+numpy==2.5.5
+pandas==3.1.1
+python-dateutil==4.0.0
+scikit-learn==1.9.1
+scipy==1.18.1
+threadpoolctl==3.8.0
+tzdata==2026.6
+8c8bebfb9548e5184cb8754564c3e0198b867db6
+sha256:20aad5f285763d9b7a5630b950f448dc46e7ad1d9f8232dd60c2643aae010b4e
+
+
+=== r03 ===
+Python 3.13.18
+cloudpickle==3.1.3
+joblib==1.6.0
+narwhals==2.29.0
+numpy==2.5.5
+pandas==3.1.1
+python-dateutil==4.0.0
+scikit-learn==1.9.1
+scipy==1.18.1
+threadpoolctl==3.8.0
+tzdata==2026.6
+8c8bebfb9548e5184cb8754564c3e0198b867db6
+sha256:20aad5f285763d9b7a5630b950f448dc46e7ad1d9f8232dd60c2643aae010b4e
+
+
+=== r04 ===
+Python 3.13.18
+cloudpickle==3.1.3
+joblib==1.6.0
+narwhals==2.29.0
+numpy==2.5.5
+pandas==3.1.1
+python-dateutil==4.0.0
+scikit-learn==1.9.1
+scipy==1.18.1
+threadpoolctl==3.8.0
+tzdata==2026.6
+8c8bebfb9548e5184cb8754564c3e0198b867db6
+sha256:20aad5f285763d9b7a5630b950f448dc46e7ad1d9f8232dd60c2643aae010b4e
+
+
+=== r05 ===
+Python 3.13.18
+cloudpickle==3.1.3
+joblib==1.6.0
+narwhals==2.29.0
+numpy==2.5.5
+pandas==3.1.1
+python-dateutil==4.0.0
+scikit-learn==1.9.1
+scipy==1.18.1
+threadpoolctl==3.8.0
+tzdata==2026.6
+8c8bebfb9548e5184cb8754564c3e0198b867db6
+sha256:20aad5f285763d9b7a5630b950f448dc46e7ad1d9f8232dd60c2643aae010b4e

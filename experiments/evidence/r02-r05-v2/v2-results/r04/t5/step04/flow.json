@@ -1,0 +1,733 @@
+{
+  "seed": 1,
+  "summary": {
+    "mpg_error": 3.3677741886076697,
+    "disty_error": 0.08926519375402418,
+    "alerts": 13,
+    "observed_alerts": 4,
+    "alert_agreement": 0.7540983606557377,
+    "runtime": 0.07952292299995634
+  },
+  "errors": [
+    {
+      "row": 0,
+      "mpg_error": 5.003954595221558,
+      "disty_error": 0.04725483246568074,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": false
+    },
+    {
+      "row": 1,
+      "mpg_error": 0.13583677661399918,
+      "disty_error": 0.03279053024969164,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": false
+    },
+    {
+      "row": 2,
+      "mpg_error": 3.552713678800501e-15,
+      "disty_error": 0.08960600285883924,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": false
+    },
+    {
+      "row": 3,
+      "mpg_error": 9.99786817686946,
+      "disty_error": 0.1471874901208321,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": false
+    },
+    {
+      "row": 4,
+      "mpg_error": 11.428571428571427,
+      "disty_error": 0.18313732677837602,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": false
+    },
+    {
+      "row": 5,
+      "mpg_error": 0.0,
+      "disty_error": 0.04888370075543902,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": false
+    },
+    {
+      "row": 6,
+      "mpg_error": 1.428571428571427,
+      "disty_error": 0.16658874521252515,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": false
+    },
+    {
+      "row": 7,
+      "mpg_error": 0.07019390883474586,
+      "disty_error": 0.009263191425945894,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": false
+    },
+    {
+      "row": 8,
+      "mpg_error": 3.329819099273301,
+      "disty_error": 0.1916940785742246,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": false
+    },
+    {
+      "row": 9,
+      "mpg_error": 0.3110555657803289,
+      "disty_error": 0.035476422458127044,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": false
+    },
+    {
+      "row": 10,
+      "mpg_error": 0.020930936320574745,
+      "disty_error": 0.016100259839933795,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": false
+    },
+    {
+      "row": 11,
+      "mpg_error": 6.223710295322494,
+      "disty_error": 0.007967028425288458,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": false
+    },
+    {
+      "row": 12,
+      "mpg_error": 1.428571428571427,
+      "disty_error": 0.006938443030897357,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": false
+    },
+    {
+      "row": 13,
+      "mpg_error": 3.552713678800501e-15,
+      "disty_error": 0.03567130077076741,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": false
+    },
+    {
+      "row": 14,
+      "mpg_error": 0.0,
+      "disty_error": 0.022334485838754414,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": false
+    },
+    {
+      "row": 15,
+      "mpg_error": 0.11938644671181464,
+      "disty_error": 0.057118988939869,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": false
+    },
+    {
+      "row": 16,
+      "mpg_error": 1.428571428571427,
+      "disty_error": 0.11787814460878371,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": false
+    },
+    {
+      "row": 17,
+      "mpg_error": 7.048349270530444,
+      "disty_error": 0.18702818860340858,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": false
+    },
+    {
+      "row": 18,
+      "mpg_error": 2.020212155482767,
+      "disty_error": 0.13273339609042542,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": false
+    },
+    {
+      "row": 19,
+      "mpg_error": 0.0,
+      "disty_error": 0.008224424090917837,
+      "alert": true,
+      "observed_alert": false,
+      "alert_correct": false,
+      "window_ready": true
+    },
+    {
+      "row": 20,
+      "mpg_error": 8.571428571428571,
+      "disty_error": 0.114370105782719,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 21,
+      "mpg_error": 1.9031954676444123,
+      "disty_error": 0.03666396109133041,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 22,
+      "mpg_error": 5.984840883387925,
+      "disty_error": 0.08319747492240182,
+      "alert": true,
+      "observed_alert": false,
+      "alert_correct": false,
+      "window_ready": true
+    },
+    {
+      "row": 23,
+      "mpg_error": 3.552713678800501e-15,
+      "disty_error": 0.05474049347193777,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 24,
+      "mpg_error": 7.992420441693962,
+      "disty_error": 0.07474041581417967,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 25,
+      "mpg_error": 2.332134282001796,
+      "disty_error": 0.1477156227007452,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 26,
+      "mpg_error": 0.09379563201909136,
+      "disty_error": 0.1291543683525455,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 27,
+      "mpg_error": 3.552713678800501e-15,
+      "disty_error": 0.1253725630676037,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 28,
+      "mpg_error": 8.571428571428573,
+      "disty_error": 0.14527370450741223,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 29,
+      "mpg_error": 0.0,
+      "disty_error": 0.0654994196866513,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 30,
+      "mpg_error": 5.984840883387932,
+      "disty_error": 0.22708662893618714,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 31,
+      "mpg_error": 0.0,
+      "disty_error": 0.011878270484523168,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 32,
+      "mpg_error": 0.24402062365835775,
+      "disty_error": 0.0582512799473206,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 33,
+      "mpg_error": 4.795036134940428,
+      "disty_error": 0.28364070222171406,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 34,
+      "mpg_error": 0.0,
+      "disty_error": 0.050692869287424114,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 35,
+      "mpg_error": 0.0,
+      "disty_error": 0.07370766455024647,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 36,
+      "mpg_error": 5.046752108826855,
+      "disty_error": 0.0390172298846273,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 37,
+      "mpg_error": 1.6654609475996835,
+      "disty_error": 0.02630282886153372,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 38,
+      "mpg_error": 11.428571428571427,
+      "disty_error": 0.20053580899194656,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 39,
+      "mpg_error": 0.059397099340849024,
+      "disty_error": 0.16806745290448377,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 40,
+      "mpg_error": 1.428571428571427,
+      "disty_error": 0.07193839023635201,
+      "alert": true,
+      "observed_alert": false,
+      "alert_correct": false,
+      "window_ready": true
+    },
+    {
+      "row": 41,
+      "mpg_error": 0.1304681896473241,
+      "disty_error": 0.16830554708195802,
+      "alert": true,
+      "observed_alert": false,
+      "alert_correct": false,
+      "window_ready": true
+    },
+    {
+      "row": 42,
+      "mpg_error": 9.968831927448765,
+      "disty_error": 0.2572820933920759,
+      "alert": true,
+      "observed_alert": false,
+      "alert_correct": false,
+      "window_ready": true
+    },
+    {
+      "row": 43,
+      "mpg_error": 3.552713678800501e-15,
+      "disty_error": 0.025399101364527055,
+      "alert": true,
+      "observed_alert": false,
+      "alert_correct": false,
+      "window_ready": true
+    },
+    {
+      "row": 44,
+      "mpg_error": 5.714285714285715,
+      "disty_error": 0.06213623637539131,
+      "alert": true,
+      "observed_alert": true,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 45,
+      "mpg_error": 1.4739425186267638,
+      "disty_error": 0.07148194736986202,
+      "alert": true,
+      "observed_alert": false,
+      "alert_correct": false,
+      "window_ready": true
+    },
+    {
+      "row": 46,
+      "mpg_error": 4.2857142857142865,
+      "disty_error": 0.09403517454425214,
+      "alert": true,
+      "observed_alert": false,
+      "alert_correct": false,
+      "window_ready": true
+    },
+    {
+      "row": 47,
+      "mpg_error": 0.5561708408616148,
+      "disty_error": 0.02340686925520369,
+      "alert": true,
+      "observed_alert": false,
+      "alert_correct": false,
+      "window_ready": true
+    },
+    {
+      "row": 48,
+      "mpg_error": 0.031168072551235326,
+      "disty_error": 0.005102138005824153,
+      "alert": true,
+      "observed_alert": false,
+      "alert_correct": false,
+      "window_ready": true
+    },
+    {
+      "row": 49,
+      "mpg_error": 0.24529926393959478,
+      "disty_error": 0.0008046284706738627,
+      "alert": true,
+      "observed_alert": false,
+      "alert_correct": false,
+      "window_ready": true
+    },
+    {
+      "row": 50,
+      "mpg_error": 1.4285714285714288,
+      "disty_error": 0.0062904791964628615,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 51,
+      "mpg_error": 1.7763568394002505e-15,
+      "disty_error": 0.0287462895515177,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 52,
+      "mpg_error": 3.9898939222586165,
+      "disty_error": 0.018453785820507718,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 53,
+      "mpg_error": 5.286062532330323,
+      "disty_error": 0.015949533149945183,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 54,
+      "mpg_error": 1.6649095496366577,
+      "disty_error": 0.006719731432482168,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 55,
+      "mpg_error": 0.0,
+      "disty_error": 0.02406123694017792,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 56,
+      "mpg_error": 4.015159116612075,
+      "disty_error": 0.10961448220944725,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 57,
+      "mpg_error": 0.16144984488424186,
+      "disty_error": 0.03685907589783255,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 58,
+      "mpg_error": 9.999999999999996,
+      "disty_error": 0.20170267838860578,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 59,
+      "mpg_error": 0.29835045300864493,
+      "disty_error": 0.11515438263723765,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 60,
+      "mpg_error": 4.2857142857142865,
+      "disty_error": 0.02508125100560976,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 61,
+      "mpg_error": 4.156114901554524,
+      "disty_error": 0.1858602339618658,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 62,
+      "mpg_error": 6.673643645440194,
+      "disty_error": 0.34063685888013967,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 63,
+      "mpg_error": 8.158058183242474,
+      "disty_error": 0.27857833866319,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 64,
+      "mpg_error": 0.012632597176725824,
+      "disty_error": 0.02088073054759232,
+      "alert": false,
+      "observed_alert": true,
+      "alert_correct": false,
+      "window_ready": true
+    },
+    {
+      "row": 65,
+      "mpg_error": 8.686018555169767,
+      "disty_error": 0.18456808799577226,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 66,
+      "mpg_error": 2.488183063900699,
+      "disty_error": 0.06303635978833089,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 67,
+      "mpg_error": 8.972719364011478,
+      "disty_error": 0.059709113618235055,
+      "alert": false,
+      "observed_alert": true,
+      "alert_correct": false,
+      "window_ready": true
+    },
+    {
+      "row": 68,
+      "mpg_error": 13.28449448191865,
+      "disty_error": 0.07982246081149408,
+      "alert": false,
+      "observed_alert": true,
+      "alert_correct": false,
+      "window_ready": true
+    },
+    {
+      "row": 69,
+      "mpg_error": 9.869531810352676,
+      "disty_error": 0.13704806099643094,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 70,
+      "mpg_error": 2.9463725347382166,
+      "disty_error": 0.05348039657544973,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 71,
+      "mpg_error": 4.070392305776046,
+      "disty_error": 0.11515978021723333,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 72,
+      "mpg_error": 4.285714285714285,
+      "disty_error": 0.14792534683617437,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 73,
+      "mpg_error": 0.17723447329221642,
+      "disty_error": 0.036454348671179915,
+      "alert": true,
+      "observed_alert": false,
+      "alert_correct": false,
+      "window_ready": true
+    },
+    {
+      "row": 74,
+      "mpg_error": 8.571428571428571,
+      "disty_error": 0.125155716194567,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 75,
+      "mpg_error": 0.0,
+      "disty_error": 0.01292110886404263,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 76,
+      "mpg_error": 5.7142857142857135,
+      "disty_error": 0.016536575173443757,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 77,
+      "mpg_error": 7.802721417923692,
+      "disty_error": 0.12913371354375058,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 78,
+      "mpg_error": 3.2844944819186495,
+      "disty_error": 0.07349612372463288,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    },
+    {
+      "row": 79,
+      "mpg_error": 0.6344053089289119,
+      "disty_error": 0.05250124632620201,
+      "alert": false,
+      "observed_alert": false,
+      "alert_correct": true,
+      "window_ready": true
+    }
+  ]
+}

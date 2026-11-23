@@ -1,0 +1,19 @@
+Skill: choose
+Available cars: 80
+Inspections: 10/80
+Inspected indices: [54, 72, 22, 41, 48, 10, 44, 17, 37, 77]
+Recommended indices: [37, 72, 44]
+best: 0.0864
+top_mean: 0.1278
+pool_best: 0.0864
+regret: 0.0000
+pool_median: 0.5190
+random_best_mean: 0.2068
+random_top_mean: 0.2948
+Inspection savings: 87.50%
+Runtime: 0.2889s
+Budget compliance: PASS
+Recommendation validity: PASS
+PASS
+Results saved to: /repo/experiments/v2-results/r02/t1/step07/choose.json
+

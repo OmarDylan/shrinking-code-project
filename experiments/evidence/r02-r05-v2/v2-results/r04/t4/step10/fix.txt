@@ -1,0 +1,29 @@
+Skill: fix
+Evaluated cars: 80
+Correct: 80/80
+Already good: 50
+Eligible for repair: 30
+Improved: 30
+No candidate: 0
+Reached quality cutoff: 30
+Mean estimated gain: 0.4147
+Mean changes: 2.0000
+Runtime: 0.2476s
+PASS
+
+Example repair:
+{
+  "row": 5,
+  "before": 0.6331099268640271,
+  "after": 0.36568777562314575,
+  "changes": {
+    "Clndrs": 4.0,
+    "Volume": 97.0
+  },
+  "status": "improved",
+  "gain": 0.26742215124088137,
+  "edits": 2,
+  "correct": true
+}
+Results saved to: /repo/experiments/v2-results/r04/t4/step10/fix.json
+

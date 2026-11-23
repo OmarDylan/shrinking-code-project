@@ -1,0 +1,733 @@
+{
+  "seed": 1,
+  "summary": {
+    "cases": 80,
+    "correct": 80,
+    "accuracy": 1.0,
+    "same": 56,
+    "different": 24,
+    "runtime": 0.03176153699999418
+  },
+  "errors": [
+    {
+      "case": 0,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 1,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 2,
+      "expected": false,
+      "actual": false,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 3,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 4,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 5,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 6,
+      "expected": false,
+      "actual": false,
+      "correct": true,
+      "cohen_error": 4.440892098500626e-16,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 7,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 8,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 9,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 10,
+      "expected": false,
+      "actual": false,
+      "correct": true,
+      "cohen_error": 8.881784197001252e-16,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 11,
+      "expected": false,
+      "actual": false,
+      "correct": true,
+      "cohen_error": 4.996003610813204e-16,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 12,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 13,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 2.8449465006019636e-16,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 14,
+      "expected": false,
+      "actual": false,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 15,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 16,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 17,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 18,
+      "expected": false,
+      "actual": false,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 19,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 20,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 21,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 22,
+      "expected": false,
+      "actual": false,
+      "correct": true,
+      "cohen_error": 4.440892098500626e-16,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 23,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 24,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 25,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 26,
+      "expected": false,
+      "actual": false,
+      "correct": true,
+      "cohen_error": 8.881784197001252e-16,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 27,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 2.220446049250313e-16,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 28,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 29,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 30,
+      "expected": false,
+      "actual": false,
+      "correct": true,
+      "cohen_error": 4.440892098500626e-16,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 31,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 32,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 33,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 34,
+      "expected": false,
+      "actual": false,
+      "correct": true,
+      "cohen_error": 4.440892098500626e-16,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 35,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 36,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 37,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 38,
+      "expected": false,
+      "actual": false,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 39,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 4.440892098500626e-16,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 40,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 41,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 42,
+      "expected": false,
+      "actual": false,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 43,
+      "expected": false,
+      "actual": false,
+      "correct": true,
+      "cohen_error": 2.220446049250313e-16,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 44,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 45,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 46,
+      "expected": false,
+      "actual": false,
+      "correct": true,
+      "cohen_error": 2.220446049250313e-16,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 47,
+      "expected": false,
+      "actual": false,
+      "correct": true,
+      "cohen_error": 2.220446049250313e-16,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 48,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 49,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 50,
+      "expected": false,
+      "actual": false,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 51,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 52,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 53,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 54,
+      "expected": false,
+      "actual": false,
+      "correct": true,
+      "cohen_error": 4.440892098500626e-16,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 55,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 56,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 57,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 58,
+      "expected": false,
+      "actual": false,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 59,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 60,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 61,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 62,
+      "expected": false,
+      "actual": false,
+      "correct": true,
+      "cohen_error": 4.440892098500626e-16,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 63,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 2.220446049250313e-16,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 64,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 65,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 4.85722573273506e-16,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 66,
+      "expected": false,
+      "actual": false,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 67,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 68,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 69,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 70,
+      "expected": false,
+      "actual": false,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 71,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 1.3877787807814457e-17,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 72,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 73,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 74,
+      "expected": false,
+      "actual": false,
+      "correct": true,
+      "cohen_error": 8.881784197001252e-16,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 75,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 2.498001805406602e-16,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 76,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 77,
+      "expected": false,
+      "actual": false,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 78,
+      "expected": true,
+      "actual": true,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    },
+    {
+      "case": 79,
+      "expected": false,
+      "actual": false,
+      "correct": true,
+      "cohen_error": 0.0,
+      "cliffs_error": 0.0,
+      "ks_error": 0.0
+    }
+  ]
+}

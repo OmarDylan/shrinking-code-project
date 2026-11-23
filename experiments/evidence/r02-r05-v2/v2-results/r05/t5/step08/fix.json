@@ -1,0 +1,907 @@
+{
+  "seed": 1,
+  "summary": {
+    "cases": 80,
+    "correct": 80,
+    "eligible": 30,
+    "improved": 30,
+    "already_good": 50,
+    "no_candidate": 0,
+    "mean_gain": 0.41465721625162294,
+    "mean_edits": 2,
+    "reached_cutoff": 30,
+    "runtime": 0.18632132499999443
+  },
+  "errors": [
+    {
+      "row": 0,
+      "before": 0.41115794494369207,
+      "after": 0.41115794494369207,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 1,
+      "before": 0.42447094076316,
+      "after": 0.42447094076316,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 2,
+      "before": 0.4811490980045166,
+      "after": 0.4811490980045166,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 3,
+      "before": 0.3493174235580166,
+      "after": 0.3493174235580166,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 4,
+      "before": 0.3770629470876309,
+      "after": 0.3770629470876309,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 5,
+      "before": 0.6331099268640271,
+      "after": 0.36568777562314575,
+      "changes": {
+        "Clndrs": 4,
+        "Volume": 97
+      },
+      "status": "improved",
+      "gain": 0.26742215124088137,
+      "edits": 2,
+      "correct": true
+    },
+    {
+      "row": 6,
+      "before": 0.38113707818859255,
+      "after": 0.38113707818859255,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 7,
+      "before": 0.9096042218783083,
+      "after": 0.3171341286858451,
+      "changes": {
+        "Clndrs": 4,
+        "Volume": 97
+      },
+      "status": "improved",
+      "gain": 0.5924700931924631,
+      "edits": 2,
+      "correct": true
+    },
+    {
+      "row": 8,
+      "before": 0.38302293388565833,
+      "after": 0.38302293388565833,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 9,
+      "before": 0.38076648139618674,
+      "after": 0.38076648139618674,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 10,
+      "before": 0.20070301162784654,
+      "after": 0.20070301162784654,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 11,
+      "before": 0.39433958511595435,
+      "after": 0.39433958511595435,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 12,
+      "before": 0.45939543717744796,
+      "after": 0.45939543717744796,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 13,
+      "before": 0.7566448744409076,
+      "after": 0.36568777562314575,
+      "changes": {
+        "Clndrs": 4,
+        "Volume": 97
+      },
+      "status": "improved",
+      "gain": 0.3909570988177618,
+      "edits": 2,
+      "correct": true
+    },
+    {
+      "row": 14,
+      "before": 0.5474882084941927,
+      "after": 0.32732797335457586,
+      "changes": {
+        "Clndrs": 4,
+        "Volume": 97
+      },
+      "status": "improved",
+      "gain": 0.2201602351396168,
+      "edits": 2,
+      "correct": true
+    },
+    {
+      "row": 15,
+      "before": 0.43790069331770765,
+      "after": 0.43790069331770765,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 16,
+      "before": 0.3770629470876309,
+      "after": 0.3770629470876309,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 17,
+      "before": 0.23746852124076492,
+      "after": 0.23746852124076492,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 18,
+      "before": 0.2504611829982678,
+      "after": 0.2504611829982678,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 19,
+      "before": 0.5555828253323196,
+      "after": 0.36568777562314575,
+      "changes": {
+        "Clndrs": 4,
+        "Volume": 97
+      },
+      "status": "improved",
+      "gain": 0.18989504970917387,
+      "edits": 2,
+      "correct": true
+    },
+    {
+      "row": 20,
+      "before": 0.8998444622350326,
+      "after": 0.3128703178874558,
+      "changes": {
+        "Clndrs": 4,
+        "Volume": 97
+      },
+      "status": "improved",
+      "gain": 0.5869741443475768,
+      "edits": 2,
+      "correct": true
+    },
+    {
+      "row": 21,
+      "before": 0.4629713279229549,
+      "after": 0.4629713279229549,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 22,
+      "before": 0.18245104111017243,
+      "after": 0.18245104111017243,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 23,
+      "before": 0.5860889221402623,
+      "after": 0.30012255949956557,
+      "changes": {
+        "Clndrs": 4,
+        "Volume": 97
+      },
+      "status": "improved",
+      "gain": 0.28596636264069675,
+      "edits": 2,
+      "correct": true
+    },
+    {
+      "row": 24,
+      "before": 0.826027502817275,
+      "after": 0.30012255949956557,
+      "changes": {
+        "Clndrs": 4,
+        "Volume": 97
+      },
+      "status": "improved",
+      "gain": 0.5259049433177094,
+      "edits": 2,
+      "correct": true
+    },
+    {
+      "row": 25,
+      "before": 0.25018879767232166,
+      "after": 0.25018879767232166,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 26,
+      "before": 0.32732797335457586,
+      "after": 0.32732797335457586,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 27,
+      "before": 0.7085032624045506,
+      "after": 0.3496293784056318,
+      "changes": {
+        "Clndrs": 4,
+        "Volume": 97
+      },
+      "status": "improved",
+      "gain": 0.35887388399891884,
+      "edits": 2,
+      "correct": true
+    },
+    {
+      "row": 28,
+      "before": 0.27752330615632415,
+      "after": 0.27752330615632415,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 29,
+      "before": 0.6317924184832714,
+      "after": 0.36568777562314575,
+      "changes": {
+        "Clndrs": 4,
+        "Volume": 97
+      },
+      "status": "improved",
+      "gain": 0.26610464286012564,
+      "edits": 2,
+      "correct": true
+    },
+    {
+      "row": 30,
+      "before": 0.5273040120441124,
+      "after": 0.5273040120441124,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 31,
+      "before": 0.6401783839666085,
+      "after": 0.3171341286858451,
+      "changes": {
+        "Clndrs": 4,
+        "Volume": 97
+      },
+      "status": "improved",
+      "gain": 0.3230442552807634,
+      "edits": 2,
+      "correct": true
+    },
+    {
+      "row": 32,
+      "before": 0.23746852124076492,
+      "after": 0.23746852124076492,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 33,
+      "before": 0.39943691940721593,
+      "after": 0.39943691940721593,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 34,
+      "before": 0.5541384370636495,
+      "after": 0.3128703178874558,
+      "changes": {
+        "Clndrs": 4,
+        "Volume": 97
+      },
+      "status": "improved",
+      "gain": 0.24126811917619373,
+      "edits": 2,
+      "correct": true
+    },
+    {
+      "row": 35,
+      "before": 0.5741599364987967,
+      "after": 0.32732797335457586,
+      "changes": {
+        "Clndrs": 4,
+        "Volume": 97
+      },
+      "status": "improved",
+      "gain": 0.24683196314422085,
+      "edits": 2,
+      "correct": true
+    },
+    {
+      "row": 36,
+      "before": 0.3171341286858451,
+      "after": 0.3171341286858451,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 37,
+      "before": 0.2749706272127086,
+      "after": 0.2749706272127086,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 38,
+      "before": 0.45939543717744796,
+      "after": 0.45939543717744796,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 39,
+      "before": 0.4796240992597455,
+      "after": 0.4796240992597455,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 40,
+      "before": 0.27944760781183753,
+      "after": 0.27944760781183753,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 41,
+      "before": 0.18245104111017243,
+      "after": 0.18245104111017243,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 42,
+      "before": 0.36449882194074074,
+      "after": 0.36449882194074074,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 43,
+      "before": 0.6365783602000856,
+      "after": 0.3171341286858451,
+      "changes": {
+        "Clndrs": 4,
+        "Volume": 97
+      },
+      "status": "improved",
+      "gain": 0.3194442315142405,
+      "edits": 2,
+      "correct": true
+    },
+    {
+      "row": 44,
+      "before": 0.22874657354143602,
+      "after": 0.22874657354143602,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 45,
+      "before": 0.5968394362771325,
+      "after": 0.2881708742720215,
+      "changes": {
+        "Clndrs": 4,
+        "Volume": 97
+      },
+      "status": "improved",
+      "gain": 0.30866856200511106,
+      "edits": 2,
+      "correct": true
+    },
+    {
+      "row": 46,
+      "before": 0.9203549963131487,
+      "after": 0.3171341286858451,
+      "changes": {
+        "Clndrs": 4,
+        "Volume": 97
+      },
+      "status": "improved",
+      "gain": 0.6032208676273035,
+      "edits": 2,
+      "correct": true
+    },
+    {
+      "row": 47,
+      "before": 0.4049051180598974,
+      "after": 0.4049051180598974,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 48,
+      "before": 0.2310560578429945,
+      "after": 0.2310560578429945,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 49,
+      "before": 0.8784229128430647,
+      "after": 0.3171341286858451,
+      "changes": {
+        "Clndrs": 4,
+        "Volume": 97
+      },
+      "status": "improved",
+      "gain": 0.5612887841572196,
+      "edits": 2,
+      "correct": true
+    },
+    {
+      "row": 50,
+      "before": 0.9186774259608967,
+      "after": 0.3128703178874558,
+      "changes": {
+        "Clndrs": 4,
+        "Volume": 97
+      },
+      "status": "improved",
+      "gain": 0.605807108073441,
+      "edits": 2,
+      "correct": true
+    },
+    {
+      "row": 51,
+      "before": 0.8811693229732771,
+      "after": 0.3171341286858451,
+      "changes": {
+        "Clndrs": 4,
+        "Volume": 97
+      },
+      "status": "improved",
+      "gain": 0.564035194287432,
+      "edits": 2,
+      "correct": true
+    },
+    {
+      "row": 52,
+      "before": 0.621228144311855,
+      "after": 0.3496293784056318,
+      "changes": {
+        "Clndrs": 4,
+        "Volume": 97
+      },
+      "status": "improved",
+      "gain": 0.2715987659062232,
+      "edits": 2,
+      "correct": true
+    },
+    {
+      "row": 53,
+      "before": 0.8535460616635266,
+      "after": 0.2590923486518985,
+      "changes": {
+        "Clndrs": 4,
+        "Volume": 97
+      },
+      "status": "improved",
+      "gain": 0.5944537130116281,
+      "edits": 2,
+      "correct": true
+    },
+    {
+      "row": 54,
+      "before": 0.24855509929941833,
+      "after": 0.24855509929941833,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 55,
+      "before": 0.5477308787195505,
+      "after": 0.3128703178874558,
+      "changes": {
+        "Clndrs": 4,
+        "Volume": 97
+      },
+      "status": "improved",
+      "gain": 0.23486056083209472,
+      "edits": 2,
+      "correct": true
+    },
+    {
+      "row": 56,
+      "before": 0.3126694345288944,
+      "after": 0.3126694345288944,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 57,
+      "before": 0.4390175758812617,
+      "after": 0.4390175758812617,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 58,
+      "before": 0.41765044689591624,
+      "after": 0.41765044689591624,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 59,
+      "before": 0.3796167577804037,
+      "after": 0.3796167577804037,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 60,
+      "before": 0.8450970885148804,
+      "after": 0.3171341286858451,
+      "changes": {
+        "Clndrs": 4,
+        "Volume": 97
+      },
+      "status": "improved",
+      "gain": 0.5279629598290353,
+      "edits": 2,
+      "correct": true
+    },
+    {
+      "row": 61,
+      "before": 0.35047489116210506,
+      "after": 0.35047489116210506,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 62,
+      "before": 0.3531088526691904,
+      "after": 0.3531088526691904,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 63,
+      "before": 0.36449882194074074,
+      "after": 0.36449882194074074,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 64,
+      "before": 0.8784229128430647,
+      "after": 0.3171341286858451,
+      "changes": {
+        "Clndrs": 4,
+        "Volume": 97
+      },
+      "status": "improved",
+      "gain": 0.5612887841572196,
+      "edits": 2,
+      "correct": true
+    },
+    {
+      "row": 65,
+      "before": 0.3253199807234334,
+      "after": 0.3253199807234334,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 66,
+      "before": 0.8134706660956482,
+      "after": 0.32732797335457586,
+      "changes": {
+        "Clndrs": 4,
+        "Volume": 97
+      },
+      "status": "improved",
+      "gain": 0.48614269274107236,
+      "edits": 2,
+      "correct": true
+    },
+    {
+      "row": 67,
+      "before": 0.7968096412230317,
+      "after": 0.3171341286858451,
+      "changes": {
+        "Clndrs": 4,
+        "Volume": 97
+      },
+      "status": "improved",
+      "gain": 0.47967551253718654,
+      "edits": 2,
+      "correct": true
+    },
+    {
+      "row": 68,
+      "before": 0.4507776508613602,
+      "after": 0.4507776508613602,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 69,
+      "before": 0.18245104111017243,
+      "after": 0.18245104111017243,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 70,
+      "before": 0.43790069331770765,
+      "after": 0.43790069331770765,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 71,
+      "before": 0.31635685506586625,
+      "after": 0.31635685506586625,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 72,
+      "before": 0.19775202749070367,
+      "after": 0.19775202749070367,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 73,
+      "before": 0.32394358613535207,
+      "after": 0.32394358613535207,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 74,
+      "before": 0.8517023747753687,
+      "after": 0.3128703178874558,
+      "changes": {
+        "Clndrs": 4,
+        "Volume": 97
+      },
+      "status": "improved",
+      "gain": 0.5388320568879129,
+      "edits": 2,
+      "correct": true
+    },
+    {
+      "row": 75,
+      "before": 0.6272065124238907,
+      "after": 0.36568777562314575,
+      "changes": {
+        "Clndrs": 4,
+        "Volume": 97
+      },
+      "status": "improved",
+      "gain": 0.26151873680074494,
+      "edits": 2,
+      "correct": true
+    },
+    {
+      "row": 76,
+      "before": 0.8174325974457209,
+      "after": 0.2590923486518985,
+      "changes": {
+        "Clndrs": 4,
+        "Volume": 97
+      },
+      "status": "improved",
+      "gain": 0.5583402487938225,
+      "edits": 2,
+      "correct": true
+    },
+    {
+      "row": 77,
+      "before": 0.26025337134509724,
+      "after": 0.26025337134509724,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 78,
+      "before": 0.483499364937041,
+      "after": 0.483499364937041,
+      "changes": {},
+      "status": "already_good",
+      "gain": 0.0,
+      "edits": 0,
+      "correct": true
+    },
+    {
+      "row": 79,
+      "before": 0.7948405460704916,
+      "after": 0.32813578054959436,
+      "changes": {
+        "Clndrs": 4,
+        "Volume": 97
+      },
+      "status": "improved",
+      "gain": 0.46670476552089724,
+      "edits": 2,
+      "correct": true
+    }
+  ]
+}

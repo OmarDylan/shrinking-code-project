@@ -1,0 +1,14 @@
+Skill: justify
+Explained cars: 80
+Correct: 80/80
+Accepted: 42
+Rejected: 38
+Ties: 0
+Score error: 0.00000000
+Runtime: 0.0312s
+PASS
+
+Example explanation:
+Car 0 accepted: score 0.338, other score 0.488, cutoff 0.539; weakest goal Acc+. Recommend car 0, largest advantage in Mpg+. Top feature: origin.
+Results saved to: /repo/experiments/v2-results/r02/t4/step08/justify.json
+

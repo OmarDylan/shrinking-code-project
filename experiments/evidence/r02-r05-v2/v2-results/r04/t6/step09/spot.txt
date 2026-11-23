@@ -1,0 +1,17 @@
+Skill: spot
+Training rows: 318
+Test listings: 80
+Injected anomalies: 20
+Threshold: 0.5000
+True positives: 20
+False positives: 4
+True negatives: 56
+False negatives: 0
+Precision: 83.33%
+Recall: 100.00%
+F1: 0.9091
+Accuracy: 95.00%
+Runtime: 0.1565s
+PASS (valid anomaly detection output)
+Results saved to: /repo/experiments/v2-results/r04/t6/step09/spot.json
+

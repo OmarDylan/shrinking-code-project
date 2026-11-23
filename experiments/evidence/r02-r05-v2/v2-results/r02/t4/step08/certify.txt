@@ -1,0 +1,10 @@
+Skill: certify
+Comparisons: 80
+Correct: 80/80
+Same: 56
+Different: 24
+Accuracy: 100.00%
+Runtime: 0.0319s
+PASS
+Results saved to: /repo/experiments/v2-results/r02/t4/step08/certify.json
+

@@ -1,0 +1,734 @@
+{
+  "seed": 1,
+  "summary": {
+    "cases": 80,
+    "correct": 80,
+    "accepted": 42,
+    "rejected": 38,
+    "ties": 0,
+    "score_error": 3.469446951953614e-18,
+    "runtime": 0.04391169499996295
+  },
+  "errors": [
+    {
+      "row": 0,
+      "other": 1,
+      "score_error": 0.0,
+      "accepted": true,
+      "winner": 0,
+      "correct": true,
+      "text": "Car 0 accepted: score 0.338, other score 0.488, cutoff 0.539. Weakest goal Acc+. Recommend car 0; largest advantage in Mpg+. Top feature origin (retrospective, not causal)."
+    },
+    {
+      "row": 1,
+      "other": 2,
+      "score_error": 0.0,
+      "accepted": true,
+      "winner": 1,
+      "correct": true,
+      "text": "Car 1 accepted: score 0.488, other score 0.658, cutoff 0.539. Weakest goal Mpg+. Recommend car 1; largest advantage in Lbs-. Top feature origin (retrospective, not causal)."
+    },
+    {
+      "row": 2,
+      "other": 3,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 3,
+      "correct": true,
+      "text": "Car 2 rejected: score 0.658, other score 0.543, cutoff 0.539. Weakest goal Lbs-. Recommend car 3; largest advantage in Lbs-. Top feature Clndrs (retrospective, not causal)."
+    },
+    {
+      "row": 3,
+      "other": 4,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 4,
+      "correct": true,
+      "text": "Car 3 rejected: score 0.543, other score 0.502, cutoff 0.539. Weakest goal Mpg+. Recommend car 4; largest advantage in Acc+."
+    },
+    {
+      "row": 4,
+      "other": 5,
+      "score_error": 0.0,
+      "accepted": true,
+      "winner": 4,
+      "correct": true,
+      "text": "Car 4 accepted: score 0.502, other score 0.656, cutoff 0.539. Weakest goal Mpg+. Recommend car 4; largest advantage in Acc+. Top feature origin (retrospective, not causal)."
+    },
+    {
+      "row": 5,
+      "other": 6,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 6,
+      "correct": true,
+      "text": "Car 5 rejected: score 0.656, other score 0.447, cutoff 0.539. Weakest goal Lbs-. Recommend car 6; largest advantage in Mpg+. Top feature origin (retrospective, not causal)."
+    },
+    {
+      "row": 6,
+      "other": 7,
+      "score_error": 0.0,
+      "accepted": true,
+      "winner": 6,
+      "correct": true,
+      "text": "Car 6 accepted: score 0.447, other score 0.919, cutoff 0.539. Weakest goal Acc+. Recommend car 6; largest advantage in Mpg+. Top feature origin (retrospective, not causal)."
+    },
+    {
+      "row": 7,
+      "other": 8,
+      "score_error": 1.1102230246251565e-16,
+      "accepted": false,
+      "winner": 8,
+      "correct": true,
+      "text": "Car 7 rejected: score 0.919, other score 0.528, cutoff 0.539. Weakest goal Lbs-. Recommend car 8; largest advantage in Lbs-. Top feature Volume (retrospective, not causal)."
+    },
+    {
+      "row": 8,
+      "other": 9,
+      "score_error": 0.0,
+      "accepted": true,
+      "winner": 9,
+      "correct": true,
+      "text": "Car 8 accepted: score 0.528, other score 0.474, cutoff 0.539. Weakest goal Acc+. Recommend car 9; largest advantage in Acc+."
+    },
+    {
+      "row": 9,
+      "other": 10,
+      "score_error": 0.0,
+      "accepted": true,
+      "winner": 10,
+      "correct": true,
+      "text": "Car 9 accepted: score 0.474, other score 0.197, cutoff 0.539. Weakest goal Mpg+. Recommend car 10; largest advantage in Mpg+. Top feature origin (retrospective, not causal)."
+    },
+    {
+      "row": 10,
+      "other": 11,
+      "score_error": 0.0,
+      "accepted": true,
+      "winner": 10,
+      "correct": true,
+      "text": "Car 10 accepted: score 0.197, other score 0.447, cutoff 0.539. Weakest goal Mpg+. Recommend car 10; largest advantage in Acc+."
+    },
+    {
+      "row": 11,
+      "other": 12,
+      "score_error": 0.0,
+      "accepted": true,
+      "winner": 12,
+      "correct": true,
+      "text": "Car 11 accepted: score 0.447, other score 0.326, cutoff 0.539. Weakest goal Acc+. Recommend car 12; largest advantage in Acc+. Top feature Model (retrospective, not causal)."
+    },
+    {
+      "row": 12,
+      "other": 13,
+      "score_error": 0.0,
+      "accepted": true,
+      "winner": 12,
+      "correct": true,
+      "text": "Car 12 accepted: score 0.326, other score 0.736, cutoff 0.539. Weakest goal Acc+. Recommend car 12; largest advantage in Acc+. Top feature origin (retrospective, not causal)."
+    },
+    {
+      "row": 13,
+      "other": 14,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 14,
+      "correct": true,
+      "text": "Car 13 rejected: score 0.736, other score 0.554, cutoff 0.539. Weakest goal Acc+. Recommend car 14; largest advantage in Acc+. Top feature Clndrs (retrospective, not causal)."
+    },
+    {
+      "row": 14,
+      "other": 15,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 14,
+      "correct": true,
+      "text": "Car 14 rejected: score 0.554, other score 0.682, cutoff 0.539. Weakest goal Mpg+. Recommend car 14; largest advantage in Acc+. Top feature origin (retrospective, not causal)."
+    },
+    {
+      "row": 15,
+      "other": 16,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 16,
+      "correct": true,
+      "text": "Car 15 rejected: score 0.682, other score 0.437, cutoff 0.539. Weakest goal Acc+. Recommend car 16; largest advantage in Mpg+. Top feature Clndrs (retrospective, not causal)."
+    },
+    {
+      "row": 16,
+      "other": 17,
+      "score_error": 0.0,
+      "accepted": true,
+      "winner": 17,
+      "correct": true,
+      "text": "Car 16 accepted: score 0.437, other score 0.320, cutoff 0.539. Weakest goal Acc+. Recommend car 17; largest advantage in Acc+. Top feature origin (retrospective, not causal)."
+    },
+    {
+      "row": 17,
+      "other": 18,
+      "score_error": 0.0,
+      "accepted": true,
+      "winner": 17,
+      "correct": true,
+      "text": "Car 17 accepted: score 0.320, other score 0.347, cutoff 0.539. Weakest goal Acc+. Recommend car 17; largest advantage in Acc+."
+    },
+    {
+      "row": 18,
+      "other": 19,
+      "score_error": 0.0,
+      "accepted": true,
+      "winner": 18,
+      "correct": true,
+      "text": "Car 18 accepted: score 0.347, other score 0.543, cutoff 0.539. Weakest goal Acc+. Recommend car 18; largest advantage in Mpg+. Top feature Model (retrospective, not causal)."
+    },
+    {
+      "row": 19,
+      "other": 20,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 19,
+      "correct": true,
+      "text": "Car 19 rejected: score 0.543, other score 0.809, cutoff 0.539. Weakest goal Mpg+. Recommend car 19; largest advantage in Acc+. Top feature origin (retrospective, not causal)."
+    },
+    {
+      "row": 20,
+      "other": 21,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 21,
+      "correct": true,
+      "text": "Car 20 rejected: score 0.809, other score 0.424, cutoff 0.539. Weakest goal Lbs-. Recommend car 21; largest advantage in Lbs-. Top feature Volume (retrospective, not causal)."
+    },
+    {
+      "row": 21,
+      "other": 22,
+      "score_error": 0.0,
+      "accepted": true,
+      "winner": 22,
+      "correct": true,
+      "text": "Car 21 accepted: score 0.424, other score 0.195, cutoff 0.539. Weakest goal Mpg+. Recommend car 22; largest advantage in Mpg+. Top feature origin (retrospective, not causal)."
+    },
+    {
+      "row": 22,
+      "other": 23,
+      "score_error": 2.7755575615628914e-17,
+      "accepted": true,
+      "winner": 22,
+      "correct": true,
+      "text": "Car 22 accepted: score 0.195, other score 0.639, cutoff 0.539. Weakest goal Mpg+. Recommend car 22; largest advantage in Lbs-."
+    },
+    {
+      "row": 23,
+      "other": 24,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 23,
+      "correct": true,
+      "text": "Car 23 rejected: score 0.639, other score 0.899, cutoff 0.539. Weakest goal Lbs-. Recommend car 23; largest advantage in Acc+. Top feature origin (retrospective, not causal)."
+    },
+    {
+      "row": 24,
+      "other": 25,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 25,
+      "correct": true,
+      "text": "Car 24 rejected: score 0.899, other score 0.160, cutoff 0.539. Weakest goal Lbs-. Recommend car 25; largest advantage in Lbs-. Top feature Volume (retrospective, not causal)."
+    },
+    {
+      "row": 25,
+      "other": 26,
+      "score_error": 0.0,
+      "accepted": true,
+      "winner": 25,
+      "correct": true,
+      "text": "Car 25 accepted: score 0.160, other score 0.408, cutoff 0.539. Weakest goal Mpg+. Recommend car 25; largest advantage in Acc+."
+    },
+    {
+      "row": 26,
+      "other": 27,
+      "score_error": 0.0,
+      "accepted": true,
+      "winner": 26,
+      "correct": true,
+      "text": "Car 26 accepted: score 0.408, other score 0.571, cutoff 0.539. Weakest goal Acc+. Recommend car 26; largest advantage in Lbs-. Top feature origin (retrospective, not causal)."
+    },
+    {
+      "row": 27,
+      "other": 28,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 28,
+      "correct": true,
+      "text": "Car 27 rejected: score 0.571, other score 0.174, cutoff 0.539. Weakest goal Lbs-. Recommend car 28; largest advantage in Lbs-. Top feature Clndrs (retrospective, not causal)."
+    },
+    {
+      "row": 28,
+      "other": 29,
+      "score_error": 2.7755575615628914e-17,
+      "accepted": true,
+      "winner": 28,
+      "correct": true,
+      "text": "Car 28 accepted: score 0.174, other score 0.555, cutoff 0.539. Weakest goal Acc+. Recommend car 28; largest advantage in Mpg+. Top feature origin (retrospective, not causal)."
+    },
+    {
+      "row": 29,
+      "other": 30,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 30,
+      "correct": true,
+      "text": "Car 29 rejected: score 0.555, other score 0.266, cutoff 0.539. Weakest goal Mpg+. Recommend car 30; largest advantage in Mpg+. Top feature origin (retrospective, not causal)."
+    },
+    {
+      "row": 30,
+      "other": 31,
+      "score_error": 0.0,
+      "accepted": true,
+      "winner": 30,
+      "correct": true,
+      "text": "Car 30 accepted: score 0.266, other score 0.642, cutoff 0.539. Weakest goal Acc+. Recommend car 30; largest advantage in Mpg+. Top feature Model (retrospective, not causal)."
+    },
+    {
+      "row": 31,
+      "other": 32,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 32,
+      "correct": true,
+      "text": "Car 31 rejected: score 0.642, other score 0.431, cutoff 0.539. Weakest goal Mpg+. Recommend car 32; largest advantage in Mpg+. Top feature origin (retrospective, not causal)."
+    },
+    {
+      "row": 32,
+      "other": 33,
+      "score_error": 0.0,
+      "accepted": true,
+      "winner": 32,
+      "correct": true,
+      "text": "Car 32 accepted: score 0.431, other score 0.604, cutoff 0.539. Weakest goal Acc+. Recommend car 32; largest advantage in Mpg+."
+    },
+    {
+      "row": 33,
+      "other": 34,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 34,
+      "correct": true,
+      "text": "Car 33 rejected: score 0.604, other score 0.594, cutoff 0.539. Weakest goal Acc+. Recommend car 34; largest advantage in Acc+. Top feature Model (retrospective, not causal)."
+    },
+    {
+      "row": 34,
+      "other": 35,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 34,
+      "correct": true,
+      "text": "Car 34 rejected: score 0.594, other score 0.637, cutoff 0.539. Weakest goal Acc+. Recommend car 34; largest advantage in Lbs-. Top feature origin (retrospective, not causal)."
+    },
+    {
+      "row": 35,
+      "other": 36,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 36,
+      "correct": true,
+      "text": "Car 35 rejected: score 0.637, other score 0.371, cutoff 0.539. Weakest goal Lbs-. Recommend car 36; largest advantage in Lbs-. Top feature origin (retrospective, not causal)."
+    },
+    {
+      "row": 36,
+      "other": 37,
+      "score_error": 0.0,
+      "accepted": true,
+      "winner": 37,
+      "correct": true,
+      "text": "Car 36 accepted: score 0.371, other score 0.086, cutoff 0.539. Weakest goal Acc+. Recommend car 37; largest advantage in Acc+. Top feature origin (retrospective, not causal)."
+    },
+    {
+      "row": 37,
+      "other": 38,
+      "score_error": 0.0,
+      "accepted": true,
+      "winner": 37,
+      "correct": true,
+      "text": "Car 37 accepted: score 0.086, other score 0.520, cutoff 0.539. Weakest goal Lbs-. Recommend car 37; largest advantage in Mpg+."
+    },
+    {
+      "row": 38,
+      "other": 39,
+      "score_error": 0.0,
+      "accepted": true,
+      "winner": 38,
+      "correct": true,
+      "text": "Car 38 accepted: score 0.520, other score 0.613, cutoff 0.539. Weakest goal Mpg+. Recommend car 38; largest advantage in Acc+. Top feature origin (retrospective, not causal)."
+    },
+    {
+      "row": 39,
+      "other": 40,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 40,
+      "correct": true,
+      "text": "Car 39 rejected: score 0.613, other score 0.247, cutoff 0.539. Weakest goal Mpg+. Recommend car 40; largest advantage in Mpg+. Top feature Model (retrospective, not causal)."
+    },
+    {
+      "row": 40,
+      "other": 41,
+      "score_error": 0.0,
+      "accepted": true,
+      "winner": 40,
+      "correct": true,
+      "text": "Car 40 accepted: score 0.247, other score 0.342, cutoff 0.539. Weakest goal Lbs-. Recommend car 40; largest advantage in Acc+. Top feature origin (retrospective, not causal)."
+    },
+    {
+      "row": 41,
+      "other": 42,
+      "score_error": 5.551115123125783e-17,
+      "accepted": true,
+      "winner": 41,
+      "correct": true,
+      "text": "Car 41 accepted: score 0.342, other score 0.506, cutoff 0.539. Weakest goal Acc+. Recommend car 41; largest advantage in Mpg+."
+    },
+    {
+      "row": 42,
+      "other": 43,
+      "score_error": 0.0,
+      "accepted": true,
+      "winner": 42,
+      "correct": true,
+      "text": "Car 42 accepted: score 0.506, other score 0.620, cutoff 0.539. Weakest goal Mpg+. Recommend car 42; largest advantage in Lbs-. Top feature Model (retrospective, not causal)."
+    },
+    {
+      "row": 43,
+      "other": 44,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 44,
+      "correct": true,
+      "text": "Car 43 rejected: score 0.620, other score 0.191, cutoff 0.539. Weakest goal Mpg+. Recommend car 44; largest advantage in Mpg+. Top feature origin (retrospective, not causal)."
+    },
+    {
+      "row": 44,
+      "other": 45,
+      "score_error": 0.0,
+      "accepted": true,
+      "winner": 44,
+      "correct": true,
+      "text": "Car 44 accepted: score 0.191, other score 0.629, cutoff 0.539. Weakest goal Mpg+. Recommend car 44; largest advantage in Lbs-."
+    },
+    {
+      "row": 45,
+      "other": 46,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 45,
+      "correct": true,
+      "text": "Car 45 rejected: score 0.629, other score 0.950, cutoff 0.539. Weakest goal Lbs-. Recommend car 45; largest advantage in Acc+. Top feature origin (retrospective, not causal)."
+    },
+    {
+      "row": 46,
+      "other": 47,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 47,
+      "correct": true,
+      "text": "Car 46 rejected: score 0.950, other score 0.413, cutoff 0.539. Weakest goal Lbs-. Recommend car 47; largest advantage in Mpg+. Top feature Volume (retrospective, not causal)."
+    },
+    {
+      "row": 47,
+      "other": 48,
+      "score_error": 0.0,
+      "accepted": true,
+      "winner": 48,
+      "correct": true,
+      "text": "Car 47 accepted: score 0.413, other score 0.224, cutoff 0.539. Weakest goal Acc+. Recommend car 48; largest advantage in Acc+. Top feature origin (retrospective, not causal)."
+    },
+    {
+      "row": 48,
+      "other": 49,
+      "score_error": 0.0,
+      "accepted": true,
+      "winner": 48,
+      "correct": true,
+      "text": "Car 48 accepted: score 0.224, other score 0.937, cutoff 0.539. Weakest goal Acc+. Recommend car 48; largest advantage in Lbs-."
+    },
+    {
+      "row": 49,
+      "other": 50,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 50,
+      "correct": true,
+      "text": "Car 49 rejected: score 0.937, other score 0.930, cutoff 0.539. Weakest goal Lbs-. Recommend car 50; largest advantage in Acc+. Top feature Volume (retrospective, not causal)."
+    },
+    {
+      "row": 50,
+      "other": 51,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 51,
+      "correct": true,
+      "text": "Car 50 rejected: score 0.930, other score 0.923, cutoff 0.539. Weakest goal Lbs-. Recommend car 51; largest advantage in Lbs-. Top feature Volume (retrospective, not causal)."
+    },
+    {
+      "row": 51,
+      "other": 52,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 52,
+      "correct": true,
+      "text": "Car 51 rejected: score 0.923, other score 0.552, cutoff 0.539. Weakest goal Mpg+. Recommend car 52; largest advantage in Acc+. Top feature Volume (retrospective, not causal)."
+    },
+    {
+      "row": 52,
+      "other": 53,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 52,
+      "correct": true,
+      "text": "Car 52 rejected: score 0.552, other score 0.903, cutoff 0.539. Weakest goal Mpg+. Recommend car 52; largest advantage in Acc+. Top feature origin (retrospective, not causal)."
+    },
+    {
+      "row": 53,
+      "other": 54,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 54,
+      "correct": true,
+      "text": "Car 53 rejected: score 0.903, other score 0.254, cutoff 0.539. Weakest goal Mpg+. Recommend car 54; largest advantage in Mpg+. Top feature Volume (retrospective, not causal)."
+    },
+    {
+      "row": 54,
+      "other": 55,
+      "score_error": 0.0,
+      "accepted": true,
+      "winner": 54,
+      "correct": true,
+      "text": "Car 54 accepted: score 0.254, other score 0.570, cutoff 0.539. Weakest goal Acc+. Recommend car 54; largest advantage in Mpg+."
+    },
+    {
+      "row": 55,
+      "other": 56,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 56,
+      "correct": true,
+      "text": "Car 55 rejected: score 0.570, other score 0.388, cutoff 0.539. Weakest goal Mpg+. Recommend car 56; largest advantage in Mpg+. Top feature origin (retrospective, not causal)."
+    },
+    {
+      "row": 56,
+      "other": 57,
+      "score_error": 0.0,
+      "accepted": true,
+      "winner": 56,
+      "correct": true,
+      "text": "Car 56 accepted: score 0.388, other score 0.556, cutoff 0.539. Weakest goal Acc+. Recommend car 56; largest advantage in Mpg+."
+    },
+    {
+      "row": 57,
+      "other": 58,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 58,
+      "correct": true,
+      "text": "Car 57 rejected: score 0.556, other score 0.518, cutoff 0.539. Weakest goal Mpg+. Recommend car 58; largest advantage in Acc+. Top feature Model (retrospective, not causal)."
+    },
+    {
+      "row": 58,
+      "other": 59,
+      "score_error": 0.0,
+      "accepted": true,
+      "winner": 59,
+      "correct": true,
+      "text": "Car 58 accepted: score 0.518, other score 0.492, cutoff 0.539. Weakest goal Mpg+. Recommend car 59; largest advantage in Mpg+. Top feature origin (retrospective, not causal)."
+    },
+    {
+      "row": 59,
+      "other": 60,
+      "score_error": 0.0,
+      "accepted": true,
+      "winner": 59,
+      "correct": true,
+      "text": "Car 59 accepted: score 0.492, other score 0.882, cutoff 0.539. Weakest goal Acc+. Recommend car 59; largest advantage in Lbs-. Top feature origin (retrospective, not causal)."
+    },
+    {
+      "row": 60,
+      "other": 61,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 61,
+      "correct": true,
+      "text": "Car 60 rejected: score 0.882, other score 0.389, cutoff 0.539. Weakest goal Lbs-. Recommend car 61; largest advantage in Mpg+. Top feature Volume (retrospective, not causal)."
+    },
+    {
+      "row": 61,
+      "other": 62,
+      "score_error": 0.0,
+      "accepted": true,
+      "winner": 61,
+      "correct": true,
+      "text": "Car 61 accepted: score 0.389, other score 0.634, cutoff 0.539. Weakest goal Lbs-. Recommend car 61; largest advantage in Acc+."
+    },
+    {
+      "row": 62,
+      "other": 63,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 63,
+      "correct": true,
+      "text": "Car 62 rejected: score 0.634, other score 0.570, cutoff 0.539. Weakest goal Acc+. Recommend car 63; largest advantage in Acc+. Top feature Model (retrospective, not causal)."
+    },
+    {
+      "row": 63,
+      "other": 64,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 63,
+      "correct": true,
+      "text": "Car 63 rejected: score 0.570, other score 0.942, cutoff 0.539. Weakest goal Mpg+. Recommend car 63; largest advantage in Lbs-. Top feature Model (retrospective, not causal)."
+    },
+    {
+      "row": 64,
+      "other": 65,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 65,
+      "correct": true,
+      "text": "Car 64 rejected: score 0.942, other score 0.195, cutoff 0.539. Weakest goal Lbs-. Recommend car 65; largest advantage in Lbs-. Top feature Volume (retrospective, not causal)."
+    },
+    {
+      "row": 65,
+      "other": 66,
+      "score_error": 0.0,
+      "accepted": true,
+      "winner": 65,
+      "correct": true,
+      "text": "Car 65 accepted: score 0.195, other score 0.893, cutoff 0.539. Weakest goal Mpg+. Recommend car 65; largest advantage in Lbs-. Top feature Model (retrospective, not causal)."
+    },
+    {
+      "row": 66,
+      "other": 67,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 67,
+      "correct": true,
+      "text": "Car 66 rejected: score 0.893, other score 0.780, cutoff 0.539. Weakest goal Lbs-. Recommend car 67; largest advantage in Mpg+. Top feature Clndrs (retrospective, not causal)."
+    },
+    {
+      "row": 67,
+      "other": 68,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 68,
+      "correct": true,
+      "text": "Car 67 rejected: score 0.780, other score 0.500, cutoff 0.539. Weakest goal Acc+. Recommend car 68; largest advantage in Acc+. Top feature Clndrs (retrospective, not causal)."
+    },
+    {
+      "row": 68,
+      "other": 69,
+      "score_error": 5.551115123125783e-17,
+      "accepted": true,
+      "winner": 69,
+      "correct": true,
+      "text": "Car 68 accepted: score 0.500, other score 0.311, cutoff 0.539. Weakest goal Mpg+. Recommend car 69; largest advantage in Mpg+. Top feature origin (retrospective, not causal)."
+    },
+    {
+      "row": 69,
+      "other": 70,
+      "score_error": 0.0,
+      "accepted": true,
+      "winner": 69,
+      "correct": true,
+      "text": "Car 69 accepted: score 0.311, other score 0.456, cutoff 0.539. Weakest goal Acc+. Recommend car 69; largest advantage in Lbs-."
+    },
+    {
+      "row": 70,
+      "other": 71,
+      "score_error": 0.0,
+      "accepted": true,
+      "winner": 71,
+      "correct": true,
+      "text": "Car 70 accepted: score 0.456, other score 0.230, cutoff 0.539. Weakest goal Lbs-. Recommend car 71; largest advantage in Lbs-. Top feature Clndrs (retrospective, not causal)."
+    },
+    {
+      "row": 71,
+      "other": 72,
+      "score_error": 0.0,
+      "accepted": true,
+      "winner": 72,
+      "correct": true,
+      "text": "Car 71 accepted: score 0.230, other score 0.106, cutoff 0.539. Weakest goal Acc+. Recommend car 72; largest advantage in Mpg+. Top feature Model (retrospective, not causal)."
+    },
+    {
+      "row": 72,
+      "other": 73,
+      "score_error": 0.0,
+      "accepted": true,
+      "winner": 72,
+      "correct": true,
+      "text": "Car 72 accepted: score 0.106, other score 0.326, cutoff 0.539. Weakest goal Lbs-. Recommend car 72; largest advantage in Acc+."
+    },
+    {
+      "row": 73,
+      "other": 74,
+      "score_error": 0.0,
+      "accepted": true,
+      "winner": 73,
+      "correct": true,
+      "text": "Car 73 accepted: score 0.326, other score 0.798, cutoff 0.539. Weakest goal Acc+. Recommend car 73; largest advantage in Lbs-. Top feature Model (retrospective, not causal)."
+    },
+    {
+      "row": 74,
+      "other": 75,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 75,
+      "correct": true,
+      "text": "Car 74 rejected: score 0.798, other score 0.608, cutoff 0.539. Weakest goal Acc+. Recommend car 75; largest advantage in Acc+. Top feature Clndrs (retrospective, not causal)."
+    },
+    {
+      "row": 75,
+      "other": 76,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 75,
+      "correct": true,
+      "text": "Car 75 rejected: score 0.608, other score 0.834, cutoff 0.539. Weakest goal Lbs-. Recommend car 75; largest advantage in Acc+. Top feature origin (retrospective, not causal)."
+    },
+    {
+      "row": 76,
+      "other": 77,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 77,
+      "correct": true,
+      "text": "Car 76 rejected: score 0.834, other score 0.372, cutoff 0.539. Weakest goal Mpg+. Recommend car 77; largest advantage in Mpg+. Top feature Clndrs (retrospective, not causal)."
+    },
+    {
+      "row": 77,
+      "other": 78,
+      "score_error": 0.0,
+      "accepted": true,
+      "winner": 78,
+      "correct": true,
+      "text": "Car 77 accepted: score 0.372, other score 0.346, cutoff 0.539. Weakest goal Acc+. Recommend car 78; largest advantage in Acc+."
+    },
+    {
+      "row": 78,
+      "other": 79,
+      "score_error": 0.0,
+      "accepted": true,
+      "winner": 78,
+      "correct": true,
+      "text": "Car 78 accepted: score 0.346, other score 0.753, cutoff 0.539. Weakest goal Acc+. Recommend car 78; largest advantage in Lbs-. Top feature origin (retrospective, not causal)."
+    },
+    {
+      "row": 79,
+      "other": 0,
+      "score_error": 0.0,
+      "accepted": false,
+      "winner": 0,
+      "correct": true,
+      "text": "Car 79 rejected: score 0.753, other score 0.338, cutoff 0.539. Weakest goal Lbs-. Recommend car 0; largest advantage in Lbs-. Top feature Clndrs (retrospective, not causal)."
+    }
+  ]
+}

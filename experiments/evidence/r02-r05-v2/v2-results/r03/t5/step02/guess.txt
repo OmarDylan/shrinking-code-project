@@ -1,0 +1,15 @@
+
+Traceback (most recent call last):
+  File "/repo/tests/check_guess.py", line 121, in <module>
+    check(sys.argv[1])
+    ~~~~~^^^^^^^^^^^^^
+  File "/repo/tests/check_guess.py", line 48, in check
+    run = subprocess.run(
+      [
+    ...<7 lines>...
+      timeout=60
+    )
+  File "/usr/local/lib/python3.13/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['/usr/local/bin/python', '/repo/experiments/runs/t5/r03/step02/generated.py', 'guess', '--train', '/repo/data/splits/seed1/train.csv', '--test', '/tmp/tmpaaja_0ne/test.csv']' returned non-zero exit status 1.

@@ -1,0 +1,9 @@
+
+Traceback (most recent call last):
+  File "/repo/tests/check_justify.py", line 159, in <module>
+    check(sys.argv[1])
+    ~~~~~^^^^^^^^^^^^^
+  File "/repo/tests/check_justify.py", line 79, in check
+    assert actual["advantage_goal"] == advantage
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

@@ -1,0 +1,10 @@
+Skill: blame
+Training rows: 318
+Diagnosed cars: 80
+Correct: 80/80
+Goal error: 0.00000000
+Feature error: 0.00000000
+Runtime: 1.2331s
+PASS
+Results saved to: /repo/experiments/v2-results/r05/t4/step09/blame.json
+

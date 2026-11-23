@@ -1,0 +1,12 @@
+Skill: guess
+Training rows: 318
+Testing rows: 80
+Partial-input rows: 40
+mpg_error: 3.7457
+disty_error: 0.0839
+baseline_mpg_error: 6.9599
+baseline_disty_error: 0.1818
+Runtime: 0.0644s
+PASS (valid predictions)
+Results saved to: /repo/experiments/v2-results/r05/t6/step02/guess.json
+

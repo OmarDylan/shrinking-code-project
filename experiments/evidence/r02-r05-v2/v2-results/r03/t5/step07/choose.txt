@@ -1,0 +1,30 @@
+
+Traceback (most recent call last):
+  File "/repo/tests/check_choose.py", line 239, in <module>
+    check(sys.argv[1])
+    ~~~~~^^^^^^^^^^^^^
+  File "/repo/tests/check_choose.py", line 150, in check
+    inspected, selected, elapsed = oracle_run(
+                                   ~~~~~~~~~~^
+      program, path, test
+      ^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/repo/tests/check_choose.py", line 65, in oracle_run
+    raise RuntimeError(
+    ...<2 lines>...
+    )
+RuntimeError: Program exited before recommendations: Traceback (most recent call last):
+  File "/repo/experiments/runs/t5/r03/step07/generated.py", line 86, in <module>
+    main()
+    ~~~~^^
+  File "/repo/experiments/runs/t5/r03/step07/generated.py", line 78, in main
+    best = min((i for i in range(n) if i not in seen), key=lambda i: (pred(tx[i]), i))
+  File "/repo/experiments/runs/t5/r03/step07/generated.py", line 78, in <lambda>
+    best = min((i for i in range(n) if i not in seen), key=lambda i: (pred(tx[i]), i))
+                                                                      ~~~~^^^^^^^
+  File "/repo/experiments/runs/t5/r03/step07/generated.py", line 72, in pred
+    w = [p[2] / (d + 0.05) for d, _, p in [(t[0], 0, t[2]) for t in ds]]
+         ~^^^
+TypeError: 'float' object is not subscriptable
+
