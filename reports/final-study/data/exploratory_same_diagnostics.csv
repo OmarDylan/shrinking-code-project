@@ -1,0 +1,10 @@
+pair,metric,n_without_reuse,n_reuse,cohen,cliffs_abs,ks_scaled,same_under_lecture_cutoffs,interpretation
+T1/T2,estimated_generation_cost_USD,4,4,10.4755,1.0,1.4142,False,exploratory only; incomplete samples; no statistical rank
+T1/T2,generation_wall_seconds,4,4,10.9248,1.0,1.4142,False,exploratory only; incomplete samples; no statistical rank
+T1/T2,conditional_complete_LOC,3,4,8.8285,1.0,1.3093,False,exploratory only; incomplete samples; no statistical rank
+T3/T4,estimated_generation_cost_USD,4,4,9.5787,1.0,1.4142,False,exploratory only; incomplete samples; no statistical rank
+T3/T4,generation_wall_seconds,4,4,17.533,1.0,1.4142,False,exploratory only; incomplete samples; no statistical rank
+T3/T4,conditional_complete_LOC,2,4,10.8686,1.0,1.1547,False,exploratory only; incomplete samples; no statistical rank
+T5/T6,estimated_generation_cost_USD,4,4,1.2191,0.75,1.0607,False,exploratory only; incomplete samples; no statistical rank
+T5/T6,generation_wall_seconds,4,4,1.0828,0.5,1.0607,False,exploratory only; incomplete samples; no statistical rank
+T5/T6,conditional_complete_LOC,0,3,,,,NA,exploratory only; incomplete samples; no statistical rank

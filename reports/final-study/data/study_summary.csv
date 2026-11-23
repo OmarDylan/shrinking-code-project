@@ -1,0 +1,7 @@
+treatment,repetitions,competency_passes,syntax_failures,test_failures,blocked,complete_loc_n,complete_loc_upper_median,cost_usd_upper_median,generation_seconds_upper_median
+T1,4,39,1,0,0,3,990,0.3204,140.6
+T2,4,38,0,2,0,4,618,0.8254,276.0
+T3,4,36,3,1,0,2,918,0.3162,132.1
+T4,4,40,0,0,0,4,522,0.7570,250.1
+T5,4,34,4,2,0,0,NA,0.9393,145.2
+T6,4,34,1,0,5,3,541,1.4167,261.1

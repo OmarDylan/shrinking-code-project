@@ -1,0 +1,28 @@
+{
+  "source_claude_zip": "CSC491_R02_R05_EVALUATED.zip",
+  "source_t7_zip": "CSC491_T7_verified_evidence.zip",
+  "v2_repetitions": [
+    2,
+    3,
+    4,
+    5
+  ],
+  "claude_outcomes": {
+    "passed": 221,
+    "syntax_failed": 9,
+    "blocked": 5,
+    "test_failed": 5
+  },
+  "claude_estimated_api_equivalent_cost_usd": 15.8089887,
+  "T7_assisted": {
+    "passed": 10,
+    "repetitions": 1,
+    "new_adapter_LOC": 437,
+    "reused_homework_LOC": 1500,
+    "total_footprint_LOC": 1937,
+    "not_human_only": true,
+    "generation_cost_reported": false,
+    "development_time_reported": false
+  },
+  "interpretation": "Descriptive analysis only; seven-way statistical ranking not supported."
+}
