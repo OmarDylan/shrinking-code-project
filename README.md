@@ -102,3 +102,48 @@ The evidence includes individual task outputs and aggregate analysis files.
 ## Project Status
 
 The implementation, evaluated experiment evidence, and research report have been completed. The repository preserves the results used for the final study.
+
+
+## Running the ten skill checks
+
+From the repository root, run all ten frozen V2 competency
+checks against the AI-assisted T7 implementation:
+
+```bash
+python3 scripts/check_t7_all_ten.py
+```
+
+To run an individual skill's acceptance check, use one command:
+
+| Skill | Command |
+|---|---|
+| Remember | `python3 tests/check_remember.py src/t7_assisted/main.py /tmp/csc491-remember-demo.json` |
+| Guess | `python3 tests/check_guess.py src/t7_assisted/main.py /tmp/csc491-guess-demo.json` |
+| Certify | `python3 tests/check_certify.py src/t7_assisted/main.py /tmp/csc491-certify-demo.json` |
+| Flow | `python3 tests/check_flow.py src/t7_assisted/main.py /tmp/csc491-flow-demo.json` |
+| Blame | `python3 tests/check_blame.py src/t7_assisted/main.py /tmp/csc491-blame-demo.json` |
+| Justify | `python3 tests/check_justify.py src/t7_assisted/main.py /tmp/csc491-justify-demo.json` |
+| Choose | `python3 tests/check_choose.py src/t7_assisted/main.py /tmp/csc491-choose-demo.json` |
+| Fix | `python3 tests/check_fix.py src/t7_assisted/main.py /tmp/csc491-fix-demo.json` |
+| Spot | `python3 tests/check_spot.py src/t7_assisted/main.py /tmp/csc491-spot-demo.json` |
+| Race | `python3 tests/check_race.py src/t7_assisted/main.py /tmp/csc491-race-demo.json` |
+
+These are acceptance-check demonstrations using the frozen
+V2 test contracts, not an interactive customer application.
+
+T7 contains AI-assisted adapter code; it is not the
+unaided-human baseline specified in the original assignment.
+
+### Step history
+
+Tags `step1` through `step10` point retrospectively to
+the original R01 pilot implementation commits, covering
+Remember through Race. The labels were added during final
+submission preparation, not at the time of those commits.
+
+The separately evaluated R02-R05 V2 runs use different
+recorded evidence. Pilot Git tag differences must not
+be presented as R02-R05 measured generation results.
+
+Additional `t7-assisted-step01` through
+`t7-assisted-step10` tags preserve the T7 development history.
