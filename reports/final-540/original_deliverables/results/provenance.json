@@ -1,0 +1,18 @@
+{
+  "sources": {
+    "CSC491_R02_R05_EVALUATED.zip": "1e32e762b074765cc231a9eba77a8258515b9d7e667fb9763efc1c860333c64f",
+    "CSC491_R07_EVALUATED_20261124T024002Z.zip": "a120af0a264dcd95d92d5a69938d97f1a5abd642c98b89776652b2ab2bb5b478",
+    "CSC491_R08_evaluated_20261124T162553Z_53185.zip": "61649582d8109a5ef2c1a1b705388cf4c6ac44997a1549a60e5b602d711bdc90",
+    "CSC491_R09_R10_EVALUATED_20261124T220948Z_78817.zip": "5e9f1326c09eeeb182eb07fd630df4a8bc8272f8a97749e66efd4d6834dcc378",
+    "CSC491_R12_EVALUATED_20261125T221612Z_96431.zip": "012fd92bed885012a8d1975589cc8ede5818f46af6c50a7c874832c565918c99",
+    "CSC491_T7_verified_evidence.zip": "51d84f3dbda61b0af87557692d277a1e75bc9f63c8dbea9a74c3db6eb91c9f59",
+    "CSC491_E1_20261124T153313Z.zip": "1fa4204b60089768e9a3cc6222f1bba0a824c1b9eaf182b7afa50d9392b0657c"
+  },
+  "outcomes_sha256": "aaf02ee92db3e3ec10b9ccd8e32246d1bbe34c08712572bf13efdd75413dd079",
+  "scope": "saved current-skill passing outputs only; T7/E1 single implementation; no code executed",
+  "same_thresholds": [
+    0.35,
+    0.195,
+    1.36
+  ]
+}

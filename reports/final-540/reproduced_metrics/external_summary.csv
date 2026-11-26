@@ -1,0 +1,316 @@
+skill,metric,condition,planned,passing,metric_n,upper_median,minimum,maximum,aggregation
+remember,precision_at_10_proxy,T1,9,6,6,1.0,1.0,1.0,passing snapshots only
+remember,precision_at_10_proxy,T2,9,5,5,1.0,1.0,1.0,passing snapshots only
+remember,precision_at_10_proxy,T3,9,7,7,1.0,1.0,1.0,passing snapshots only
+remember,precision_at_10_proxy,T4,9,7,7,1.0,1.0,1.0,passing snapshots only
+remember,precision_at_10_proxy,T5,9,9,9,1.0,1.0,1.0,passing snapshots only
+remember,precision_at_10_proxy,T6,9,9,9,1.0,1.0,1.0,passing snapshots only
+remember,precision_at_10_proxy,T7,1,1,1,1.0,1.0,1.0,single implementation
+remember,recall_at_10_proxy,T1,9,6,6,1.0,1.0,1.0,passing snapshots only
+remember,recall_at_10_proxy,T2,9,5,5,1.0,1.0,1.0,passing snapshots only
+remember,recall_at_10_proxy,T3,9,7,7,1.0,1.0,1.0,passing snapshots only
+remember,recall_at_10_proxy,T4,9,7,7,1.0,1.0,1.0,passing snapshots only
+remember,recall_at_10_proxy,T5,9,9,9,1.0,1.0,1.0,passing snapshots only
+remember,recall_at_10_proxy,T6,9,9,9,1.0,1.0,1.0,passing snapshots only
+remember,recall_at_10_proxy,T7,1,1,1,1.0,1.0,1.0,single implementation
+guess,disty_mae,T1,9,9,9,0.08579394753982127,0.08477473254477551,0.09162996821581196,passing snapshots only
+guess,disty_mae,T2,9,5,5,0.08513759359851086,0.08488765023329646,0.08605929479603341,passing snapshots only
+guess,disty_mae,T3,9,7,7,0.07604579684673557,0.07467426195643147,0.08334059113016562,passing snapshots only
+guess,disty_mae,T4,9,7,7,0.07608990534146783,0.07418710561937346,0.07840713963851499,passing snapshots only
+guess,disty_mae,T5,9,8,8,0.0850993233961646,0.08362518418037962,0.09055318252531165,passing snapshots only
+guess,disty_mae,T6,9,9,9,0.08563302552551352,0.08195820590327396,0.10401576393479314,passing snapshots only
+guess,disty_mae,T7,1,1,1,0.13208781673681055,0.13208781673681055,0.13208781673681055,single implementation
+guess,hit_within_2_mpg,T1,9,9,9,0.2375,0.225,0.25,passing snapshots only
+guess,hit_within_2_mpg,T2,9,5,5,0.225,0.2125,0.25,passing snapshots only
+guess,hit_within_2_mpg,T3,9,7,7,0.5,0.375,0.5125,passing snapshots only
+guess,hit_within_2_mpg,T4,9,7,7,0.4875,0.4,0.5,passing snapshots only
+guess,hit_within_2_mpg,T5,9,8,8,0.25,0.175,0.3375,passing snapshots only
+guess,hit_within_2_mpg,T6,9,9,9,0.25,0.225,0.45,passing snapshots only
+guess,hit_within_2_mpg,T7,1,1,1,0.5,0.5,0.5,single implementation
+guess,mpg_mae,T1,9,9,9,3.9793387068720474,3.9286396730455833,4.00419799172487,passing snapshots only
+guess,mpg_mae,T2,9,5,5,3.998475657104827,3.9722771998406556,4.023682479619366,passing snapshots only
+guess,mpg_mae,T3,9,7,7,3.3231793382963994,3.259060592899298,3.6013641988036813,passing snapshots only
+guess,mpg_mae,T4,9,7,7,3.3585241102193284,3.3029450468603887,3.4979928488575003,passing snapshots only
+guess,mpg_mae,T5,9,8,8,3.981232472148658,3.79557224635501,3.990612476697041,passing snapshots only
+guess,mpg_mae,T6,9,9,9,3.936854856160843,3.4406782288087223,3.997241833956648,passing snapshots only
+guess,mpg_mae,T7,1,1,1,4.275,4.275,4.275,single implementation
+certify,accuracy,T1,9,7,7,1,1,1,passing snapshots only
+certify,accuracy,T2,9,5,5,1,1,1,passing snapshots only
+certify,accuracy,T3,9,6,6,1,1,1,passing snapshots only
+certify,accuracy,T4,9,7,7,1,1,1,passing snapshots only
+certify,accuracy,T5,9,2,2,1,1,1,passing snapshots only
+certify,accuracy,T6,9,9,9,1,1,1,passing snapshots only
+certify,accuracy,T7,1,1,1,1,1,1,single implementation
+certify,false_alarm_reference_same,T1,9,7,7,0,0,0,passing snapshots only
+certify,false_alarm_reference_same,T2,9,5,5,0,0,0,passing snapshots only
+certify,false_alarm_reference_same,T3,9,6,6,0,0,0,passing snapshots only
+certify,false_alarm_reference_same,T4,9,7,7,0,0,0,passing snapshots only
+certify,false_alarm_reference_same,T5,9,2,2,0,0,0,passing snapshots only
+certify,false_alarm_reference_same,T6,9,9,9,0,0,0,passing snapshots only
+certify,false_alarm_reference_same,T7,1,1,1,0,0,0,single implementation
+certify,miss_reference_different,T1,9,7,7,0,0,0,passing snapshots only
+certify,miss_reference_different,T2,9,5,5,0,0,0,passing snapshots only
+certify,miss_reference_different,T3,9,6,6,0,0,0,passing snapshots only
+certify,miss_reference_different,T4,9,7,7,0,0,0,passing snapshots only
+certify,miss_reference_different,T5,9,2,2,0,0,0,passing snapshots only
+certify,miss_reference_different,T6,9,9,9,0,0,0,passing snapshots only
+certify,miss_reference_different,T7,1,1,1,0,0,0,single implementation
+flow,agreement,T1,9,9,9,0.45901639344262296,0.45901639344262296,0.8360655737704918,passing snapshots only
+flow,agreement,T2,9,5,5,0.8852459016393442,0.8360655737704918,0.9016393442622951,passing snapshots only
+flow,agreement,T3,9,9,9,0.7213114754098361,0.5901639344262295,0.8524590163934426,passing snapshots only
+flow,agreement,T4,9,7,7,0.8524590163934426,0.8524590163934426,0.9344262295081968,passing snapshots only
+flow,agreement,T5,9,7,7,0.45901639344262296,0.45901639344262296,0.7540983606557377,passing snapshots only
+flow,agreement,T6,9,9,9,0.8360655737704918,0.5737704918032787,0.8852459016393442,passing snapshots only
+flow,agreement,T7,1,1,1,0.6557377049180327,0.6557377049180327,0.6557377049180327,single implementation
+flow,f1,T1,9,9,9,0.05714285714285714,0.05714285714285714,0.16666666666666666,passing snapshots only
+flow,f1,T2,9,5,5,0.2222222222222222,0.16666666666666666,0.25,passing snapshots only
+flow,f1,T3,9,9,9,0.10526315789473684,0.07407407407407407,0.18181818181818182,passing snapshots only
+flow,f1,T4,9,7,7,0.18181818181818182,0.18181818181818182,0.3333333333333333,passing snapshots only
+flow,f1,T5,9,7,7,0.05714285714285714,0.05714285714285714,0.11764705882352941,passing snapshots only
+flow,f1,T6,9,9,9,0.16666666666666666,0.07142857142857142,0.2222222222222222,passing snapshots only
+flow,f1,T7,1,1,1,0.0,0.0,0.0,single implementation
+flow,fn,T1,9,9,9,3,3,3,passing snapshots only
+flow,fn,T2,9,5,5,3,3,3,passing snapshots only
+flow,fn,T3,9,9,9,3,3,3,passing snapshots only
+flow,fn,T4,9,7,7,3,3,3,passing snapshots only
+flow,fn,T5,9,7,7,3,3,3,passing snapshots only
+flow,fn,T6,9,9,9,3,3,3,passing snapshots only
+flow,fn,T7,1,1,1,4,4,4,single implementation
+flow,fp,T1,9,9,9,30,7,30,passing snapshots only
+flow,fp,T2,9,5,5,4,3,7,passing snapshots only
+flow,fp,T3,9,9,9,14,6,22,passing snapshots only
+flow,fp,T4,9,7,7,6,1,6,passing snapshots only
+flow,fp,T5,9,7,7,30,12,30,passing snapshots only
+flow,fp,T6,9,9,9,7,4,23,passing snapshots only
+flow,fp,T7,1,1,1,17,17,17,single implementation
+flow,precision,T1,9,9,9,0.03225806451612903,0.03225806451612903,0.125,passing snapshots only
+flow,precision,T2,9,5,5,0.2,0.125,0.25,passing snapshots only
+flow,precision,T3,9,9,9,0.06666666666666667,0.043478260869565216,0.14285714285714285,passing snapshots only
+flow,precision,T4,9,7,7,0.14285714285714285,0.14285714285714285,0.5,passing snapshots only
+flow,precision,T5,9,7,7,0.03225806451612903,0.03225806451612903,0.07692307692307693,passing snapshots only
+flow,precision,T6,9,9,9,0.125,0.041666666666666664,0.2,passing snapshots only
+flow,precision,T7,1,1,1,0.0,0.0,0.0,single implementation
+flow,recall,T1,9,9,9,0.25,0.25,0.25,passing snapshots only
+flow,recall,T2,9,5,5,0.25,0.25,0.25,passing snapshots only
+flow,recall,T3,9,9,9,0.25,0.25,0.25,passing snapshots only
+flow,recall,T4,9,7,7,0.25,0.25,0.25,passing snapshots only
+flow,recall,T5,9,7,7,0.25,0.25,0.25,passing snapshots only
+flow,recall,T6,9,9,9,0.25,0.25,0.25,passing snapshots only
+flow,recall,T7,1,1,1,0.0,0.0,0.0,single implementation
+flow,tn,T1,9,9,9,27,27,50,passing snapshots only
+flow,tn,T2,9,5,5,53,50,54,passing snapshots only
+flow,tn,T3,9,9,9,43,35,51,passing snapshots only
+flow,tn,T4,9,7,7,51,51,56,passing snapshots only
+flow,tn,T5,9,7,7,27,27,45,passing snapshots only
+flow,tn,T6,9,9,9,50,34,53,passing snapshots only
+flow,tn,T7,1,1,1,40,40,40,single implementation
+flow,tp,T1,9,9,9,1,1,1,passing snapshots only
+flow,tp,T2,9,5,5,1,1,1,passing snapshots only
+flow,tp,T3,9,9,9,1,1,1,passing snapshots only
+flow,tp,T4,9,7,7,1,1,1,passing snapshots only
+flow,tp,T5,9,7,7,1,1,1,passing snapshots only
+flow,tp,T6,9,9,9,1,1,1,passing snapshots only
+flow,tp,T7,1,1,1,0,0,0,single implementation
+blame,contract_case_accuracy,T1,9,9,9,1.0,1.0,1.0,passing snapshots only
+blame,contract_case_accuracy,T2,9,4,4,1.0,1.0,1.0,passing snapshots only
+blame,contract_case_accuracy,T3,9,7,7,1.0,1.0,1.0,passing snapshots only
+blame,contract_case_accuracy,T4,9,7,7,1.0,1.0,1.0,passing snapshots only
+blame,contract_case_accuracy,T5,9,9,9,1.0,1.0,1.0,passing snapshots only
+blame,contract_case_accuracy,T6,9,7,7,1.0,1.0,1.0,passing snapshots only
+blame,contract_case_accuracy,T7,1,1,1,1.0,1.0,1.0,single implementation
+blame,feature_error,T1,9,9,9,2.0816681711721685e-17,2.0816681711721685e-17,2.0816681711721685e-17,passing snapshots only
+blame,feature_error,T2,9,4,4,2.0816681711721685e-17,2.0816681711721685e-17,2.0816681711721685e-17,passing snapshots only
+blame,feature_error,T3,9,7,7,2.0816681711721685e-17,2.0816681711721685e-17,2.0816681711721685e-17,passing snapshots only
+blame,feature_error,T4,9,7,7,2.0816681711721685e-17,2.0816681711721685e-17,2.5396351688300457e-16,passing snapshots only
+blame,feature_error,T5,9,9,9,2.0816681711721685e-17,2.0816681711721685e-17,2.0816681711721685e-17,passing snapshots only
+blame,feature_error,T6,9,7,7,2.0816681711721685e-17,2.0816681711721685e-17,2.0816681711721685e-17,passing snapshots only
+blame,feature_error,T7,1,1,1,8.621575675604732e-17,8.621575675604732e-17,8.621575675604732e-17,single implementation
+blame,goal_error,T1,9,9,9,0.0,0.0,0.0,passing snapshots only
+blame,goal_error,T2,9,4,4,0.0,0.0,0.0,passing snapshots only
+blame,goal_error,T3,9,7,7,0.0,0.0,0.0,passing snapshots only
+blame,goal_error,T4,9,7,7,0.0,0.0,0.0,passing snapshots only
+blame,goal_error,T5,9,9,9,0.0,0.0,0.0,passing snapshots only
+blame,goal_error,T6,9,7,7,0.0,0.0,0.0,passing snapshots only
+blame,goal_error,T7,1,1,1,7.373153014060089e-16,7.373153014060089e-16,7.373153014060089e-16,single implementation
+justify,contract_case_accuracy,T1,9,9,9,1.0,1.0,1.0,passing snapshots only
+justify,contract_case_accuracy,T2,9,4,4,1.0,1.0,1.0,passing snapshots only
+justify,contract_case_accuracy,T3,9,9,9,1.0,1.0,1.0,passing snapshots only
+justify,contract_case_accuracy,T4,9,7,7,1.0,1.0,1.0,passing snapshots only
+justify,contract_case_accuracy,T5,9,9,9,1.0,1.0,1.0,passing snapshots only
+justify,contract_case_accuracy,T6,9,7,7,1.0,1.0,1.0,passing snapshots only
+justify,contract_case_accuracy,T7,1,1,1,1.0,1.0,1.0,single implementation
+justify,score_error,T1,9,9,9,0.0,0.0,3.469446951953614e-18,passing snapshots only
+justify,score_error,T2,9,4,4,3.469446951953614e-18,3.469446951953614e-18,3.469446951953614e-18,passing snapshots only
+justify,score_error,T3,9,9,9,0.0,0.0,0.0,passing snapshots only
+justify,score_error,T4,9,7,7,3.469446951953614e-18,0.0,3.469446951953614e-18,passing snapshots only
+justify,score_error,T5,9,9,9,0.0,0.0,0.0,passing snapshots only
+justify,score_error,T6,9,7,7,3.469446951953614e-18,0.0,3.469446951953614e-18,passing snapshots only
+justify,score_error,T7,1,1,1,3.030561912531482e-16,3.030561912531482e-16,3.030561912531482e-16,single implementation
+choose,best,T1,9,9,9,0.1055895647464749,0.08636145871932471,0.1055895647464749,passing snapshots only
+choose,best,T2,9,5,5,0.08636145871932471,0.08636145871932471,0.1055895647464749,passing snapshots only
+choose,best,T3,9,8,8,0.08636145871932471,0.08636145871932471,0.08636145871932471,passing snapshots only
+choose,best,T4,9,7,7,0.08636145871932471,0.08636145871932471,0.08636145871932471,passing snapshots only
+choose,best,T5,9,8,8,0.1055895647464749,0.08636145871932471,0.1055895647464749,passing snapshots only
+choose,best,T6,9,8,8,0.1055895647464749,0.08636145871932471,0.1055895647464749,passing snapshots only
+choose,best,T7,1,1,1,0.1055895647464749,0.1055895647464749,0.1055895647464749,single implementation
+choose,inspection_savings,T1,9,9,9,0.875,0.875,0.875,passing snapshots only
+choose,inspection_savings,T2,9,5,5,0.875,0.875,0.875,passing snapshots only
+choose,inspection_savings,T3,9,8,8,0.875,0.875,0.875,passing snapshots only
+choose,inspection_savings,T4,9,7,7,0.875,0.875,0.875,passing snapshots only
+choose,inspection_savings,T5,9,8,8,0.875,0.875,0.875,passing snapshots only
+choose,inspection_savings,T6,9,8,8,0.875,0.875,0.875,passing snapshots only
+choose,inspection_savings,T7,1,1,1,0.875,0.875,0.875,single implementation
+choose,inspections,T1,9,9,9,10,10,10,passing snapshots only
+choose,inspections,T2,9,5,5,10,10,10,passing snapshots only
+choose,inspections,T3,9,8,8,10,10,10,passing snapshots only
+choose,inspections,T4,9,7,7,10,10,10,passing snapshots only
+choose,inspections,T5,9,8,8,10,10,10,passing snapshots only
+choose,inspections,T6,9,8,8,10,10,10,passing snapshots only
+choose,inspections,T7,1,1,1,10,10,10,single implementation
+choose,regret,T1,9,9,9,0.019228106027150194,0.0,0.019228106027150194,passing snapshots only
+choose,regret,T2,9,5,5,0.0,0.0,0.019228106027150194,passing snapshots only
+choose,regret,T3,9,8,8,0.0,0.0,0.0,passing snapshots only
+choose,regret,T4,9,7,7,0.0,0.0,0.0,passing snapshots only
+choose,regret,T5,9,8,8,0.019228106027150194,0.0,0.019228106027150194,passing snapshots only
+choose,regret,T6,9,8,8,0.019228106027150194,0.0,0.019228106027150194,passing snapshots only
+choose,regret,T7,1,1,1,0.019228106027150207,0.019228106027150207,0.019228106027150207,single implementation
+choose,top_mean,T1,9,9,9,0.1523157354695798,0.11730999664026871,0.16408005499572714,passing snapshots only
+choose,top_mean,T2,9,5,5,0.11730999664026871,0.11730999664026871,0.14648497622015202,passing snapshots only
+choose,top_mean,T3,9,8,8,0.11730999664026871,0.11730999664026871,0.11730999664026871,passing snapshots only
+choose,top_mean,T4,9,7,7,0.11730999664026871,0.11730999664026871,0.11730999664026871,passing snapshots only
+choose,top_mean,T5,9,8,8,0.15361348541164332,0.11730999664026871,0.15361348541164332,passing snapshots only
+choose,top_mean,T6,9,8,8,0.15183992707058264,0.11730999664026871,0.16584012986467386,passing snapshots only
+choose,top_mean,T7,1,1,1,0.16408005499572714,0.16408005499572714,0.16408005499572714,single implementation
+fix,cutoff_reached_rate,T1,9,9,9,1.0,1.0,1.0,passing snapshots only
+fix,cutoff_reached_rate,T2,9,5,5,1.0,1.0,1.0,passing snapshots only
+fix,cutoff_reached_rate,T3,9,9,9,1.0,1.0,1.0,passing snapshots only
+fix,cutoff_reached_rate,T4,9,7,7,1.0,1.0,1.0,passing snapshots only
+fix,cutoff_reached_rate,T5,9,9,9,1.0,1.0,1.0,passing snapshots only
+fix,cutoff_reached_rate,T6,9,8,8,1.0,1.0,1.0,passing snapshots only
+fix,cutoff_reached_rate,T7,1,1,1,1.0,1.0,1.0,single implementation
+fix,improvement_rate,T1,9,9,9,1.0,1.0,1.0,passing snapshots only
+fix,improvement_rate,T2,9,5,5,1.0,1.0,1.0,passing snapshots only
+fix,improvement_rate,T3,9,9,9,1.0,1.0,1.0,passing snapshots only
+fix,improvement_rate,T4,9,7,7,1.0,1.0,1.0,passing snapshots only
+fix,improvement_rate,T5,9,9,9,1.0,1.0,1.0,passing snapshots only
+fix,improvement_rate,T6,9,8,8,1.0,1.0,1.0,passing snapshots only
+fix,improvement_rate,T7,1,1,1,1.0,1.0,1.0,single implementation
+fix,mean_edits,T1,9,9,9,2,2,2,passing snapshots only
+fix,mean_edits,T2,9,5,5,2,2,2,passing snapshots only
+fix,mean_edits,T3,9,9,9,2,2,2,passing snapshots only
+fix,mean_edits,T4,9,7,7,2,2,2,passing snapshots only
+fix,mean_edits,T5,9,9,9,2,2,2,passing snapshots only
+fix,mean_edits,T6,9,8,8,2,2,2,passing snapshots only
+fix,mean_edits,T7,1,1,1,2,2,2,single implementation
+fix,mean_gain,T1,9,9,9,0.41465721625162294,0.41465721625162294,0.41465721625162294,passing snapshots only
+fix,mean_gain,T2,9,5,5,0.41465721625162294,0.41465721625162294,0.41465721625162294,passing snapshots only
+fix,mean_gain,T3,9,9,9,0.41465721625162294,0.41465721625162294,0.41465721625162294,passing snapshots only
+fix,mean_gain,T4,9,7,7,0.41465721625162294,0.4146572162516229,0.41465721625162294,passing snapshots only
+fix,mean_gain,T5,9,9,9,0.41465721625162294,0.41465721625162294,0.41465721625162294,passing snapshots only
+fix,mean_gain,T6,9,8,8,0.41465721625162294,0.41465721625162294,0.41465721625162294,passing snapshots only
+fix,mean_gain,T7,1,1,1,0.4146572162516226,0.4146572162516226,0.4146572162516226,single implementation
+spot,agreement,T1,9,9,9,1.0,0.95,1.0,passing snapshots only
+spot,agreement,T2,9,5,5,0.9875,0.95,1.0,passing snapshots only
+spot,agreement,T3,9,9,9,0.975,0.9625,1.0,passing snapshots only
+spot,agreement,T4,9,6,6,0.925,0.8125,1.0,passing snapshots only
+spot,agreement,T5,9,9,9,0.9875,0.9625,1.0,passing snapshots only
+spot,agreement,T6,9,8,8,0.975,0.95,0.9875,passing snapshots only
+spot,agreement,T7,1,1,1,1.0,1.0,1.0,single implementation
+spot,f1,T1,9,9,9,1.0,0.9090909090909091,1.0,passing snapshots only
+spot,f1,T2,9,5,5,0.975609756097561,0.9090909090909091,1.0,passing snapshots only
+spot,f1,T3,9,9,9,0.9523809523809523,0.9302325581395349,1.0,passing snapshots only
+spot,f1,T4,9,6,6,0.85,0.5161290322580645,1.0,passing snapshots only
+spot,f1,T5,9,9,9,0.975609756097561,0.918918918918919,1.0,passing snapshots only
+spot,f1,T6,9,8,8,0.9523809523809523,0.9090909090909091,0.975609756097561,passing snapshots only
+spot,f1,T7,1,1,1,1.0,1.0,1.0,single implementation
+spot,fn,T1,9,9,9,0,0,0,passing snapshots only
+spot,fn,T2,9,5,5,0,0,0,passing snapshots only
+spot,fn,T3,9,9,9,0,0,2,passing snapshots only
+spot,fn,T4,9,6,6,4,0,12,passing snapshots only
+spot,fn,T5,9,9,9,0,0,3,passing snapshots only
+spot,fn,T6,9,8,8,0,0,0,passing snapshots only
+spot,fn,T7,1,1,1,0,0,0,single implementation
+spot,fp,T1,9,9,9,0,0,4,passing snapshots only
+spot,fp,T2,9,5,5,1,0,4,passing snapshots only
+spot,fp,T3,9,9,9,1,0,3,passing snapshots only
+spot,fp,T4,9,6,6,2,0,3,passing snapshots only
+spot,fp,T5,9,9,9,0,0,3,passing snapshots only
+spot,fp,T6,9,8,8,4,1,4,passing snapshots only
+spot,fp,T7,1,1,1,0,0,0,single implementation
+spot,precision,T1,9,9,9,1.0,0.8333333333333334,1.0,passing snapshots only
+spot,precision,T2,9,5,5,0.9523809523809523,0.8333333333333334,1.0,passing snapshots only
+spot,precision,T3,9,9,9,0.9523809523809523,0.8695652173913043,1.0,passing snapshots only
+spot,precision,T4,9,6,6,0.8888888888888888,0.7272727272727273,1.0,passing snapshots only
+spot,precision,T5,9,9,9,1.0,0.8695652173913043,1.0,passing snapshots only
+spot,precision,T6,9,8,8,0.9090909090909091,0.8333333333333334,0.9523809523809523,passing snapshots only
+spot,precision,T7,1,1,1,1.0,1.0,1.0,single implementation
+spot,recall,T1,9,9,9,1.0,1.0,1.0,passing snapshots only
+spot,recall,T2,9,5,5,1.0,1.0,1.0,passing snapshots only
+spot,recall,T3,9,9,9,1.0,0.9,1.0,passing snapshots only
+spot,recall,T4,9,6,6,0.8,0.4,1.0,passing snapshots only
+spot,recall,T5,9,9,9,1.0,0.85,1.0,passing snapshots only
+spot,recall,T6,9,8,8,1.0,1.0,1.0,passing snapshots only
+spot,recall,T7,1,1,1,1.0,1.0,1.0,single implementation
+spot,tn,T1,9,9,9,60,56,60,passing snapshots only
+spot,tn,T2,9,5,5,59,56,60,passing snapshots only
+spot,tn,T3,9,9,9,59,57,60,passing snapshots only
+spot,tn,T4,9,6,6,58,57,60,passing snapshots only
+spot,tn,T5,9,9,9,60,57,60,passing snapshots only
+spot,tn,T6,9,8,8,58,56,59,passing snapshots only
+spot,tn,T7,1,1,1,60,60,60,single implementation
+spot,tp,T1,9,9,9,20,20,20,passing snapshots only
+spot,tp,T2,9,5,5,20,20,20,passing snapshots only
+spot,tp,T3,9,9,9,20,18,20,passing snapshots only
+spot,tp,T4,9,6,6,16,8,20,passing snapshots only
+spot,tp,T5,9,9,9,20,17,20,passing snapshots only
+spot,tp,T6,9,8,8,20,20,20,passing snapshots only
+spot,tp,T7,1,1,1,20,20,20,single implementation
+race,best10,T1,9,8,8,0.1222722651719409,0.1129877037956577,0.131290792797065,passing snapshots only
+race,best10,T2,9,5,5,0.11394910909701521,0.1129877037956577,0.1322521980984225,passing snapshots only
+race,best10,T3,9,8,8,0.1129877037956577,0.1129877037956577,0.1129877037956577,passing snapshots only
+race,best10,T4,9,6,6,0.1129877037956577,0.1129877037956577,0.1129877037956577,passing snapshots only
+race,best10,T5,9,9,9,0.1222722651719409,0.1129877037956577,0.25757889167991554,passing snapshots only
+race,best10,T6,9,8,8,0.11394910909701521,0.1129877037956577,0.13654165362146164,passing snapshots only
+race,best10,T7,1,1,1,0.131290792797065,0.131290792797065,0.131290792797065,single implementation
+race,best5,T1,9,8,8,0.15498114149739348,0.1399798816801577,0.15498114149739348,passing snapshots only
+race,best5,T2,9,5,5,0.13153374857584924,0.12515648107601343,0.1541697475179149,passing snapshots only
+race,best5,T3,9,8,8,0.11683332500108773,0.1129877037956577,0.12515648107601343,passing snapshots only
+race,best5,T4,9,6,6,0.12515648107601343,0.1129877037956577,0.12515648107601343,passing snapshots only
+race,best5,T5,9,9,9,0.1542857699471951,0.1399798816801577,0.264945381443663,passing snapshots only
+race,best5,T6,9,8,8,0.1406505982096191,0.1129877037956577,0.1516077871083651,passing snapshots only
+race,best5,T7,1,1,1,0.1531004711391912,0.1531004711391912,0.1531004711391912,single implementation
+race,labels_to_target,T1,9,8,8,1,1,1,passing snapshots only
+race,labels_to_target,T2,9,5,5,1.05,1,1.6,passing snapshots only
+race,labels_to_target,T3,9,8,8,1,1,1.05,passing snapshots only
+race,labels_to_target,T4,9,6,6,1,1,1,passing snapshots only
+race,labels_to_target,T5,9,9,9,1,1,3.55,passing snapshots only
+race,labels_to_target,T6,9,8,8,1.1,1.05,1.55,passing snapshots only
+race,labels_to_target,T7,1,1,1,1,1,1,single implementation
+race,random_best10,T1,9,8,8,0.15556523891213933,0.15556523891213933,0.15556523891213933,passing snapshots only
+race,random_best10,T2,9,5,5,0.15556523891213933,0.15556523891213933,0.15556523891213933,passing snapshots only
+race,random_best10,T3,9,8,8,0.15556523891213933,0.15556523891213933,0.15556523891213933,passing snapshots only
+race,random_best10,T4,9,6,6,0.15556523891213933,0.15556523891213933,0.15556523891213933,passing snapshots only
+race,random_best10,T5,9,9,9,0.15556523891213933,0.15556523891213933,0.15556523891213933,passing snapshots only
+race,random_best10,T6,9,8,8,0.15556523891213933,0.15556523891213933,0.15556523891213933,passing snapshots only
+race,random_best10,T7,1,1,1,0.15556523891213933,0.15556523891213933,0.15556523891213933,single implementation
+race,random_best5,T1,9,8,8,0.21464043414909037,0.21464043414909037,0.21464043414909037,passing snapshots only
+race,random_best5,T2,9,5,5,0.21464043414909037,0.21464043414909037,0.21464043414909037,passing snapshots only
+race,random_best5,T3,9,8,8,0.21464043414909037,0.21464043414909037,0.21464043414909037,passing snapshots only
+race,random_best5,T4,9,6,6,0.21464043414909037,0.21464043414909037,0.21464043414909037,passing snapshots only
+race,random_best5,T5,9,9,9,0.21464043414909037,0.21464043414909037,0.21464043414909037,passing snapshots only
+race,random_best5,T6,9,8,8,0.21464043414909037,0.21464043414909037,0.21464043414909037,passing snapshots only
+race,random_best5,T7,1,1,1,0.21464043414909037,0.21464043414909037,0.21464043414909037,single implementation
+race,random_labels_to_target,T1,9,8,8,3.2,3.2,3.2,passing snapshots only
+race,random_labels_to_target,T2,9,5,5,3.2,3.2,3.2,passing snapshots only
+race,random_labels_to_target,T3,9,8,8,3.2,3.2,3.2,passing snapshots only
+race,random_labels_to_target,T4,9,6,6,3.2,3.2,3.2,passing snapshots only
+race,random_labels_to_target,T5,9,9,9,3.2,3.2,3.2,passing snapshots only
+race,random_labels_to_target,T6,9,8,8,3.2,3.2,3.2,passing snapshots only
+race,random_labels_to_target,T7,1,1,1,3.2,3.2,3.2,single implementation
+race,target_reached_rate,T1,9,8,8,1.0,1.0,1.0,passing snapshots only
+race,target_reached_rate,T2,9,5,5,1.0,1.0,1.0,passing snapshots only
+race,target_reached_rate,T3,9,8,8,1.0,1.0,1.0,passing snapshots only
+race,target_reached_rate,T4,9,6,6,1.0,1.0,1.0,passing snapshots only
+race,target_reached_rate,T5,9,9,9,1.0,0.85,1.0,passing snapshots only
+race,target_reached_rate,T6,9,8,8,1.0,1.0,1.0,passing snapshots only
+race,target_reached_rate,T7,1,1,1,1.0,1.0,1.0,single implementation

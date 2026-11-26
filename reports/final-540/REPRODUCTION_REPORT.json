@@ -1,0 +1,27 @@
+{
+  "source_archive_sha256": "79effc120a45a032799ba94405a87b0bbcdedb8893e596fe774f8b4ccccea288",
+  "commit": "080e2d541556bdf1eae49376cfd3db1288dec0e7",
+  "image": "sha256:772a1d82e225864895fc166dcdad99ecafb17296c8abddf471f5504fd35fa245",
+  "completed_repetitions": [
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9,
+    10,
+    12
+  ],
+  "outcomes": 540,
+  "status_counts": {
+    "PASS": 440,
+    "GENERATION_FAILED": 32,
+    "BLOCKED": 60,
+    "FAIL": 8
+  },
+  "differences": [],
+  "errors": [],
+  "complete": true,
+  "note": "New replay outputs are not original archived bytes. E1 not included. Original R02-R05 and T7 saved outputs kept separately."
+}

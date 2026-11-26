@@ -1,5 +1,18 @@
 # Shrinking Code
 
+<!-- CSC491_FINAL_540 -->
+## Final study — nine repetitions, 540 outcomes
+
+The [final study and reproducibility supplement](reports/final-540/README.md) is the current report: 440 passes, 32 generation failures, 60 blocked outcomes and 8 competency failures. It includes the updated paper and 15-slide presentation, the original generated source snapshots, and independently reproduced T1–T7 external metrics. The native EZR E1 archive was not recovered and its previously reported results are not independently reverified. T7 is AI-assisted, not an unaided human baseline.
+
+Run `python3 reports/final-540/verify.py` to check the archived evidence and recalculate all six external-metric tables. No LLM calls are required.
+
+---
+
+## Historical four-repetition study (R02–R05)
+
+The original README is preserved below for provenance; its older results are superseded by the final study above.
+
 **CSC 491 — Computer Science, NC State University | Fall 2026**
 
 ## Team

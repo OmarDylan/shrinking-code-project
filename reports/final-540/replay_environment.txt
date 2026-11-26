@@ -1,0 +1,15 @@
+Python 3.13.18
+cloudpickle==3.1.3
+joblib==1.6.0
+narwhals==2.29.0
+numpy==2.5.5
+pandas==3.1.1
+python-dateutil==4.0.0
+scikit-learn==1.9.1
+scipy==1.18.1
+threadpoolctl==3.8.0
+tzdata==2026.6
+
+Image: sha256:772a1d82e225864895fc166dcdad99ecafb17296c8abddf471f5504fd35fa245
+Commit: 080e2d541556bdf1eae49376cfd3db1288dec0e7
+Input: 79effc120a45a032799ba94405a87b0bbcdedb8893e596fe774f8b4ccccea288

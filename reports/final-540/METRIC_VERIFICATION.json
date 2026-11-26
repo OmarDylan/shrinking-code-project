@@ -1,0 +1,35 @@
+{
+  "tables": {
+    "external_per_implementation.csv": {
+      "rows": 2050,
+      "differences": 0
+    },
+    "external_summary.csv": {
+      "rows": 315,
+      "differences": 0
+    },
+    "fixed_case_profiles.csv": {
+      "rows": 6314,
+      "differences": 0
+    },
+    "same_repetition_level_T1_T7.csv": {
+      "rows": 210,
+      "differences": 0
+    },
+    "same_fixed_case_T1_T7.csv": {
+      "rows": 336,
+      "differences": 0
+    },
+    "same_each_snapshot_vs_T7.csv": {
+      "rows": 714,
+      "differences": 0
+    }
+  },
+  "total_comparable_rows": 9939,
+  "E1": "not independently reverified",
+  "source_archives": {
+    "CSC491_LOCAL_RECORDS_20261125T230159648619Z.zip": "79effc120a45a032799ba94405a87b0bbcdedb8893e596fe774f8b4ccccea288",
+    "CSC491_REPRODUCED_EVALUATIONS_20261125T231036003139Z.zip": "d8a144fc8615f8c1fb6e8cf8410527bdba6ed300c5a4461c6967ea49cf1c5b91",
+    "CSC491_Professor_Feedback_Final_Package(1).zip": "96078c907c5d3cb91ce1c1aff11770ae8d8800ef3040d884051b27003623c80c"
+  }
+}
